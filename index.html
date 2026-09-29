@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 中期选举 · 预测模型实时仪表盘</title>
+<meta name="description" content="汇总 The Economist、Nate Silver、FiftyPlusOne、Split Ticket、Race to the WH 等统计模型与预测市场的 2026 美国中期选举众议院/参议院控制权概率，展示模型间的真实方法论分歧。">
+<meta property="og:title" content="2026 中期选举 · 预测模型实时仪表盘">
+<meta property="og:description" content="五大目标模型 + 七个对照模型 + 预测市场：民主党夺回参众两院概率与分歧一目了然。">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#1b1510">
+<style>
+  :root{
+    --bg:#1b1510; --panel:#241c14; --panel2:#2c2218; --border:#3a2c1d;
+    --amber:#e8a23d; --amber2:#f0b860; --gold:#caa24a;
+    --text:#ece1cd; --muted:#9c8a6e; --dem:#4a90d9; --rep:#d9694a;
+    --green:#6fbf73; --red:#e06a52;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,sans-serif;line-height:1.5;padding:28px 18px 60px}
+  .wrap{max-width:1120px;margin:0 auto}
+  header{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px;margin-bottom:22px;border-bottom:1px solid var(--border);padding-bottom:16px}
+  h1{font-size:22px;letter-spacing:.5px;color:var(--amber2)}
+  h1 small{display:block;font-size:12px;color:var(--muted);font-weight:400;margin-top:4px;letter-spacing:0}
+  .meta{font-size:11px;color:var(--muted);text-align:right}
+  .meta b{color:var(--gold)}
+  .section-title{font-size:13px;color:var(--amber);letter-spacing:1px;margin:28px 0 12px;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+  .section-title::before{content:"";width:14px;height:2px;background:var(--amber);display:inline-block}
+  .subhead{font-size:11px;color:var(--muted);margin:-6px 0 12px}
+  /* live pulse */
+  .pulse{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:14px}
+  .pulse .panel{background:linear-gradient(160deg,#2a2014,#211910);border:1px solid var(--border);border-radius:14px;padding:18px}
+  .pulse .label{font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
+  .pulse .big{font-size:38px;font-weight:700;color:var(--amber2);font-variant-numeric:tabular-nums;margin-top:6px}
+  .pulse .big .pct{font-size:18px;color:var(--muted)}
+  .pulse .sub{font-size:11px;color:var(--muted);margin-top:4px}
+  .live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:6px;animation:blink 1.4s infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+  /* model grid */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px;position:relative;overflow:hidden}
+  .card.primary{border-left:3px solid var(--amber)}
+  .card .top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+  .card .name{font-size:15px;font-weight:600;color:var(--text)}
+  .card .author{font-size:10.5px;color:var(--muted);margin-top:2px}
+  .card .method{font-size:10px;color:var(--gold);margin-top:3px;opacity:.85}
+  .badge{font-size:9.5px;padding:2px 7px;border-radius:20px;white-space:nowrap}
+  .badge.auto{background:rgba(111,191,115,.15);color:var(--green);border:1px solid rgba(111,191,115,.3)}
+  .badge.manual{background:rgba(224,106,82,.15);color:var(--red);border:1px solid rgba(224,106,82,.3)}
+  .badge.pending{background:rgba(156,138,110,.15);color:var(--muted);border:1px solid var(--border)}
+  .metric{margin-top:12px}
+  .metric .row{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:5px}
+  .metric .row b{color:var(--text);font-variant-numeric:tabular-nums;font-size:13px}
+  .bar{height:9px;background:#15100b;border-radius:6px;overflow:hidden;position:relative}
+  .bar .fill{height:100%;width:0;border-radius:6px;transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
+  .bar .fill.dem{background:linear-gradient(90deg,#3a78c0,#4a90d9)}
+  .card .foot{font-size:9.5px;color:var(--muted);margin-top:12px;border-top:1px dashed var(--border);padding-top:8px;line-height:1.4}
+  .src-tag{color:var(--gold)}
+  /* charts */
+  .chart-wrap{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px}
+  canvas{width:100%;display:block}
+  .legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px;font-size:11px;color:var(--muted)}
+  .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:middle}
+  /* divergence list */
+  .dv{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:14px 16px}
+  .dv .row{display:flex;align-items:center;gap:10px;margin:7px 0;font-size:12px}
+  .dv .nm{width:170px;flex:none;color:var(--text);font-size:11.5px}
+  .dv .track{position:relative;flex:1;height:16px;background:#15100b;border-radius:8px;overflow:hidden}
+  .dv .track .band{position:absolute;top:0;bottom:0;background:rgba(232,162,61,.10);border-left:1px dashed rgba(232,162,61,.4);border-right:1px dashed rgba(232,162,61,.4)}
+  .dv .track .dot{position:absolute;top:3px;width:10px;height:10px;border-radius:50%;background:var(--dem);transform:translateX(-5px)}
+  .dv .track .mk{position:absolute;top:1px;width:3px;height:14px;background:var(--amber);transform:translateX(-1.5px)}
+  .dv .val{width:46px;text-align:right;flex:none;color:var(--text);font-variant-numeric:tabular-nums;font-weight:600}
+  .dv .row.na .nm{color:var(--muted)} .dv .row.na .val{color:var(--muted)}
+  .note{font-size:11px;color:var(--muted);margin-top:18px;line-height:1.7;border-left:2px solid var(--border);padding-left:12px}
+  .note b{color:var(--amber)}
+  .disc{font-size:10px;color:#6e5f48;margin-top:24px;text-align:center}
+  .rangebar{display:flex;gap:18px;flex-wrap:wrap;margin-top:12px;font-size:11px;color:var(--muted)}
+  .rangebar b{color:var(--amber2);font-size:15px;font-variant-numeric:tabular-nums}
+  .hero{display:flex;gap:14px;flex-wrap:wrap;background:linear-gradient(160deg,#2a2014,#211910);border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin-bottom:22px}
+  .hero .stat{flex:1;min-width:150px}
+  .hero .stat .k{font-size:11px;color:var(--muted);letter-spacing:.5px}
+  .hero .stat .v{font-size:26px;font-weight:700;color:var(--amber2);font-variant-numeric:tabular-nums;margin-top:4px}
+  .hero .stat .v small{font-size:12px;color:var(--muted);font-weight:400}
+  .hero .note2{font-size:11px;color:var(--muted);line-height:1.6;flex-basis:100%;border-top:1px dashed var(--border);padding-top:10px;margin-top:2px}
+  footer{margin-top:34px;border-top:1px solid var(--border);padding-top:16px;font-size:11px;color:var(--muted);line-height:1.8}
+  footer a{color:var(--gold);text-decoration:none} footer a:hover{text-decoration:underline}
+  .mode-badge{font-size:9.5px;padding:2px 8px;border-radius:20px;background:rgba(232,162,61,.15);color:var(--amber2);border:1px solid rgba(232,162,61,.3);margin-left:8px;vertical-align:middle}
+  .mode-badge.live{background:rgba(111,191,115,.15);color:var(--green);border-color:rgba(111,191,115,.3)}
+  @media(max-width:760px){
+    body{padding:18px 12px 50px}
+    .pulse{grid-template-columns:1fr}
+    .grid{grid-template-columns:1fr}
+    .dv .nm{width:118px;font-size:11px}
+    h1{font-size:18px}
+    .hero .stat{min-width:120px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>2026 中期选举 · 预测模型实时仪表盘
+      <small>统计模型 + 预测市场 · 众议院 / 参议院控制权概率（民主党 %）· 共 <span id="cnt">—</span> 个模型 + 预测市场</small>
+    </h1>
+    <div class="meta">选举日 <b>2026-11-03</b><br>数据快照 <b id="upd">—</b><br><span id="srcinfo"></span></div>
+  </header>
+
+  <div class="hero" id="hero"></div>
+
+  <div class="section-title"><span class="live-dot"></span>实时心跳 · 预测市场<span class="mode-badge" id="modebadge">演示模式</span></div>
+  <div class="pulse" id="pulse"></div>
+
+  <div class="section-title">模型概率卡片</div>
+  <div class="subhead">五大目标模型 + 七个对照模型（含市场口径对照）。徽章：<span style="color:var(--green)">自动</span>=脚本可解析 · <span style="color:var(--red)">半自动</span>=反爬/付费墙 · <span style="color:var(--muted)">待抓取</span>=需 headless</div>
+  <div class="grid" id="grid"></div>
+
+  <div class="section-title">民主党夺回众院概率 · 近期轨迹</div>
+  <div class="subhead">基于公开报道的采样点（非模型原生逐日序列）；≥2 个点的模型连成线，单点标圆点。市场为真实秒级流（此处取公开报道快照）</div>
+  <div class="chart-wrap"><canvas id="chartH" height="300"></canvas><div class="legend" id="legendH"></div></div>
+
+  <div class="section-title">民主党夺回参议院概率 · 近期轨迹</div>
+  <div class="chart-wrap"><canvas id="chartS" height="300"></canvas><div class="legend" id="legendS"></div></div>
+
+  <div class="section-title">当前分歧快照 · 众院民主党胜率</div>
+  <div class="dv" id="dv"></div>
+  <div class="rangebar" id="rangebar"></div>
+
+  <div class="note">
+    <b>架构与口径说明：</b> 预测市场（Kalshi/Polymarket）是仪表盘唯一<b>秒级流式</b>来源，其余统计模型均为<b>定时重算</b>（FiftyPlusOne 4 次/天、Economist 每天、Silver 近每天、Split Ticket 周更、DDHQ/Scrutinel 每天）。前端用动画把"离散快照"呈现为"连续流动"——这是市面上所有"选举实时盘"的真实做法。各模型对"众院民主党概率"给出 <b>55%（Election Statsheet）到 98%（FiftyPlusOne/Pollcast）</b> 的跨度，这是<b>真实方法论分歧</b>而非误差，本盘展示分歧本身，不做强行归一。Race to the WH 的 topline 嵌在 Squarespace 的 <b>iframe</b> 里、静态 HTML 无数字，本机 headless 不稳，列为"待抓取"。数据仅供方法学研判，<b>不构成任何选举或投资建议</b>。
+  </div>
+  <div class="disc">数值来自各模型公开页面/访谈与公开报道（截至 2026-09-29）· 预测市场数值为快照种子，接入 gamma-api.polymarket.com / Kalshi 公开端点后可真流式刷新</div>
+  <footer>
+    <b>项目</b>：<a href="https://github.com/leo-bone/us-2026-midterms-dashboard" target="_blank" rel="noopener">github.com/leo-bone/us-2026-midterms-dashboard</a> ·
+    方法学详述：<a href="ANALYSIS.md" target="_blank" rel="noopener">ANALYSIS.md</a> ·
+    数据抓取：<a href="fetcher.py" target="_blank" rel="noopener">fetcher.py</a><br>
+    本盘展示各模型对「民主党夺回参众两院概率」的<b style="color:var(--amber)">真实方法论分歧</b>，不做强行归一。数据仅供方法学研判，<b style="color:var(--amber)">不构成任何选举或投资建议</b>。
+  </footer>
+</div>
+
+<script>
+const SEED = {"updated_at":"2026-09-29T20:54:00+08:00","election_day":"2026-11-03","live":false,"models":[{"id":"fiftyplusone","name":"FiftyPlusOne","author":"G. Elliott Morris（前 538）","method":"贝叶斯模型堆叠 · 4次/天","tier":"primary","house_d":98,"senate_d":65,"as_of":"2026-09-23","source":"Substack 渲染页（作者 9/23 引述：中位 238 席、98% 多数）","auto":true,"history":{"house":[{"d":"08-03","v":85},{"d":"09-23","v":98}],"senate":[{"d":"08-03","v":55},{"d":"09-23","v":65}]}},{"id":"economist","name":"The Economist","author":"经济学人模型","method":"贝叶斯多层 · 25,001 次模拟/天","tier":"primary","house_d":65,"senate_d":58,"as_of":"2026-09-中旬","source":"聚合源口径（65%H；交互页头条措辞为 1 in 2，口径不一）","auto":false,"history":null},{"id":"silver","name":"Nate Silver · FLIPR","author":"Silver Bulletin","method":"加权民调+基本面 · 4万次联合模拟","tier":"primary","house_d":91,"senate_d":69,"as_of":"2026-09-26","source":"免费帖 topline（USPollingRank 9/26 引述）","auto":false,"history":{"house":[{"d":"09-02","v":83.4},{"d":"09-14","v":86},{"d":"09-26","v":91}],"senate":[{"d":"09-02","v":52.8},{"d":"09-14","v":57},{"d":"09-26","v":69}]}},{"id":"splitticket","name":"Split Ticket / The Argument","author":"Lakshya Jain","method":"MRP+蒙特卡洛 · 周更","tier":"primary","house_d":85,"senate_d":55,"as_of":"2026-08末/09初","source":"The Argument 播客 8/31 引述：D 85%H / 55%S","auto":true,"history":null},{"id":"racetothewh","name":"Race to the WH","author":"Logan Phillips","method":"数据驱动 · 每日模拟","tier":"primary","house_d":null,"senate_d":null,"as_of":"未捕获（iframe 内嵌）","source":"Squarespace 静态站，topline 在 iframe 内嵌图表，需 headless 渲染","auto":true,"history":null},{"id":"ddhq","name":"DDHQ × The Hill","author":"Decision Desk HQ","method":"每日 · 免费嵌入","tier":"contrast","house_d":72,"senate_d":54,"as_of":"2026-09-25","source":"votes.decisiondeskhq.com 免费页（9/25 更新）","auto":true,"history":{"house":[{"d":"09-11","v":68},{"d":"09-25","v":72}],"senate":[{"d":"09-11","v":50},{"d":"09-25","v":54}]}},{"id":"scrutinel","name":"Scrutinel","author":"Scrutinel","method":"每日 · 免费","tier":"contrast","house_d":85,"senate_d":51,"as_of":"2026-09-27","source":"scrutinel.com 免费页（9/27 更新）","auto":true,"history":{"house":[{"d":"09-27","v":85}],"senate":[{"d":"09-27","v":51}]}},{"id":"pollcast","name":"Pollcast","author":"Pollcast","method":"每日 · 免费","tier":"contrast","house_d":97.3,"senate_d":null,"as_of":"2026-09-18","source":"pollcast.net（9/18：D 97.3%）","auto":true,"history":{"house":[{"d":"09-18","v":97.3}],"senate":null}},{"id":"smartervote","name":"Smarter.vote","author":"Smarter.vote","method":"AI 模型 · 免费","tier":"contrast","house_d":71,"senate_d":null,"as_of":"2026-09-19","source":"smarter.vote/forecast（9/19：D 71%）","auto":true,"history":{"house":[{"d":"09-19","v":71}],"senate":null}},{"id":"votehub","name":"VoteHub","author":"Zachary Donnini","method":"聚合民调+市场微调","tier":"contrast","house_d":77,"senate_d":47,"as_of":"2026-08末","source":"GD Politics 8/31 引述：D 77%H / 47%S","auto":true,"history":null},{"id":"statsheet","name":"Election Statsheet","author":"贝叶斯模型","method":"贝叶斯 · 偏谨慎","tier":"contrast","house_d":55,"senate_d":28,"as_of":"2026-09","source":"Noah News 引述：D 55%H / 28%S","auto":true,"history":null},{"id":"votepredictor","name":"VotePredictor","author":"VotePredictor","method":"模拟","tier":"contrast","house_d":76,"senate_d":25,"as_of":"2026-09","source":"Noah News 引述：D 76%H / 25%S","auto":true,"history":null}],"markets":{"name":"预测市场（Kalshi / Polymarket）","house_d":88,"senate_d":56,"as_of":"2026-09-28 共识","note":"真·实时流式（公开 API，秒级）","realtime":true,"history":{"house":[{"d":"09-19","v":90},{"d":"09-28","v":88}],"senate":[{"d":"09-17","v":57},{"d":"09-19","v":58},{"d":"09-21","v":60},{"d":"09-28","v":56}]}}};
+
+let DATA = SEED;
+let LIVE = false;
+fetch('data.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(j=>{if(j){DATA=j;LIVE=!!j.live;render();}}).catch(()=>{});
+
+function pct(v){return v==null?'—':(Math.round(v*10)/10)+'%';}
+function dayNum(d){const m=parseInt(d.slice(0,2),10),day=parseInt(d.slice(3,5),10);return m*30+day;}
+function badge(m){
+  if(m.house_d==null && m.senate_d==null) return '<span class="badge pending">待抓取</span>';
+  return m.auto?'<span class="badge auto">自动</span>':'<span class="badge manual">半自动</span>';
+}
+function modelAvgHouse(){const v=DATA.models.filter(m=>m.house_d!=null).map(m=>m.house_d);return v.reduce((a,b)=>a+b,0)/v.length;}
+function modelAvgSenate(){const v=DATA.models.filter(m=>m.senate_d!=null).map(m=>m.senate_d);return v.reduce((a,b)=>a+b,0)/v.length;}
+
+function render(){
+  document.getElementById('upd').textContent = DATA.updated_at.replace('T',' ').slice(0,16);
+  document.getElementById('srcinfo').innerHTML = '来源：<b>'+DATA.models.length+' 模型 + 市场</b>';
+  document.getElementById('cnt').textContent = DATA.models.length;
+  document.getElementById('modebadge').textContent = LIVE ? '实时' : '演示模式';
+  document.getElementById('modebadge').className = 'mode-badge' + (LIVE ? ' live' : '');
+  // hero spread
+  const hdVals=DATA.models.filter(m=>m.house_d!=null).map(m=>m.house_d);
+  const lo=Math.min(...hdVals), hi=Math.max(...hdVals), med=modelAvgHouse();
+  document.getElementById('hero').innerHTML =
+    '<div class="stat"><div class="k">众院·民主党胜率区间</div><div class="v">'+lo+'%–'+hi+'%<small> 跨 '+(hi-lo)+' pt</small></div></div>'+
+    '<div class="stat"><div class="k">模型均值 / 中位</div><div class="v">'+med.toFixed(0)+'%<small> 均值</small></div></div>'+
+    '<div class="stat"><div class="k">预测市场·众院</div><div class="v">'+pct(DATA.markets.house_d)+'<small> 民主党</small></div></div>'+
+    '<div class="note2">最谨慎 <b style="color:var(--rep)">Election Statsheet '+lo+'%</b> ↔ 最乐观 <b style="color:var(--dem)">FiftyPlusOne/Pollcast '+hi+'%</b>。这不是误差，是<b style="color:var(--amber)">真实方法论分歧</b> —— 本盘展示分歧本身。</div>';
+
+  // pulse (real-time market)
+  const mk=DATA.markets;
+  document.getElementById('pulse').innerHTML = `
+    <div class="panel">
+      <div class="label"><span class="live-dot"></span>${mk.name}</div>
+      <div class="big" id="m-house">${pct(mk.house_d)}<span class="pct"> 众院·民主党</span></div>
+      <div class="sub">${LIVE?'实时流式 · ':'快照种子（演示游动）· '}${mk.as_of}</div>
+    </div>
+    <div class="panel">
+      <div class="label">参议院 · 民主党</div>
+      <div class="big" id="m-senate">${pct(mk.senate_d)}</div>
+      <div class="sub">${mk.note}</div>
+    </div>
+    <div class="panel">
+      <div class="label">市场 vs 模型中枢</div>
+      <div class="big" style="font-size:22px;color:var(--gold)" id="m-diff">—<span class="pct"> pt</span></div>
+      <div class="sub" id="m-diff-sub">市场比 <span id="avgH"></span> 模型均值更看多民主党</div>
+    </div>`;
+  document.getElementById('avgH').textContent = modelAvgHouse().toFixed(0)+'%';
+
+  // cards grouped: primary first, then contrast
+  const grid=document.getElementById('grid'); grid.innerHTML='';
+  ['primary','contrast'].forEach(tier=>{
+    if(tier==='contrast'){
+      const h=document.createElement('div'); h.style.cssText='grid-column:1/-1;font-size:11px;color:var(--muted);margin:8px 0 -2px;letter-spacing:.5px';
+      h.textContent='— 对照模型（补全分歧两端的谨慎派与乐观派）—'; grid.appendChild(h);
+    }
+    DATA.models.filter(m=>m.tier===tier).forEach(m=>{
+      const hd=m.house_d, sd=m.senate_d;
+      const card=document.createElement('div');
+      card.className='card '+(tier==='primary'?'primary':'');
+      const hTxt = hd==null?'—':pct(hd), sTxt = sd==null?'—':pct(sd);
+      card.innerHTML=`
+        <div class="top">
+          <div><div class="name">${m.name}</div><div class="author">${m.author}</div><div class="method">${m.method}</div></div>
+          ${badge(m)}
+        </div>
+        <div class="metric">
+          <div class="row"><span>众议院 · 民主党胜率</span><b>${hTxt}</b></div>
+          <div class="bar"><div class="fill dem" data-w="${hd==null?0:hd}"></div></div>
+          <div class="row" style="margin-top:10px"><span>参议院 · 民主党胜率</span><b>${sTxt}</b></div>
+          <div class="bar"><div class="fill dem" data-w="${sd==null?0:sd}"></div></div>
+        </div>
+        <div class="foot"><span class="src-tag">来源：</span>${m.source}<br>读数时点：${m.as_of}</div>`;
+      grid.appendChild(card);
+    });
+  });
+  requestAnimationFrame(()=>{document.querySelectorAll('.fill').forEach(f=>{f.style.width=f.dataset.w+'%';});});
+
+  drawSeries('chartH','legendH','house');
+  drawSeries('chartS','legendS','senate');
+  drawDivergence();
+}
+
+// ---- 时间序列：每个模型一个 series，date -> x ----
+const SERIES_COLORS = ['#e8a23d','#4a90d9','#6fbf73','#caa24a','#d9694a','#9c8a6e','#7aa6d9','#b58fd0','#d0a86f','#86b3a0','#c98f8f'];
+function allSeries(chamber){
+  const arr=[];
+  DATA.models.forEach(m=>{ if(m.history && m.history[chamber]) arr.push({name:m.name,pts:m.history[chamber],color:null,kind:'model'}); });
+  if(DATA.markets.history && DATA.markets.history[chamber]) arr.push({name:'市场',pts:DATA.markets.history[chamber],color:'#e8a23d',kind:'market'});
+  return arr;
+}
+function drawSeries(canvasId, legendId, chamber){
+  const cv=document.getElementById(canvasId);
+  const W=cv.clientWidth, H=300; cv.width=W*2; cv.height=H*2;
+  const ctx=cv.getContext('2d'); ctx.scale(2,2); ctx.clearRect(0,0,W,H);
+  const padL=44,padR=14,padT=16,padB=34;
+  const plotW=W-padL-padR, plotH=H-padT-padB;
+  // y grid 0-100
+  ctx.strokeStyle='#3a2c1d'; ctx.fillStyle='#9c8a6e'; ctx.font='10px sans-serif'; ctx.textAlign='right';
+  for(let v=0;v<=100;v+=20){const y=padT+plotH*(1-v/100);ctx.beginPath();ctx.moveTo(padL,y);ctx.lineTo(W-padR,y);ctx.stroke();ctx.fillText(v+'%',padL-6,y+3);}
+  const series=allSeries(chamber);
+  const allPts=series.flatMap(s=>s.pts);
+  const xs=allPts.map(p=>dayNum(p.d));
+  let xmin=Math.min(...xs, 8*30+1), xmax=Math.max(...xs, 9*30+28);
+  const X=d=>padL+plotW*( (dayNum(d)-xmin)/(xmax-xmin) );
+  const Y=v=>padT+plotH*(1-v/100);
+  // assign colors
+  let ci=0;
+  series.forEach(s=>{ if(s.kind==='market'){s.color='#e8a23d';} else {s.color=SERIES_COLORS[ci%SERIES_COLORS.length];ci++;} });
+  series.forEach(s=>{
+    const pts=s.pts;
+    if(pts.length>=2){
+      ctx.strokeStyle=s.color; ctx.lineWidth=s.kind==='market'?2.5:1.8;
+      ctx.beginPath();
+      pts.forEach((p,i)=>{const x=X(p.d),y=Y(p.v); i?ctx.lineTo(x,y):ctx.moveTo(x,y);});
+      ctx.stroke();
+      pts.forEach(p=>{ctx.fillStyle=s.color;ctx.beginPath();ctx.arc(X(p.d),Y(p.v),3,0,7);ctx.fill();});
+    } else {
+      const p=pts[0];
+      ctx.fillStyle=s.color;ctx.beginPath();ctx.arc(X(p.d),Y(p.v),4,0,7);ctx.fill();
+      ctx.strokeStyle=s.color;ctx.setLineDash([2,2]);ctx.beginPath();ctx.moveTo(X(p.d),Y(p.v));ctx.lineTo(X(p.d),padT+plotH);ctx.stroke();ctx.setLineDash([]);
+    }
+  });
+  // x labels
+  ctx.fillStyle='#9c8a6e'; ctx.textAlign='center'; ctx.font='10px sans-serif';
+  [ '08-15','09-01','09-15','09-28' ].forEach(d=>{ if(dayNum(d)>=xmin&&dayNum(d)<=xmax) ctx.fillText(d, X(d), padT+plotH+16); });
+  // legend
+  document.getElementById(legendId).innerHTML = series.map(s=>`<span><i style="background:${s.color}"></i>${s.name}${s.kind==='market'?'（实时）':''}</span>`).join('')
+    + '<span style="color:#9c8a6e">○ 单点采样 · — 连线为 ≥2 点轨迹</span>';
+}
+
+// ---- 分歧快照：横条 + 区间带 ----
+function drawDivergence(){
+  const models=DATA.models.filter(m=>m.house_d!=null).sort((a,b)=>b.house_d-a.house_d);
+  const vals=models.map(m=>m.house_d);
+  const lo=Math.min(...vals), hi=Math.max(...vals), med=modelAvgHouse();
+  const bandL=(lo/100*100), bandW=((hi-lo)/100*100);
+  const dv=document.getElementById('dv'); dv.innerHTML='';
+  models.forEach(m=>{
+    const r=document.createElement('div'); r.className='row';
+    r.innerHTML=`<div class="nm">${m.name}</div>
+      <div class="track"><div class="band" style="left:${bandL}%;width:${bandW}%"></div><div class="dot" style="left:${m.house_d}%"></div></div>
+      <div class="val">${pct(m.house_d)}</div>`;
+    dv.appendChild(r);
+  });
+  // market marker row
+  const r=document.createElement('div'); r.className='row';
+  r.innerHTML=`<div class="nm" style="color:var(--amber2)">预测市场</div>
+    <div class="track"><div class="band" style="left:${bandL}%;width:${bandW}%"></div><div class="mk" style="left:${DATA.markets.house_d}%"></div></div>
+    <div class="val" style="color:var(--amber2)">${pct(DATA.markets.house_d)}</div>`;
+  dv.appendChild(r);
+  document.getElementById('rangebar').innerHTML =
+    `模型众院民主党概率区间：<b>${lo}%</b> – <b>${hi}%</b>（中位/均值 <b>${med.toFixed(0)}%</b>）· 跨度 <b>${(hi-lo)} pt</b> = 真实方法论分歧`;
+}
+
+// ---- 模拟"实时心跳"：市场数值在种子值附近小幅游走（真接入 API 后删除此段） ----
+let mHouse=DATA.markets.house_d, mSenate=DATA.markets.senate_d;
+function updatePulse(){
+  if(LIVE) return;   // 接入真实市场 API 后，停止演示游动
+  mHouse=Math.max(82,Math.min(93,mHouse+(Math.random()-0.5)*0.8));
+  mSenate=Math.max(50,Math.min(64,mSenate+(Math.random()-0.5)*0.6));
+  const h=document.getElementById('m-house'), s=document.getElementById('m-senate'), d=document.getElementById('m-diff');
+  if(h)h.innerHTML=mHouse.toFixed(1)+'%<span class="pct"> 众院·民主党</span>';
+  if(s)s.textContent=mSenate.toFixed(1)+'%';
+  if(d){const diff=mHouse-modelAvgHouse(); d.innerHTML=(diff>=0?'+':'−')+Math.abs(diff).toFixed(0)+'<span class="pct"> pt</span>';}
+}
+setInterval(updatePulse,1500);
+
+render();
+window.addEventListener('resize',()=>{drawSeries('chartH','legendH','house');drawSeries('chartS','legendS','senate');});
+</script>
+</body>
+</html>
