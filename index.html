@@ -8,6 +8,9 @@
 <meta property="og:title" content="2026 中期选举 · 预测模型实时仪表盘">
 <meta property="og:description" content="五大目标模型 + 七个对照模型 + 预测市场：民主党夺回参众两院概率与分歧一目了然。">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://voting.uichain.org/">
+<link rel="canonical" href="https://voting.uichain.org/">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%231b1510'/><circle cx='16' cy='16' r='7' fill='%23e8a23d'/></svg>">
 <meta name="theme-color" content="#1b1510">
 <style>
   :root{
@@ -133,7 +136,8 @@
     <b>项目</b>：<a href="https://github.com/leo-bone/us-2026-midterms-dashboard" target="_blank" rel="noopener">github.com/leo-bone/us-2026-midterms-dashboard</a> ·
     方法学详述：<a href="ANALYSIS.md" target="_blank" rel="noopener">ANALYSIS.md</a> ·
     数据抓取：<a href="fetcher.py" target="_blank" rel="noopener">fetcher.py</a><br>
-    本盘展示各模型对「民主党夺回参众两院概率」的<b style="color:var(--amber)">真实方法论分歧</b>，不做强行归一。数据仅供方法学研判，<b style="color:var(--amber)">不构成任何选举或投资建议</b>。
+    本盘展示各模型对「民主党夺回参众两院概率」的<b style="color:var(--amber)">真实方法论分歧</b>，不做强行归一。数据仅供方法学研判，<b style="color:var(--amber)">不构成任何选举或投资建议</b>。<br>
+    <span style="color:#6e5f48">部署：GitHub Pages · 边缘 Cloudflare（voting.uichain.org）</span>
   </footer>
 </div>
 
@@ -152,6 +156,7 @@ function badge(m){
 }
 function modelAvgHouse(){const v=DATA.models.filter(m=>m.house_d!=null).map(m=>m.house_d);return v.reduce((a,b)=>a+b,0)/v.length;}
 function modelAvgSenate(){const v=DATA.models.filter(m=>m.senate_d!=null).map(m=>m.senate_d);return v.reduce((a,b)=>a+b,0)/v.length;}
+function modelMedianHouse(){const v=DATA.models.filter(m=>m.house_d!=null).map(m=>m.house_d).sort((a,b)=>a-b);const n=v.length;return n%2? v[(n-1)/2] : (v[n/2-1]+v[n/2])/2;}
 
 function render(){
   document.getElementById('upd').textContent = DATA.updated_at.replace('T',' ').slice(0,16);
@@ -161,10 +166,10 @@ function render(){
   document.getElementById('modebadge').className = 'mode-badge' + (LIVE ? ' live' : '');
   // hero spread
   const hdVals=DATA.models.filter(m=>m.house_d!=null).map(m=>m.house_d);
-  const lo=Math.min(...hdVals), hi=Math.max(...hdVals), med=modelAvgHouse();
+  const lo=Math.min(...hdVals), hi=Math.max(...hdVals), med=modelAvgHouse(), mid=modelMedianHouse();
   document.getElementById('hero').innerHTML =
     '<div class="stat"><div class="k">众院·民主党胜率区间</div><div class="v">'+lo+'%–'+hi+'%<small> 跨 '+(hi-lo)+' pt</small></div></div>'+
-    '<div class="stat"><div class="k">模型均值 / 中位</div><div class="v">'+med.toFixed(0)+'%<small> 均值</small></div></div>'+
+    '<div class="stat"><div class="k">模型均值 / 中位</div><div class="v">'+med.toFixed(0)+'%<small> 均值 · 中位 '+mid.toFixed(0)+'%</small></div></div>'+
     '<div class="stat"><div class="k">预测市场·众院</div><div class="v">'+pct(DATA.markets.house_d)+'<small> 民主党</small></div></div>'+
     '<div class="note2">最谨慎 <b style="color:var(--rep)">Election Statsheet '+lo+'%</b> ↔ 最乐观 <b style="color:var(--dem)">FiftyPlusOne/Pollcast '+hi+'%</b>。这不是误差，是<b style="color:var(--amber)">真实方法论分歧</b> —— 本盘展示分歧本身。</div>';
 

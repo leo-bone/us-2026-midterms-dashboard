@@ -42,8 +42,35 @@ python3 -m http.server 8080
 ## 数据来源与口径
 详见 [ANALYSIS.md](ANALYSIS.md)。每个模型的 `source` 与 `as_of` 字段均标在卡片上。各模型口径不一（控制概率 / 席位中位 / 评级），本盘展示分歧，不做强行归一。
 
-## 部署（GitHub Pages）
-仓库根目录含 `CNAME`（voting.uichain.org）。在仓库 **Settings → Pages** 选择 `main` 分支、根目录发布；自定义域名 `voting.uichain.org` 需在 `uichain.org` 的 DNS 添加 **CNAME 记录**指向 `<user>.github.io`。
+## 部署（Cloudflare + GitHub Pages，本项目既定方案）
+
+架构：`GitHub Pages` 托管静态文件 → `Cloudflare` 做 DNS + 边缘代理/加速/SSL。仓库根目录已含 `CNAME`（voting.uichain.org）与 `.nojekyll`。
+
+### 1) Cloudflare DNS（uichain.org 区域）
+| 类型 | 名称 | 内容 / 目标 | 代理(云) |
+|---|---|---|---|
+| CNAME | `voting` | `leo-bone.github.io` | 开启（橙云） |
+| TXT | `_github-challenge-leo-bone` | GitHub Pages 在 *Settings → Pages* 显示的验证码 | 否（灰云/DNS only） |
+
+> **为什么需要 TXT**：Cloudflare 开启代理（橙云）后，`voting.uichain.org` 对外解析成 Cloudflare IP，GitHub 的自动 CNAME 校验看不到指向 `*.github.io` 的链路，会一直卡在 "DNS check in progress"。用 GitHub 给出的 `_github-challenge-*` TXT 记录即可绕过，验证通过后 TXT 可保留或删掉。
+> 若不想用 TXT，也可临时把 CNAME 切到"仅 DNS"（灰云），等 GitHub 验证通过（绿色对勾）后再切回橙云代理。
+
+### 2) GitHub Pages 设置
+- **Settings → Pages → Custom domain** 填 `voting.uichain.org`（仓库里的 `CNAME` 文件已自动同步，通常无需手填）。
+- 勾选 **Enforce HTTPS**（证书由 GitHub 签发；Cloudflare 侧见下）。
+- 分支 `main`、目录 `/(root)`。
+
+### 3) Cloudflare SSL/TLS（务必 Full，不要 Flexible）
+- **SSL/TLS → Overview → 模式选 `Full`**（不是 Flexible）。Flexible 会与 GitHub Pages 的 HTTPS 形成重定向死循环。
+- 可选：**SSL/TLS → Edge Certificates** 开启 `Always Use HTTPS`、`Automatic HTTPS Rewrites`。
+- 缓存：默认即可；`data.json` 前端用 `cache:'no-store'` 拉取，切换实时后不会吃到旧缓存。
+
+### 4) 验证
+```bash
+curl -I https://voting.uichain.org/      # 期望 200，且 cert 由 Cloudflare 签发
+curl -s https://voting.uichain.org/data.json | head -c 80
+```
+生效后线上地址：`https://voting.uichain.org/`；未配域名时回退 `https://leo-bone.github.io/us-2026-midterms-dashboard/`。
 
 ## 免责声明
 本盘仅用于**方法学研判**，**不构成任何选举或投资建议**。数据来自各模型公开页面 / 访谈与公开报道，截至 2026-09-29，可能已过时，请以各模型官方最新发布为准。
