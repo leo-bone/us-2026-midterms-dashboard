@@ -5,109 +5,257 @@
   "note": "数值为各模型最近一次公开读数（民主党夺回/守住该议院的胜率 %）。来源见每个模型的 source 字段。市场数值为 9/28 公开报道共识快照（live=false，属快照，非实时流）。接入预测市场 API 并产出 live=true 的 data.json 后，面板自动切换为「实时」。",
   "models": [
     {
-      "id": "fiftyplusone", "name": "FiftyPlusOne", "author": "G. Elliott Morris（前 538）",
-      "method": "贝叶斯模型堆叠 · 4次/天", "tier": "primary",
-      "house_d": 98, "senate_d": 65, "as_of": "2026-09-23",
+      "id": "fiftyplusone",
+      "name": "FiftyPlusOne",
+      "author": "G. Elliott Morris（前 538）",
+      "method": "贝叶斯模型堆叠 · 4次/天",
+      "tier": "primary",
+      "house_d": 98,
+      "senate_d": 65,
+      "as_of": "2026-09-23",
       "source": "Substack 渲染页（作者 9/23 引述：中位 238 席、98% 多数；9/20 民调 97%H/64%S）",
       "auto": true,
       "history": {
-        "house": [{"d": "08-03", "v": 85}, {"d": "09-23", "v": 98}],
-        "senate": [{"d": "08-03", "v": 55}, {"d": "09-23", "v": 65}]
+        "house": [
+          {
+            "d": "08-03",
+            "v": 85
+          },
+          {
+            "d": "09-23",
+            "v": 98
+          }
+        ],
+        "senate": [
+          {
+            "d": "08-03",
+            "v": 55
+          },
+          {
+            "d": "09-23",
+            "v": 65
+          }
+        ]
       }
     },
     {
-      "id": "economist", "name": "The Economist", "author": "经济学人模型",
-      "method": "贝叶斯多层 · 25,001 次模拟/天", "tier": "primary",
-      "house_d": 65, "senate_d": 58, "as_of": "2026-09-中旬",
-      "source": "聚合源口径（USPollingData 65%H；Tutorsbot 75-80%H/55-60%S）。注意：实时交互页头条措辞为 '1 in 2'，与聚合源存在口径差异",
+      "id": "economist",
+      "name": "The Economist",
+      "author": "经济学人模型",
+      "method": "贝叶斯多层 · 25,001 次模拟/天",
+      "tier": "primary",
+      "house_d": 92,
+      "senate_d": 59,
+      "as_of": "2026-09-18",
+      "source": "经济学人《US in Brief》9/18 官方公告：92%H / 59%S（7 月为 77%/45%，油价推升）",
       "auto": false,
       "history": null
     },
     {
-      "id": "silver", "name": "Nate Silver · FLIPR", "author": "Silver Bulletin",
-      "method": "加权民调+基本面 · 4万次联合模拟", "tier": "primary",
-      "house_d": 91, "senate_d": 69, "as_of": "2026-09-26",
-      "source": "免费帖 topline（USPollingRank 9/26 引述；9/28 主页更新 D+9.2）",
+      "id": "silver",
+      "name": "Nate Silver · FLIPR",
+      "author": "Silver Bulletin",
+      "method": "加权民调+基本面 · 4万次联合模拟",
+      "tier": "primary",
+      "house_d": 91,
+      "senate_d": 65,
+      "as_of": "2026-09-26",
+      "source": "Silver 免费帖 topline（Deluxe 版 65%S；低-中 60% 区间；9/28 主页 D+9.2）",
       "auto": false,
       "history": {
-        "house": [{"d": "09-02", "v": 83.4}, {"d": "09-14", "v": 86}, {"d": "09-26", "v": 91}],
-        "senate": [{"d": "09-02", "v": 52.8}, {"d": "09-14", "v": 57}, {"d": "09-26", "v": 69}]
+        "house": [
+          {
+            "d": "09-02",
+            "v": 83.4
+          },
+          {
+            "d": "09-14",
+            "v": 86
+          },
+          {
+            "d": "09-26",
+            "v": 91
+          }
+        ],
+        "senate": [
+          {
+            "d": "09-02",
+            "v": 52.8
+          },
+          {
+            "d": "09-14",
+            "v": 57
+          },
+          {
+            "d": "09-26",
+            "v": 69
+          }
+        ]
       }
     },
     {
-      "id": "splitticket", "name": "Split Ticket / The Argument", "author": "Lakshya Jain",
-      "method": "MRP+蒙特卡洛 · 周更", "tier": "primary",
-      "house_d": 85, "senate_d": 55, "as_of": "2026-08末/09初",
+      "id": "splitticket",
+      "name": "Split Ticket / The Argument",
+      "author": "Lakshya Jain",
+      "method": "MRP+蒙特卡洛 · 周更",
+      "tier": "primary",
+      "house_d": 85,
+      "senate_d": 55,
+      "as_of": "2026-08末/09初",
       "source": "The Argument（原 Split Ticket）播客 8/31 引述：D 85%H / 55%S",
       "auto": true,
       "history": null
     },
     {
-      "id": "racetothewh", "name": "Race to the WH", "author": "Logan Phillips",
-      "method": "数据驱动 · 每日模拟", "tier": "primary",
-      "house_d": null, "senate_d": null, "as_of": "未捕获（iframe 内嵌）",
+      "id": "racetothewh",
+      "name": "Race to the WH",
+      "author": "Logan Phillips",
+      "method": "数据驱动 · 每日模拟",
+      "tier": "primary",
+      "house_d": null,
+      "senate_d": null,
+      "as_of": "未捕获（iframe 内嵌）",
       "source": "Squarespace 静态站，topline 在 <iframe> 内嵌图表中，静态 HTML 无数字；需 headless 渲染（本机 CDP 不稳）",
       "auto": true,
       "history": null
     },
     {
-      "id": "ddhq", "name": "DDHQ × The Hill", "author": "Decision Desk HQ",
-      "method": "每日 · 免费嵌入", "tier": "contrast",
-      "house_d": 72, "senate_d": 54, "as_of": "2026-09-25",
+      "id": "ddhq",
+      "name": "DDHQ × The Hill",
+      "author": "Decision Desk HQ",
+      "method": "每日 · 免费嵌入",
+      "tier": "contrast",
+      "house_d": 72,
+      "senate_d": 54,
+      "as_of": "2026-09-25",
       "source": "votes.decisiondeskhq.com 免费页（9/25 14:27 更新）",
       "auto": true,
       "history": {
-        "house": [{"d": "09-11", "v": 68}, {"d": "09-25", "v": 72}],
-        "senate": [{"d": "09-11", "v": 50}, {"d": "09-25", "v": 54}]
+        "house": [
+          {
+            "d": "09-11",
+            "v": 68
+          },
+          {
+            "d": "09-25",
+            "v": 72
+          }
+        ],
+        "senate": [
+          {
+            "d": "09-11",
+            "v": 50
+          },
+          {
+            "d": "09-25",
+            "v": 54
+          }
+        ]
       }
     },
     {
-      "id": "scrutinel", "name": "Scrutinel", "author": "Scrutinel",
-      "method": "每日 · 免费", "tier": "contrast",
-      "house_d": 85, "senate_d": 51, "as_of": "2026-09-27",
+      "id": "scrutinel",
+      "name": "Scrutinel",
+      "author": "Scrutinel",
+      "method": "每日 · 免费",
+      "tier": "contrast",
+      "house_d": 85,
+      "senate_d": 51,
+      "as_of": "2026-09-27",
       "source": "scrutinel.com 免费页（9/27 17:24 更新；预期 232D/203R）",
       "auto": true,
       "history": {
-        "house": [{"d": "09-27", "v": 85}],
-        "senate": [{"d": "09-27", "v": 51}]
+        "house": [
+          {
+            "d": "09-27",
+            "v": 85
+          }
+        ],
+        "senate": [
+          {
+            "d": "09-27",
+            "v": 51
+          }
+        ]
       }
     },
     {
-      "id": "pollcast", "name": "Pollcast", "author": "Pollcast",
-      "method": "每日 · 免费", "tier": "contrast",
-      "house_d": 97.3, "senate_d": null, "as_of": "2026-09-18",
+      "id": "pollcast",
+      "name": "Pollcast",
+      "author": "Pollcast",
+      "method": "每日 · 免费",
+      "tier": "contrast",
+      "house_d": 97.3,
+      "senate_d": null,
+      "as_of": "2026-09-18",
       "source": "pollcast.net（9/18：D 97.3%，预期 234.7 席）",
       "auto": true,
-      "history": {"house": [{"d": "09-18", "v": 97.3}], "senate": null}
+      "history": {
+        "house": [
+          {
+            "d": "09-18",
+            "v": 97.3
+          }
+        ],
+        "senate": null
+      }
     },
     {
-      "id": "smartervote", "name": "Smarter.vote", "author": "Smarter.vote",
-      "method": "AI 模型 · 免费", "tier": "contrast",
-      "house_d": 71, "senate_d": null, "as_of": "2026-09-19",
+      "id": "smartervote",
+      "name": "Smarter.vote",
+      "author": "Smarter.vote",
+      "method": "AI 模型 · 免费",
+      "tier": "contrast",
+      "house_d": 71,
+      "senate_d": null,
+      "as_of": "2026-09-19",
       "source": "smarter.vote/forecast（9/19：D 71%，预期 228-207）",
       "auto": true,
-      "history": {"house": [{"d": "09-19", "v": 71}], "senate": null}
+      "history": {
+        "house": [
+          {
+            "d": "09-19",
+            "v": 71
+          }
+        ],
+        "senate": null
+      }
     },
     {
-      "id": "votehub", "name": "VoteHub", "author": "Zachary Donnini",
-      "method": "聚合民调+市场微调", "tier": "contrast",
-      "house_d": 77, "senate_d": 47, "as_of": "2026-08末",
+      "id": "votehub",
+      "name": "VoteHub",
+      "author": "Zachary Donnini",
+      "method": "聚合民调+市场微调",
+      "tier": "contrast",
+      "house_d": 77,
+      "senate_d": 47,
+      "as_of": "2026-08末",
       "source": "GD Politics 8/31 引述：D 77%H / R 53%S（即 D 47%S）",
       "auto": true,
       "history": null
     },
     {
-      "id": "statsheet", "name": "Election Statsheet", "author": "贝叶斯模型",
-      "method": "贝叶斯 · 偏谨慎", "tier": "contrast",
-      "house_d": 55, "senate_d": 28, "as_of": "2026-09",
+      "id": "statsheet",
+      "name": "Election Statsheet",
+      "author": "贝叶斯模型",
+      "method": "贝叶斯 · 偏谨慎",
+      "tier": "contrast",
+      "house_d": 55,
+      "senate_d": 28,
+      "as_of": "2026-09",
       "source": "Noah News 引述：D 55%H / 28%S（最谨慎一端）",
       "auto": true,
       "history": null
     },
     {
-      "id": "votepredictor", "name": "VotePredictor", "author": "VotePredictor",
-      "method": "模拟", "tier": "contrast",
-      "house_d": 76, "senate_d": 25, "as_of": "2026-09",
+      "id": "votepredictor",
+      "name": "VotePredictor",
+      "author": "VotePredictor",
+      "method": "模拟",
+      "tier": "contrast",
+      "house_d": 76,
+      "senate_d": 25,
+      "as_of": "2026-09",
       "source": "Noah News 引述：D 76%H / R 75%S（即 D 25%S）",
       "auto": true,
       "history": null
@@ -115,12 +263,40 @@
   ],
   "markets": {
     "name": "预测市场（Kalshi / Polymarket）",
-    "house_d": 88, "senate_d": 56, "as_of": "2026-09-28 共识",
+    "house_d": 88,
+    "senate_d": 56,
+    "as_of": "2026-09-28 共识",
     "note": "真·实时流式（公开 API，秒级）；此处为 9/28 公开报道共识快照",
     "realtime": true,
     "history": {
-      "house": [{"d": "09-19", "v": 90}, {"d": "09-28", "v": 88}],
-      "senate": [{"d": "09-17", "v": 57}, {"d": "09-19", "v": 58}, {"d": "09-21", "v": 60}, {"d": "09-28", "v": 56}]
+      "house": [
+        {
+          "d": "09-19",
+          "v": 90
+        },
+        {
+          "d": "09-28",
+          "v": 88
+        }
+      ],
+      "senate": [
+        {
+          "d": "09-17",
+          "v": 57
+        },
+        {
+          "d": "09-19",
+          "v": 58
+        },
+        {
+          "d": "09-21",
+          "v": 60
+        },
+        {
+          "d": "09-28",
+          "v": 56
+        }
+      ]
     }
   }
 }
