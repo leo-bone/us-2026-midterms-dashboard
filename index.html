@@ -77,6 +77,22 @@
   .note{font-size:11px;color:var(--muted);margin-top:18px;line-height:1.7;border-left:2px solid var(--border);padding-left:12px}
   .note b{color:var(--amber)}
   .disc{font-size:10px;color:#6e5f48;margin-top:24px;text-align:center}
+  /* senate deep-dive */
+  .sen-wrap{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px}
+  .sen-kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:14px}
+  .sen-kpi .cell{background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:12px}
+  .sen-kpi .cell .k{font-size:10.5px;color:var(--muted)}
+  .sen-kpi .cell .v{font-size:19px;font-weight:700;color:var(--amber2);margin-top:4px;font-variant-numeric:tabular-nums}
+  .sen-tbl{width:100%;border-collapse:collapse;font-size:11.5px;margin-top:6px}
+  .sen-tbl th{text-align:left;color:var(--muted);font-weight:500;font-size:10.5px;padding:6px 8px;border-bottom:1px solid var(--border)}
+  .sen-tbl td{padding:7px 8px;border-bottom:1px dashed var(--border);vertical-align:top}
+  .sen-tbl td.st{white-space:nowrap;font-weight:600}
+  .sen-tbl .r{color:var(--rep)} .sen-tbl .d{color:var(--dem)}
+  .sen-paths{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+  .sen-paths .p{border:1px solid var(--border);border-radius:10px;padding:12px;font-size:11.5px;line-height:1.6;color:var(--text)}
+  .sen-paths .p h4{font-size:12px;margin-bottom:6px}
+  .sen-paths .p.dem h4{color:var(--dem)} .sen-paths .p.rep h4{color:var(--rep)}
+  @media(max-width:760px){.sen-paths{grid-template-columns:1fr}}
   .rangebar{display:flex;gap:18px;flex-wrap:wrap;margin-top:12px;font-size:11px;color:var(--muted)}
   .rangebar b{color:var(--amber2);font-size:15px;font-variant-numeric:tabular-nums}
   .hero{display:flex;gap:14px;flex-wrap:wrap;background:linear-gradient(160deg,#2a2014,#211910);border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin-bottom:22px}
@@ -124,6 +140,10 @@
   <div class="section-title">民主党夺回参议院概率 · 近期轨迹</div>
   <div class="chart-wrap"><canvas id="chartS" height="300"></canvas><div class="legend" id="legendS"></div></div>
 
+  <div class="section-title">参议院专题 · 民主党的“四席之路” 与 共和党的“守成”</div>
+  <div class="subhead">结构性事实 + 2026-09 三大评级机构（Cook / Sabato / Inside Elections）与各模型对照。参议院逐州计票，不等同于全国波浪</div>
+  <div class="sen-wrap" id="senWrap"></div>
+
   <div class="section-title">当前分歧快照 · 众院民主党胜率</div>
   <div class="dv" id="dv"></div>
   <div class="rangebar" id="rangebar"></div>
@@ -158,6 +178,43 @@ function modelAvgHouse(){const v=DATA.models.filter(m=>m.house_d!=null).map(m=>m
 function modelAvgSenate(){const v=DATA.models.filter(m=>m.senate_d!=null).map(m=>m.senate_d);return v.reduce((a,b)=>a+b,0)/v.length;}
 function modelMedianHouse(){const v=DATA.models.filter(m=>m.house_d!=null).map(m=>m.house_d).sort((a,b)=>a-b);const n=v.length;return n%2? v[(n-1)/2] : (v[n/2-1]+v[n/2])/2;}
 
+const SENATE_MAP = {
+  note: '2026 参议院：35 席改选（含 FL/OH 特别选举），其中 23 席由共和党持有。当前 53R-47D，民主党需净增 4 席夺回多数（副总统属共和党，故 50-50 仍归共和党）。',
+  seats: [
+    {state:'北卡罗来纳', holder:'R', rating:'Lean D', trend:'倾向民主党', key:'库珀(D) 领先 11pt（伊隆 9/10）；共和党内部称“北卡已脱离地图”'},
+    {state:'缅因', holder:'R', rating:'Toss-up', trend:'摇摆', key:'柯林斯(R) 守席；民主党重点进攻目标'},
+    {state:'俄亥俄（特别）', holder:'R', rating:'Toss-up', trend:'摇摆', key:'特别选举；Inside Elections 9/3 由 Tilt R 降为 Toss-up'},
+    {state:'艾奥瓦', holder:'R', rating:'Toss-up', trend:'摇摆', key:'恩斯特退休；库克 8/20 由 Lean R 降为 Toss-up'},
+    {state:'得克萨斯', holder:'R', rating:'Toss-up', trend:'摇摆', key:'帕克斯顿(R) 初选胜出，与塔拉里科(D) 47-47 平'},
+    {state:'阿拉斯加', holder:'R', rating:'Tilt R', trend:'偏共和党', key:'Inside Elections 9/3 由 Lean R 降为 Tilt R'},
+    {state:'佐治亚', holder:'D', rating:'Lean/Likely D', trend:'民主党防守', key:'奥斯索夫(D) 竞选连任'},
+    {state:'密歇根', holder:'D', rating:'Toss-up', trend:'民主党防守', key:'彼得斯退休；El-Sayed(D) vs Rogers(R)'},
+    {state:'新罕布什尔', holder:'D', rating:'Toss-up', trend:'民主党防守', key:'沙欣退休；苏努努(R) 参选，9/15 由 Lean D 降为 Toss-up'}
+  ]
+};
+function renderSenateMap(){
+  var wrap=document.getElementById('senWrap'); if(!wrap) return;
+  var avgS=modelAvgSenate(), avgH=modelAvgHouse();
+  var rows=SENATE_MAP.seats.map(function(s){return '<tr>'+
+    '<td><b>'+s.state+'</b><div style="color:var(--muted);font-size:10px">'+s.trend+'</div></td>'+
+    '<td class="st '+(s.holder==='R'?'r':'d')+'">'+(s.holder==='R'?'共和党守':'民主党守')+'</td>'+
+    '<td class="st">'+s.rating+'</td>'+
+    '<td style="color:var(--muted)">'+s.key+'</td></tr>';}).join('');
+  wrap.innerHTML =
+    '<div class="sen-kpi">'+
+      '<div class="cell"><div class="k">民主党夺回门槛</div><div class="v">净增 4 席</div></div>'+
+      '<div class="cell"><div class="k">改选席位·共和党持有</div><div class="v">23 / 35</div></div>'+
+      '<div class="cell"><div class="k">参院·模型均值</div><div class="v">'+avgS.toFixed(1)+'%</div></div>'+
+      '<div class="cell"><div class="k">对比·众院均值</div><div class="v">'+avgH.toFixed(1)+'%</div></div>'+
+    '</div>'+
+    '<table class="sen-tbl"><thead><tr><th>战场州</th><th>谁守</th><th>评级(Cook/IE)</th><th>要点</th></tr></thead><tbody>'+rows+'</tbody></table>'+
+    '<div class="sen-paths">'+
+      '<div class="p dem"><h4>民主党夺回（需净增 4）</h4>先拿 <b>北卡罗来纳 + 缅因</b>，再需从 <b>俄亥俄 / 阿拉斯加 / 密歇根</b> 中赢 2 席，同时守住 <b>佐治亚、新罕布什尔、明尼苏达</b>。押注全国浪潮（全美普选民主党领先 8-9pt、特朗普支持率约 33%）能击穿州级结构。</div>'+
+      '<div class="p rep"><h4>共和党保住（微弱优势）</h4>只需守住现有版图。逻辑：<b>参议院逐州计票</b>，全国浪潮须被州级结构衰减；只要民主党的 <b>佐治亚/密歇根/新罕布什尔</b> 丢 1-2 席，即使赢下北卡+缅因也不够。Sabato 水晶球至今仍看好共和党保住多数。</div>'+
+    '</div>'+
+    '<div class="note" style="margin-top:14px"><b>为什么两院差距这么大：</b>众院是全国波浪的<b>直接映射</b>（模型均值 '+avgH.toFixed(0)+'%，近乎确定）；参院是<b>35 场逐州选举的叠加</b>，被州级结构“衰减”（模型均值 '+avgS.toFixed(0)+'%，实为掷硬币）。<b>共和党“微弱保住参议院”是与民主党夺回并存的真实基准情形，不是异端。</b></div>'+
+    '<div style="font-size:10px;color:#6e5f48;margin-top:8px">'+SENATE_MAP.note+'</div>';
+}
 function render(){
   document.getElementById('upd').textContent = DATA.updated_at.replace('T',' ').slice(0,16);
   document.getElementById('srcinfo').innerHTML = '来源：<b>'+DATA.models.length+' 模型 + 市场</b>';
@@ -171,6 +228,7 @@ function render(){
     '<div class="stat"><div class="k">众院·民主党胜率区间</div><div class="v">'+lo+'%–'+hi+'%<small> 跨 '+(hi-lo)+' pt</small></div></div>'+
     '<div class="stat"><div class="k">模型均值 / 中位</div><div class="v">'+med.toFixed(0)+'%<small> 均值 · 中位 '+mid.toFixed(0)+'%</small></div></div>'+
     '<div class="stat"><div class="k">预测市场·众院</div><div class="v">'+pct(DATA.markets.house_d)+'<small> 民主党</small></div></div>'+
+    '<div class="stat"><div class="k">参院·民主党胜率（模型均值）</div><div class="v">'+modelAvgSenate().toFixed(0)+'%<small> 掷硬币区间</small></div></div>'+
     '<div class="note2">最谨慎 <b style="color:var(--rep)">Election Statsheet '+lo+'%</b> ↔ 最乐观 <b style="color:var(--dem)">FiftyPlusOne/Pollcast '+hi+'%</b>。这不是误差，是<b style="color:var(--amber)">真实方法论分歧</b> —— 本盘展示分歧本身。</div>';
 
   // pulse (real-time market)
@@ -213,7 +271,7 @@ function render(){
         <div class="metric">
           <div class="row"><span>众议院 · 民主党胜率</span><b>${hTxt}</b></div>
           <div class="bar"><div class="fill dem" data-w="${hd==null?0:hd}"></div></div>
-          <div class="row" style="margin-top:10px"><span>参议院 · 民主党胜率</span><b>${sTxt}</b></div>
+          <div class="row" style="margin-top:10px"><span>参议院 · 民主党胜率</span><b>${sTxt}</b>${sd!=null&&sd<50?'<small style="color:var(--rep)"> R 优</small>':''}</div>
           <div class="bar"><div class="fill dem" data-w="${sd==null?0:sd}"></div></div>
         </div>
         <div class="foot"><span class="src-tag">来源：</span>${m.source}<br>读数时点：${m.as_of}</div>`;
@@ -225,6 +283,7 @@ function render(){
   drawSeries('chartH','legendH','house');
   drawSeries('chartS','legendS','senate');
   drawDivergence();
+  renderSenateMap();
 }
 
 // ---- 时间序列：每个模型一个 series，date -> x ----
