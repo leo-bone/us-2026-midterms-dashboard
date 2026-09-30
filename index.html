@@ -30,9 +30,28 @@
   .section-title{font-size:13px;color:var(--amber);letter-spacing:1px;margin:28px 0 12px;text-transform:uppercase;display:flex;align-items:center;gap:8px}
   .section-title::before{content:"";width:14px;height:2px;background:var(--amber);display:inline-block}
   .subhead{font-size:11px;color:var(--muted);margin:-6px 0 12px}
-  /* lang toggle */
-  .lang-toggle{position:fixed;top:14px;right:18px;z-index:50;background:rgba(36,28,20,.92);color:var(--amber2);border:1px solid var(--amber);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;letter-spacing:.5px;backdrop-filter:blur(4px);transition:all .2s}
-  .lang-toggle:hover{background:var(--amber);color:#1b1510}
+  /* lang toggle — segmented control with explicit 中文 / English labels */
+  .lang-toggle{position:fixed;top:14px;right:18px;z-index:50;display:inline-flex;align-items:center;gap:2px;background:rgba(36,28,20,.92);border:1px solid var(--amber);border-radius:20px;padding:4px 6px;font-size:12px;font-weight:600;letter-spacing:.5px;backdrop-filter:blur(4px);transition:all .2s;box-shadow:0 4px 18px rgba(0,0,0,.35)}
+  .lang-toggle:hover{background:rgba(48,36,24,.96)}
+  .lang-toggle .lt-opt{position:relative;padding:3px 11px;border-radius:14px;cursor:pointer;color:var(--muted);opacity:.85;transition:all .2s;user-select:none;white-space:nowrap}
+  .lang-toggle .lt-opt:hover{color:var(--amber2)}
+  .lang-toggle .lt-opt.active{background:linear-gradient(160deg,var(--amber),var(--gold));color:#1b1510;opacity:1;box-shadow:0 2px 8px rgba(232,162,61,.35)}
+  .lang-toggle .lt-sep{width:1px;height:14px;background:var(--border);display:inline-block}
+  /* key-dates road to election */
+  .road{position:relative;margin:4px 0 2px;padding:0 4px}
+  .road-line{position:absolute;top:9px;left:6%;right:6%;height:2px;background:linear-gradient(90deg,var(--amber),var(--gold),#e8584a);opacity:.45}
+  .road-nodes{display:flex;justify-content:space-between;align-items:flex-start;position:relative}
+  .rn{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 4px;min-width:0}
+  .rn-dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--amber);background:var(--amber);position:relative;z-index:2;box-shadow:0 0 0 4px rgba(232,162,61,.12);transition:transform .2s}
+  .rn:hover .rn-dot{transform:scale(1.15)}
+  .rn.fed .rn-dot{border-color:var(--amber);background:var(--amber)}
+  .rn.iran .rn-dot{border-color:#e8584a;background:#e8584a;box-shadow:0 0 0 4px rgba(232,88,74,.12)}
+  .rn.elec .rn-dot{border-color:var(--gold);background:var(--gold);box-shadow:0 0 0 4px rgba(214,178,92,.16)}
+  .rn.future .rn-dot{background:transparent}
+  .rn-date{font-size:10px;color:var(--muted);margin-top:8px;letter-spacing:.5px;font-variant-numeric:tabular-nums}
+  .rn-lab{font-size:11px;color:var(--text);line-height:1.4;margin-top:3px}
+  .rn-tag{font-size:9px;color:var(--muted);margin-top:3px;letter-spacing:.5px}
+  @media(max-width:760px){.road-nodes{overflow-x:auto;justify-content:flex-start;gap:6px}.rn{flex:0 0 132px}.road-line{left:50px;right:50px}}
   /* live pulse */
   .pulse{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
   .pulse .panel{background:linear-gradient(160deg,#2a2014,#211910);border:1px solid var(--border);border-radius:14px;padding:18px}
@@ -176,7 +195,11 @@
 </head>
 <body>
 <div class="wrap">
-  <button id="langToggle" class="lang-toggle" onclick="toggleLang()">EN</button>
+  <div id="langToggle" class="lang-toggle" role="group" aria-label="语言切换 / Language switch">
+    <span class="lt-opt" data-l="zh" onclick="setLang('zh')">中文</span>
+    <i class="lt-sep"></i>
+    <span class="lt-opt" data-l="en" onclick="setLang('en')">English</span>
+  </div>
   <header>
     <h1 id="h1"></h1>
     <div class="meta" id="meta"></div>
@@ -185,6 +208,9 @@
   <div class="hero" id="hero"></div>
 
   <div class="takeaway" id="takeaway"></div>
+
+  <div class="section-title" id="sec_road"></div>
+  <div class="road" id="roadWrap"></div>
 
   <div class="section-title" id="sec_pulse"></div>
   <div class="pulse" id="pulse"></div>
@@ -1154,7 +1180,7 @@ const I18N = {
     sec_house:"民主党夺回众院概率 · 近期轨迹", sec_senate:"民主党夺回参议院概率 · 近期轨迹",
     sec_senate_topic:"参议院专题 · 民主党的“四席之路” 与 共和党的“守成”",
     sec_div:"当前分歧快照 · 众院民主党胜率", sec_expert:"模型 vs 专家评级 · 分歧的真正核心",
-    sec_party:"两党内部矛盾 · 机会与缺陷", sec_macro:"关键宏观变量 · 影响中期选举",
+    sec_party:"两党内部矛盾 · 机会与缺陷", sec_macro:"关键宏观变量 · 影响中期选举", sec_road:"选季关键节点 · 通往选举日",
     sub_cards:"五大目标模型 + 七个对照模型（含市场口径对照）。徽章：自动=脚本可解析 · 半自动=反爬/付费墙 · 待抓取=需 headless",
     sub_house:"基于公开报道的采样点（非模型原生逐日序列）；≥2 个点的模型连成线，单点标圆点。市场为真实秒级流（此处取公开报道快照）",
     sub_senate_topic:"结构性事实 + 2026-09 三大评级机构（Cook / Sabato / Inside Elections）与各模型对照。参议院逐州计票，不等同于全国波浪",
@@ -1213,7 +1239,7 @@ const I18N = {
     sec_house:"Democrat House Win Prob · Recent Trajectory", sec_senate:"Democrat Senate Win Prob · Recent Trajectory",
     sec_senate_topic:"Senate Deep-Dive · Dem's \"4-Seat Path\" & GOP's \"Hold\"",
     sec_div:"Current Divergence Snapshot · House Dem Win", sec_expert:"Models vs Expert Ratings · Where the Divide Really Is",
-    sec_party:"Intra-Party Rifts · Opportunities & Flaws", sec_macro:"Key Macro Variables · Impact on Midterms",
+    sec_party:"Intra-Party Rifts · Opportunities & Flaws", sec_macro:"Key Macro Variables · Impact on Midterms", sec_road:"Key Dates · Road to Election Day",
     sub_cards:"Five target models + seven contrast models (incl. market basis). Badges: Auto = script-parseable · Semi = anti-scrape/paywall · Pending = needs headless",
     sub_house:"Sampling points from public reports (not native daily series); models with ≥2 points are connected, single points shown as dots. Market is true second-level stream (snapshot from public reports here)",
     sub_senate_topic:"Structural facts + the three major rating agencies (Cook / Sabato / Inside Elections) vs models, Sept 2026. Senate is counted state-by-state, not a national wave",
@@ -1268,13 +1294,25 @@ let lang = (function(){ try{return localStorage.getItem('lang')||'zh';}catch(e){
 function T(k){ var d=I18N[lang]||I18N.zh; return (d[k]!=null)?d[k]:(I18N.zh[k]!=null?I18N.zh[k]:k); }
 function Tf(k,map){ var s=T(k); for(var m in (map||{})){ s=s.split('{'+m+'}').join(map[m]); } return s; }
 function bi(o,k){ if(!o) return ''; return (lang==='en' && o[k+'_en']!=null)?o[k+'_en']:(o[k]!=null?o[k]:''); }
-function toggleLang(){
-  lang = (lang==='zh')?'en':'zh';
+function paintLangToggle(){
+  var el=document.getElementById('langToggle'); if(!el) return;
+  var opts=el.querySelectorAll('.lt-opt');
+  for(var i=0;i<opts.length;i++){
+    var sp=opts[i];
+    if(sp.getAttribute('data-l')===lang){ sp.classList.add('active'); }
+    else { sp.classList.remove('active'); }
+  }
+}
+function setLang(l){
+  if(l!=='zh' && l!=='en') return;
+  if(l===lang) return;
+  lang=l;
   try{ localStorage.setItem('lang', lang); }catch(e){}
   document.documentElement.lang = (lang==='en')?'en':'zh';
-  document.getElementById('langToggle').textContent = (lang==='zh')?'EN':'中';
+  paintLangToggle();
   render();
 }
+function toggleLang(){ setLang(lang==='zh'?'en':'zh'); }
 
 // 数据来源两级：① data.json（模型快照，站内文件）② /api/market（Cloudflare 边缘实时代理的 Polymarket/Kalshi）
 fetch('data.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(j=>{
@@ -1422,10 +1460,39 @@ function renderSenateMap(){
     '<div class="note" style="margin-top:14px"><b>'+T('sm_why_title')+'：</b>'+Tf('sm_why_body',{h:avgH.toFixed(0),s:avgS.toFixed(0)})+'</div>'+
     '<div style="font-size:10px;color:#6e5f48;margin-top:8px">'+bi(SENATE_MAP,'note')+'</div>';
 }
+function renderTimeline(){
+  var fd=DATA.fed, ed=DATA.election_day;
+  var oct = (fd.meetings[0]&&fd.meetings[0].date)||'2026-10-27/28';
+  var dec = (fd.meetings[1]&&fd.meetings[1].date)||'2026-12-08/09';
+  var nodes=[
+    {d:'09-16', cat:'fed',  tag_zh:'已发生', tag_en:'Past',
+      lab_zh:'美联储加息至 3.75–4.00%', lab_en:'Fed hiked to 3.75–4.00%'},
+    {d:'09-28', cat:'iran', tag_zh:'已发生', tag_en:'Past',
+      lab_zh:'美伊冲突重大升级', lab_en:'US–Iran major escalation'},
+    {d:oct.replace('/','–'), cat:'fed', tag_zh:'待发生', tag_en:'Upcoming',
+      lab_zh:'美联储 10 月会议 · 加息维持五五开', lab_en:'Fed Oct meeting · hike/hold ~50–50'},
+    {d:ed.slice(5).replace('-','-'), cat:'elec', tag_zh:'待发生', tag_en:'Upcoming',
+      lab_zh:'中期选举日', lab_en:'Midterm Election Day'},
+    {d:dec.replace('/','–'), cat:'fed', tag_zh:'待发生', tag_en:'Upcoming',
+      lab_zh:'美联储 12 月会议 · 年底或再加息', lab_en:'Fed Dec meeting · likely higher by year-end'}
+  ];
+  var html='<div class="road-line"></div><div class="road-nodes">'+
+    nodes.map(function(n){
+      var lab = (lang==='en')?n.lab_en:n.lab_zh;
+      var tag = (lang==='en')?n.tag_en:n.tag_zh;
+      var cls='rn '+n.cat+' '+(n.tag_zh==='已发生'?'past':'future');
+      return '<div class="'+cls+'"><span class="rn-dot"></span>'+
+             '<div class="rn-date">'+n.d+'</div>'+
+             '<div class="rn-lab">'+lab+'</div>'+
+             '<div class="rn-tag">'+tag+'</div></div>';
+    }).join('')+
+    '</div>';
+  document.getElementById('roadWrap').innerHTML = html;
+  document.getElementById('sec_road').innerHTML = T('sec_road');
+}
 function render(){
-  document.title = T('page_title');
   document.documentElement.lang = (lang==='en')?'en':'zh';
-  document.getElementById('langToggle').textContent = (lang==='zh')?'EN':'中';
+  paintLangToggle();
   document.getElementById('h1').innerHTML = T('h1')+'<small>'+Tf('h1_sub',{n:DATA.models.length})+'</small>';
   document.getElementById('meta').innerHTML = T('meta_election_day')+' <b>'+DATA.election_day+'</b><br>'+T('meta_snapshot')+' <b id="upd"></b><br><span id="srcinfo"></span>';
   document.getElementById('upd').textContent = DATA.updated_at.replace('T',' ').slice(0,16);
@@ -1537,6 +1604,7 @@ function render(){
   renderProsCons();
   renderIran();
   renderFed();
+  renderTimeline();
 }
 
 // ---- 时间序列：每个模型一个 series，date -> x ----
