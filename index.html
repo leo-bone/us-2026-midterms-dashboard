@@ -290,6 +290,7 @@ const SEED = {
       "id": "fiftyplusone",
       "name": "FiftyPlusOne",
       "author": "G. Elliott Morris（前 538）",
+      "author_en": "G. Elliott Morris (ex-538)",
       "method": "贝叶斯模型堆叠 · 4次/天",
       "tier": "primary",
       "house_d": 98,
@@ -327,6 +328,7 @@ const SEED = {
       "id": "economist",
       "name": "The Economist",
       "author": "经济学人模型",
+      "author_en": "The Economist model",
       "method": "贝叶斯多层 · 25,001 次模拟/天",
       "tier": "primary",
       "house_d": 92,
@@ -428,6 +430,7 @@ const SEED = {
       "house_d": 80,
       "senate_d": 58,
       "as_of": "2026-08-11（参院快照·众院为估算）",
+      "as_of_en": "2026-08-11 (Senate snapshot · House est.)",
       "source": "参院 57.6%/51.2 席为 2026-08-11 论坛转引真实快照（RTtWH 每日 5 万次模拟、近三 cycle 正确预测参院多数）；众院数值 80% 为基于其方法定位的估算（站点众院页未提供可抓取的『控制权 %』）。topline 嵌于 Squarespace iframe，静态 HTML 无数字，无法 headless 自动刷新。",
       "auto": true,
       "history": null,
@@ -560,6 +563,7 @@ const SEED = {
       "house_d": 77,
       "senate_d": 47,
       "as_of": "2026-08末",
+      "as_of_en": "late Aug 2026",
       "source": "GD Politics 8/31 引述：D 77%H / R 53%S（即 D 47%S）",
       "auto": true,
       "history": null,
@@ -570,6 +574,7 @@ const SEED = {
       "id": "statsheet",
       "name": "Election Statsheet",
       "author": "贝叶斯模型",
+      "author_en": "Bayesian model",
       "method": "贝叶斯 · 偏谨慎",
       "tier": "contrast",
       "house_d": 55,
@@ -1246,6 +1251,7 @@ const SEED = {
 
 
 
+
 let DATA = SEED;
 let LIVE = false;
 
@@ -1719,7 +1725,7 @@ function render(){
       const hTxt = hd==null?'—':pct(hd), sTxt = sd==null?'—':pct(sd);
       card.innerHTML=`
         <div class="top">
-          <div><div class="name">${m.name}</div><div class="author">${m.author}</div><div class="method">${bi(m,'method')}</div></div>
+          <div><div class="name">${m.name}</div><div class="author">${bi(m,'author')}</div><div class="method">${bi(m,'method')}</div></div>
           ${badge(m)}
         </div>
         <div class="metric">
@@ -1731,7 +1737,7 @@ function render(){
           <div class="bar"><div class="fill dem" data-w="${sd==null?0:sd}"></div></div>
           ${sd!=null?('<div class="seat">'+T('seat_senate')+'</div>'):''}
         </div>
-        <div class="foot"><span class="src-tag">${T('src_label')}</span>${bi(m,'source')}<br>${T('asof_label')}${m.as_of}</div>`;
+        <div class="foot"><span class="src-tag">${T('src_label')}</span>${bi(m,'source')}<br>${T('asof_label')}${bi(m,'as_of')}</div>`;
       grid.appendChild(card);
     });
   });
