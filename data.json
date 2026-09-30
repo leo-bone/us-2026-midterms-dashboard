@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-09-29T20:54:00+08:00",
+  "updated_at": "2026-09-30T18:00:00+08:00",
   "election_day": "2026-11-03",
   "live": false,
-  "note": "数值为各模型最近一次公开读数（民主党夺回/守住该议院的胜率 %）。来源见每个模型的 source 字段。市场数值为 9/28 公开报道共识快照（live=false，属快照，非实时流）。接入预测市场 API 并产出 live=true 的 data.json 后，面板自动切换为「实时」。",
+  "note": "数值为各模型最近一次公开读数（民主党夺回/守住该议院的胜率 %）。来源见每个模型的 source 字段。市场数值为 9/29–9/30 公开报道跨平台共识快照（live=false，属快照，非实时流）。接入预测市场 API 并经 Cloudflare 边缘实时代理产出 live=true 后，面板自动切换为「实时」。",
   "models": [
     {
       "id": "fiftyplusone",
@@ -88,7 +88,7 @@
           },
           {
             "d": "09-26",
-            "v": 69
+            "v": 65
           }
         ]
       }
@@ -101,10 +101,31 @@
       "tier": "primary",
       "house_d": 85,
       "senate_d": 55,
-      "as_of": "2026-08末/09初",
-      "source": "The Argument（原 Split Ticket）播客 8/31 引述：D 85%H / 55%S",
+      "as_of": "2026-09-24",
+      "source": "The Argument（原 Split Ticket）9/24 文章：中位 232D（+18）、共和党多数概率仅 11%；D 85%H/55%S 口径",
       "auto": true,
-      "history": null
+      "history": {
+        "house": [
+          {
+            "d": "08-31",
+            "v": 85
+          },
+          {
+            "d": "09-24",
+            "v": 89
+          }
+        ],
+        "senate": [
+          {
+            "d": "08-31",
+            "v": 55
+          },
+          {
+            "d": "09-24",
+            "v": 58
+          }
+        ]
+      }
     },
     {
       "id": "racetothewh",
@@ -206,16 +227,20 @@
       "author": "Smarter.vote",
       "method": "AI 模型 · 免费",
       "tier": "contrast",
-      "house_d": 71,
+      "house_d": 73,
       "senate_d": null,
-      "as_of": "2026-09-19",
-      "source": "smarter.vote/forecast（9/19：D 71%，预期 228-207）",
+      "as_of": "2026-09-27",
+      "source": "smarter.vote/forecast（9/27：D 73%，预期 229D-206R）",
       "auto": true,
       "history": {
         "house": [
           {
             "d": "09-19",
             "v": 71
+          },
+          {
+            "d": "09-27",
+            "v": 73
           }
         ],
         "senate": null
@@ -263,10 +288,11 @@
   ],
   "markets": {
     "name": "预测市场（Kalshi / Polymarket）",
-    "house_d": 88,
-    "senate_d": 56,
-    "as_of": "2026-09-28 共识",
-    "note": "真·实时流式（公开 API，秒级）；此处为 9/28 公开报道共识快照",
+    "house_d": 90,
+    "senate_d": 59,
+    "sweep": 62,
+    "as_of": "2026-09-29 跨平台共识",
+    "note": "Kalshi 9/29：民主党夺回众院 ~89–91%、夺回参院 ~57–61%；Polymarket「Balance of Power」民主席卷 62%（Kalshi 同 62%，9/29）。跨平台 D 众院 ~90%、D 参院 ~60%。本端点经 Cloudflare 边缘实时代理抓取，抓不到时回退此共识种子。",
     "realtime": true,
     "history": {
       "house": [
@@ -275,8 +301,16 @@
           "v": 90
         },
         {
+          "d": "09-21",
+          "v": 90
+        },
+        {
           "d": "09-28",
-          "v": 88
+          "v": 89
+        },
+        {
+          "d": "09-29",
+          "v": 90
         }
       ],
       "senate": [
@@ -285,18 +319,47 @@
           "v": 57
         },
         {
-          "d": "09-19",
-          "v": 58
-        },
-        {
           "d": "09-21",
           "v": 60
         },
         {
           "d": "09-28",
-          "v": 56
+          "v": 57
+        },
+        {
+          "d": "09-29",
+          "v": 59
+        }
+      ],
+      "sweep": [
+        {
+          "d": "09-22",
+          "v": 66
+        },
+        {
+          "d": "09-28",
+          "v": 63
+        },
+        {
+          "d": "09-29",
+          "v": 62
         }
       ]
     }
+  },
+  "expert_ratings": {
+    "as_of": "2026-09-29",
+    "source": "The Argument（Lakshya Jain）9/24 汇总 Cook Political Report / Sabato's Crystal Ball / Inside Elections，并对照统计模型与预测市场",
+    "model_implied": {
+      "house_d_gain": "+18（中位 232D）",
+      "house_d_prob": "85–98%",
+      "senate_d_prob": "49–65%"
+    },
+    "raters": [
+      {"name": "Cook Political Report", "stance": "谨慎", "house_d_gain": "+2 ~ +6", "senate": "D 微弱优 / 掷硬币", "note": "9 月下旬：民主党在多数竞争众院选区领先，但翻 R 席有限"},
+      {"name": "Sabato's Crystal Ball", "stance": "结构衰减派", "house_d_gain": "+5 ~ +10", "senate": "看好 R 保多数", "note": "参议院逐州计票，全国浪潮被州级结构衰减"},
+      {"name": "Inside Elections", "stance": "逐州计票派", "house_d_gain": "+2 ~ +8", "senate": "D 略优但窄", "note": "按州评级，不入全国波浪模型"}
+    ],
+    "note": "统计模型把全国普选领先（D+8~9pt）直接映射为众院赢面（均值 ~85%+），并给出参议院 49–65% 的掷硬币区间；三大评级机构更保守，仅把少数共和党席位评为 Lean D / Tossup，隐含众院增益 +2~+10。二者并存：模型快、评级慢且更挑剔；分歧本身才是这张盘要展示的核心。"
   }
 }
