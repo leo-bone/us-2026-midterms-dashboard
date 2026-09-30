@@ -125,6 +125,27 @@
   .pc-card ul{list-style:none}
   .pc-card li{font-size:11px;line-height:1.5;margin:6px 0;padding-left:13px;position:relative;color:var(--muted)}
   .pc-card li::before{content:"•";position:absolute;left:0;color:var(--gold)}
+  /* 宏观变量：美伊战争 / 美联储 */
+  .macro-h{font-size:13px;color:var(--amber);margin:18px 0 10px;font-weight:600;display:flex;align-items:center;gap:8px}
+  .macro-h::before{content:"";width:4px;height:14px;background:var(--gold);border-radius:2px;display:inline-block}
+  .tl{list-style:none;margin:10px 0}
+  .tl li{font-size:11px;line-height:1.5;padding:5px 0 5px 14px;position:relative;color:var(--muted);border-bottom:1px dashed rgba(255,255,255,.05)}
+  .tl li::before{content:"▸";position:absolute;left:0;color:var(--gold)}
+  .scn{margin:6px 0 2px}
+  .scn-row{display:grid;grid-template-columns:1fr 46px;align-items:center;gap:8px;margin:8px 0}
+  .scn-row .nm{font-size:11px;color:var(--text);line-height:1.35}
+  .scn-row .pr{font-size:12px;font-weight:700;text-align:right;color:var(--gold)}
+  .scn-bar{grid-column:1/-1;height:6px;background:rgba(255,255,255,.06);border-radius:4px;margin:2px 0 4px;overflow:hidden}
+  .scn-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--amber));border-radius:4px}
+  .facts{list-style:none;margin:8px 0}
+  .facts li{font-size:10.5px;line-height:1.5;padding:5px 0 5px 13px;position:relative;color:var(--muted)}
+  .facts li::before{content:"✦";position:absolute;left:0;color:var(--amber);font-size:9px}
+  .risk{border:1px solid rgba(217,105,74,.4);background:rgba(217,105,74,.08);border-radius:10px;padding:10px 12px;margin-top:10px;font-size:11px;color:#e8b9a8;line-height:1.6}
+  .risk b{color:var(--red)}
+  .fed-mtg{margin:10px 0;padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:var(--panel2)}
+  .fed-mtg .hd{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+  .fed-mtg .hd .dt{font-size:12px;color:var(--gold);font-weight:600}
+  .fed-mtg .hd .bc{font-size:10.5px;color:var(--muted)}
   .seat{font-size:10px;color:var(--gold);margin-top:6px;opacity:.9}
   @media(max-width:760px){.pd-grid{grid-template-columns:1fr}.pc-grid{grid-template-columns:1fr}}
     body{padding:18px 12px 50px}
@@ -177,6 +198,10 @@
   <div class="subhead">综合 POLITICO、美联社/凤凰网、新华社环球、Ahram、USA Today 等 2026 公开报道与初选结果整理。模型概率是“天气”，党内裂缝与暴露面是“地形”——后者才是概率之外的真实变量。</div>
   <div class="pd-grid" id="conflicts"></div>
   <div class="pc-grid" id="proscons"></div>
+
+  <div class="section-title">关键宏观变量 · 影响中期选举</div>
+  <div class="sen-wrap" id="iranWrap"></div>
+  <div class="sen-wrap" id="fedWrap" style="margin-top:14px"></div>
 
   <div class="note">
     <b>架构与口径说明：</b> 预测市场（Kalshi/Polymarket）是仪表盘唯一<b>秒级流式</b>来源，其余统计模型均为<b>定时重算</b>（FiftyPlusOne 4 次/天、Economist 每天、Silver 近每天、Split Ticket 周更、DDHQ/Scrutinel 每天）。前端用动画把"离散快照"呈现为"连续流动"——这是市面上所有"选举实时盘"的真实做法。各模型对"众院民主党概率"给出 <b>55%（Election Statsheet）到 98%（FiftyPlusOne/Pollcast）</b> 的跨度，这是<b>真实方法论分歧</b>而非误差，本盘展示分歧本身，不做强行归一。Race to the WH 的 topline 嵌在 Squarespace 的 <b>iframe</b> 里、静态 HTML 无数字，本机 headless 不稳，列为"待抓取"。数据仅供方法学研判，<b>不构成任何选举或投资建议</b>。
@@ -662,6 +687,100 @@ const SEED = {
         ]
       }
     }
+  },
+  "iran": {
+    "as_of": "2026-09-30",
+    "source": "综合央视/人民日报/新华社/RNZ/Congress.gov CRS R48887(9/18) 等 2026 公开报道",
+    "status": "有限冲突（Low-level Conflict）· 非全面战争",
+    "timeline": [
+      "2/28 美以对伊朗发动打击，区域冲突爆发",
+      "4月 美伊停火",
+      "6月 签署谅解备忘录(MoU)，拟结束冲突并谈判",
+      "8月 MoU 崩溃并正式到期，战事重燃",
+      "9/1 美军再袭伊朗革命卫队霍尔木兹周边目标；伊朗向约旦/阿联酋/巴林/伊拉克/科威特美军基地发射导弹",
+      "9/28 特朗普称一周内或重启谈判；伊朗外长称已准备好重新开战，但也不排除外交"
+    ],
+    "scenarios": [
+      {
+        "name": "长期低烈度对峙（现状延续）",
+        "prob": 45,
+        "note": "美军周期性「割草式」打击伊朗雷达/反舰/布雷能力，伊朗以水雷、无人机、袭船维持航道风险；双方都评估能比对方更久承受成本。"
+      },
+      {
+        "name": "不稳定停火",
+        "prob": 25,
+        "note": "因经济或内外压力，双方暂停军事行动但无全面协议；卡塔尔/巴基斯坦斡旋。"
+      },
+      {
+        "name": "冲突扩大（含地面部队/能源设施打击）",
+        "prob": 20,
+        "note": "误判升级链：打击—报复—扩大打击。伊朗可打击海湾国家关键能源设施；美或被逼引入地面部队，五角大楼已警告弹药库存缺口。"
+      },
+      {
+        "name": "谈判解决",
+        "prob": 10,
+        "note": "恢复 6 月 MoU 框架，以解除封锁/制裁换霍尔木兹重开 + 核谈判；特朗普 9/26 已拒绝伊方一揽子提议。"
+      }
+    ],
+    "facts": [
+      "霍尔木兹海峡：战前承担全球约 20% 石油与 LNG 运输；伊朗原油出口由 3 月 ~200 万桶/日 跌至 8 月 ~22–25 万桶/日",
+      "CBO 估算美军行动截至 8/1 耗资约 $380 亿；五角大楼确认弹药库存出现战略缺口、军工补给出瓶颈",
+      "美军中东部署超 5 万人；多名高级将领警告长期行动会削弱欧洲/亚太/本土防御",
+      "联合国秘书长呼吁立即停火、回到外交；民调显示多数美国人不支持战事（正值中期选举前）"
+    ],
+    "midterm_impact": "战争是中期选举核心议题之一：① 经济端——霍尔木兹封锁推高油气价格、加剧通胀，对执政党不利；② 民意端——多数美国人反对战事，削弱特朗普基本盘；③ 若扩大为全面战争或美军重大伤亡，将显著改写选举格局。模型与市场的「民主党夺回两院」定价已部分计入此风险。",
+    "risk": "关键红线：美军重大伤亡、大型油轮被击沉、海湾能源设施遭重创——任一发生都可能触发特朗普所称「更大打击」，从威慑变现实。"
+  },
+  "fed": {
+    "as_of": "2026-09-30",
+    "source": "综合 CME FedWatch、Polymarket、Kalshi、PredictEngine 及主流投行研报（截至 9/19–9/30）",
+    "current_range": "4.00% – 4.25%（9/16 会议由 3.75%–4.00% 上调 25bp）",
+    "narrative": "年初市场基线曾为「全年降息 2–3 次」；但通胀仍高于目标，叠加伊朗战争油价冲击，9/16 FOMC 意外加息 25bp，市场叙事由「降多少」翻转为「是否继续加」。",
+    "meetings": [
+      {
+        "date": "2026-10-27/28",
+        "label": "10月会议",
+        "base_case": "加息 25bp 或按兵不动（实质抛硬币）",
+        "probs": [
+          {
+            "name": "再加息 25bp",
+            "p": 56,
+            "src": "Polymarket ~56% / Kalshi ~54% / CME ~57.6%"
+          },
+          {
+            "name": "维持不变",
+            "p": 44,
+            "src": "剩余概率"
+          }
+        ],
+        "note": "特朗普施压要求大幅降息（曾称应降至 1% 或以下），与 Fed 独立性冲突；沃什主席不提供前瞻指引，不确定性高。"
+      },
+      {
+        "date": "2026-12-08/09",
+        "label": "12月会议",
+        "base_case": "市场定价年底利率高于当前（CME 约 90% 概率年底落于更高区间）",
+        "probs": [
+          {
+            "name": "年底落 4.00%–4.25%",
+            "p": 46,
+            "src": "CME 期货分布"
+          },
+          {
+            "name": "年底落 4.25%–4.50%（再+25bp）",
+            "p": 44,
+            "src": "CME 期货分布（一个月前仅 2.6%）"
+          },
+          {
+            "name": "年底回落至 ≤3.75%",
+            "p": 10,
+            "src": "鸽派尾部"
+          }
+        ],
+        "note": "一个月前市场还押注年内再降息；如今近半概率落在「再加一次」——利率剧本被重写。"
+      }
+    ],
+    "midterm_impact": "利率是中期选举的经济主轴：① 维持/上调高利率 → 房贷、消费信贷成本居高，压制家庭部门，对执政党不利；② 若因战争油价推升通胀而加息，等于把地缘风险转嫁为国内利率压力，双重不利于现任政府；③ 特朗普与 Fed 的公开对立，把货币政策变成选举争议点。",
+    "watch": "关键数据：核心 PCE、核心 CPI、非农(NFP)、超级核心通胀；任一「热」数据都会推升加息概率。"
   }
 };
 let DATA = SEED;
@@ -753,6 +872,50 @@ function renderProsCons(){
            '<div class="pc-card flaw"><h4>'+label+' · 缺陷</h4><ul>'+pc.flaws.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul></div>';
   }
   wrap.innerHTML = col('dem','民主党') + col('rep','共和党');
+}
+function renderIran(){
+  var d=DATA.iran; if(!d) return;
+  var wrap=document.getElementById('iranWrap'); if(!wrap) return;
+  var kpi='<div class="sen-kpi">'+
+    '<div class="cell"><div class="k">当前状态</div><div class="v" style="font-size:14px">有限冲突</div></div>'+
+    '<div class="cell"><div class="k">开战</div><div class="v">2026-02-28</div></div>'+
+    '<div class="cell"><div class="k">重燃</div><div class="v">2026-09-01</div></div>'+
+    '<div class="cell"><div class="k">美军耗资(CBO)</div><div class="v">$380亿</div></div>'+
+  '</div>';
+  var tl='<div class="macro-h">战事时间线</div><ul class="tl">'+d.timeline.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul>';
+  var scn='<div class="macro-h">情景概率（国会研究处 CRS 9/18 框架）</div><div class="scn">'+
+    d.scenarios.map(function(s){
+      return '<div class="scn-row"><div class="nm">'+s.name+'</div><div class="pr">'+s.prob+'%</div></div>'+
+             '<div class="scn-bar"><i style="width:'+s.prob+'%"></i></div>'+
+             '<div style="font-size:10px;color:var(--muted);margin:-2px 0 4px">'+s.note+'</div>';
+    }).join('')+'</div>';
+  var facts='<div class="macro-h">关键事实</div><ul class="facts">'+d.facts.map(function(f){return '<li>'+f+'</li>';}).join('')+'</ul>';
+  wrap.innerHTML = kpi + tl + scn + facts +
+    '<div class="note" style="margin-top:12px"><b>对中期选举的影响：</b>'+d.midterm_impact+'</div>'+
+    '<div class="risk"><b>关键红线：</b>'+d.risk+'</div>'+
+    '<div style="font-size:10px;color:#6e5f48;margin-top:8px">来源：'+d.source+' · 截至 '+d.as_of+'</div>';
+}
+function renderFed(){
+  var d=DATA.fed; if(!d) return;
+  var wrap=document.getElementById('fedWrap'); if(!wrap) return;
+  var head='<div style="display:flex;justify-content:space-between;align-items:baseline;padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:var(--panel2);margin-bottom:10px">'+
+    '<div style="font-size:11px;color:var(--muted)">当前联邦基金利率区间</div>'+
+    '<div style="font-size:14px;color:var(--gold);font-weight:700">'+d.current_range+'</div></div>';
+  var nar='<div class="note" style="margin-bottom:10px"><b>叙事反转：</b>'+d.narrative+'</div>';
+  var mtgs=d.meetings.map(function(m){
+    var rows=m.probs.map(function(p){
+      return '<div class="scn-row"><div class="nm">'+p.name+'</div><div class="pr">'+p.p+'%</div></div>'+
+             '<div class="scn-bar"><i style="width:'+p.p+'%"></i></div>'+
+             '<div style="font-size:9.5px;color:var(--muted);margin:-2px 0 4px">'+p.src+'</div>';
+    }).join('');
+    return '<div class="fed-mtg"><div class="hd"><div class="dt">'+m.label+' · '+m.date+'</div><div class="bc">基准：'+m.base_case+'</div></div>'+
+           '<div class="scn">'+rows+'</div>'+
+           '<div style="font-size:10px;color:var(--muted);margin-top:6px">'+m.note+'</div></div>';
+  }).join('');
+  wrap.innerHTML = head + nar + mtgs +
+    '<div class="note" style="margin-top:12px"><b>对中期选举的影响：</b>'+d.midterm_impact+'</div>'+
+    '<div class="risk"><b>盯盘清单：</b>'+d.watch+'</div>'+
+    '<div style="font-size:10px;color:#6e5f48;margin-top:8px">来源：'+d.source+' · 截至 '+d.as_of+'</div>';
 }
 function renderSenateMap(){
   var wrap=document.getElementById('senWrap'); if(!wrap) return;
@@ -858,6 +1021,8 @@ function render(){
   renderExpert();
   renderConflicts();
   renderProsCons();
+  renderIran();
+  renderFed();
 }
 
 // ---- 时间序列：每个模型一个 series，date -> x ----
