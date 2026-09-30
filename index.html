@@ -191,6 +191,27 @@
     .hero .stat{min-width:120px}
     .takeaway ul{grid-template-columns:1fr}
   }
+  /* model landscape summary */
+  .ms-wrap{background:linear-gradient(160deg,#241c14,#211910);border:1px solid var(--border);border-radius:14px;padding:14px 16px}
+  .ms-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .ms-cell{background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
+  .ms-cell .k{font-size:10.5px;color:var(--muted)}
+  .ms-cell .v{font-size:24px;font-weight:700;color:var(--amber2);margin-top:4px;font-variant-numeric:tabular-nums}
+  .ms-cell .s{font-size:10px;color:var(--muted);margin-top:3px}
+  .ms-note{font-size:11px;color:var(--muted);line-height:1.65;margin-top:12px;border-top:1px dashed var(--border);padding-top:10px}
+  .ms-note b{color:var(--amber2)}
+  .ms-spread{color:var(--gold);font-weight:600}
+  .spark{display:inline-block;vertical-align:middle;margin-top:4px}
+  /* sources panel */
+  .src-panel{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px;font-size:11.5px;line-height:1.6}
+  .src-correction{border:1px solid rgba(232,162,61,.5);background:rgba(232,162,61,.10);border-radius:10px;padding:12px 14px;margin-bottom:14px;color:var(--amber2);font-size:11.5px}
+  .src-correction b{color:var(--red)}
+  .src-cats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .src-cat{background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:11px 13px}
+  .src-cat-h{font-size:11.5px;color:var(--amber);font-weight:600;margin-bottom:5px;letter-spacing:.5px}
+  .src-list{font-size:11px;color:var(--muted);line-height:1.55}
+  .src-disc{font-size:10px;color:#6e5f48;margin-top:14px;border-top:1px dashed var(--border);padding-top:10px;line-height:1.6}
+  @media(max-width:760px){.ms-grid{grid-template-columns:1fr 1fr}.src-cats{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -218,6 +239,9 @@
   <div class="section-title" id="sec_cards"></div>
   <div class="subhead" id="sub_cards"></div>
   <div class="grid" id="grid"></div>
+
+  <div class="section-title" id="sec_models_summary"></div>
+  <div class="ms-wrap" id="modelsSummary"></div>
 
   <div class="section-title" id="sec_house"></div>
   <div class="subhead" id="sub_house"></div>
@@ -247,6 +271,9 @@
   <div class="sen-wrap" id="iranWrap"></div>
   <div class="sen-wrap" id="fedWrap" style="margin-top:14px"></div>
 
+  <div class="section-title" id="sec_sources"></div>
+  <div class="src-panel" id="srcPanel"></div>
+
   <div class="note" id="note_arch"></div>
   <div class="disc" id="disc"></div>
   <footer id="footer"></footer>
@@ -254,7 +281,7 @@
 
 <script>
 const SEED = {
-  "updated_at": "2026-09-30T12:44:00+08:00",
+  "updated_at": "2026-09-30T17:50:00+08:00",
   "election_day": "2026-11-03",
   "live": false,
   "note": "数值为各模型最近一次公开读数（民主党夺回/守住该议院的胜率 %）。来源见每个模型的 source 字段。市场数值为 9/29–9/30 公开报道跨平台共识快照（live=false，属快照，非实时流）。接入预测市场 API 并经 Cloudflare 边缘实时代理产出 live=true 后，面板自动切换为「实时」。",
@@ -830,133 +857,135 @@ const SEED = {
     "source_en": "Compiled from POLITICO, AP/ifeng, Xinhua Global, Ahram, USA Today and other 2026 public reports and primary results."
   },
   "iran": {
-    "as_of": "2026-09-30（9/28 起重大升级）",
-    "source": "综合 Devdiscourse / Atlas360 / WSJ（转引）/ Anadolu / 路透-益普索 等 9/28–9/30 报道",
-    "status": "重大升级 · 美伊重启大规模交火（停火框架破裂）",
+    "as_of": "2026-09-30（9/26–9/28 有限互袭，非大规模升级）",
+    "source": "综合 CCTV/央视网、新华社、环球时报、Al Jazeera、Reuters/Ipsos、GlobalSecurity、TradingEconomics/FinanceFeeds、美军中央司令部公报 等 9/1–9/30 报道。已更正此前误报的「9/28 美军 48h 打击 170+ 目标」——该说法无权威信源，实际为有限互袭。",
+    "status": "有限互袭延续 · 谈判拉锯中（停火提案被拒，未全面升级）",
     "timeline": [
-      "2/28 美以对伊朗发动打击，区域冲突爆发",
-      "4月 美伊停火",
-      "6月 签署谅解备忘录(MoU)，拟结束冲突并谈判",
-      "8月 MoU 崩溃并正式到期，战事重燃",
-      "9/1 美军再袭伊朗革命卫队霍尔木兹周边目标；伊朗向约旦/阿联酋/巴林/伊拉克/科威特美军基地发射导弹",
-      "9/9–10 美军阿帕奇在霍尔木兹附近遭伊朗无人机击落；美军 9/10 报复性空袭伊朗本土目标",
+      "2/28 美以对伊朗发动打击，区域冲突爆发（至今约 7 个月）",
+      "4月 美伊一度停火；6月 签署谅解备忘录(MoU)，拟结束冲突并谈核",
+      "8月 MoU 崩溃并到期，战事重燃",
+      "9/1–9/2 美军再袭伊朗革命卫队霍尔木兹周边目标；伊朗向约旦/阿联酋/巴林/伊拉克/科威特美军基地发射导弹（伊朗方面 18 死/142 伤，CGTN/伊朗卫生部）",
+      "9/9–9/10 美军阿帕奇在霍尔木兹附近遭伊朗无人机击落；美军 9/10 报复性空袭伊朗本土",
       "9/21 美军打击 Larak 岛火箭发射器；伊朗报复打击约旦/阿联酋美军基地",
-      "9/23 联合国大会期间美伊间接会谈；伊朗提若解除封锁 7 天内重开霍尔木兹；特朗普称「大选后会有协议」",
-      "9/24 布伦特单日 +4.4% 至 $103.61；伊朗给美方 4–5 天重开海峡期限",
-      "9/28 起 伊朗在霍尔木兹袭击走美方南线航道的 3 艘商船（含 LNG 运输船）→ 特朗普以「破坏停火」退出 7 天停火框架",
-      "9/28–9/30 美军 48 小时内打击伊朗 170+ 个目标（霍尔木兹周边军事设施）；撤销伊朗售油许可；万斯「敢打船就狠揍」、赫格塞思「会打得更深更广」",
-      "本周（至 10/4）卡塔尔斡旋下美伊继续谈判；特朗普称「我认为完了」又称伊方想要协议，双方仍就霍尔木兹通航框架拉扯",
-      "最新民调：特朗普支持率跌至 32%（生涯最低），仅 34% 美国人赞成对伊空袭"
+      "9/23 联大期间美伊间接会谈；伊朗提若解除封锁 7 天内重开霍尔木兹",
+      "9/26 特朗普拒绝伊朗 7 天停火提案；美军打击伊朗约 10 个目标（回应无人机袭油轮）",
+      "9/27 美军连续第二天打击伊朗约 10 个目标；伊朗威胁「地狱」式回击",
+      "9/28 美军对阿巴斯港附近无人机地面控制站做短暂防御性空袭、击落数架无人机；伊朗革命卫队称打击科威特/巴林美军基地；Centcom 称 9/28–29 未对伊朗本土发起岸上打击",
+      "9/28–9/30 卡塔尔斡旋下美伊继续分别与调解方接触，冲突呈「有限互袭 + 谈判」拉锯，未全面升级",
+      "民调：特朗普支持率 32%（Reuters/Ipsos 9/21，生涯最低；RCP 等均值 9/28 约 38%）· 仅 34% 美国人赞成对伊空袭"
     ],
     "scenarios": [
       {
         "name": "长期低烈度对峙（现状延续）",
-        "prob": 30,
-        "note": "美军周期性「割草式」打击 + 伊朗水雷/无人机/袭船维持航道风险；但 9/28 升级后强度显著抬升。",
+        "prob": 45,
+        "note": "美军周期性「割草式」有限打击 + 伊朗水雷/无人机/袭船维持航道风险；9/26–9/28 后强度未显著抬升，仍属可控互袭。",
         "name_en": "Prolonged low-intensity standoff (status quo)",
-        "note_en": "US periodic 'mowing-grass' strikes + Iran mines/drones/ship attacks keep lane risk; but intensity jumped after 9/28."
+        "prob_en": 45,
+        "note_en": "US periodic limited 'mowing-grass' strikes + Iran mines/drones/ship attacks keep lane risk; intensity did not materially rise after 9/26–9/28, still contained."
       },
       {
         "name": "不稳定停火",
-        "prob": 20,
+        "prob": 25,
         "note": "因经济或内外压力暂停军事行动但无全面协议；卡塔尔斡旋下的脆弱窗口。",
         "name_en": "Unstable ceasefire",
-        "note_en": "Pause military action under economic/internal pressure but no comprehensive deal; fragile Qatar-brokered window."
+        "prob_en": 25,
+        "note_en": "Pause under economic/internal pressure but no comprehensive deal; fragile Qatar-brokered window."
       },
       {
         "name": "冲突扩大（含能源设施/地面部队）",
-        "prob": 35,
-        "note": "误判升级链：打击—报复—扩大。伊朗可打击海湾能源设施；美或被逼引入地面部队，五角大楼已警告弹药缺口。9/28 170+ 目标打击已逼近此情景。",
+        "prob": 20,
+        "note": "误判升级链：打击—报复—扩大。伊朗可打击海湾能源设施；美或被逼引入地面部队，五角大楼已警告弹药缺口。9/26–9/28 的有限打击若失控才逼近此情景。",
         "name_en": "Conflict expands (energy facilities / ground troops)",
-        "note_en": "Miscalculation escalation chain: strike–retaliate–expand. Iran can hit Gulf energy facilities; US may be forced to introduce ground troops; Pentagon already warned of ammo shortfall. The 170+ target strike on 9/28 is approaching this scenario."
+        "prob_en": 20,
+        "note_en": "Miscalculation chain: strike–retaliate–expand. Iran can hit Gulf energy facilities; US may be forced to introduce ground troops; Pentagon warned of ammo shortfall. The 9/26–9/28 limited strikes only approach this if they spiral."
       },
       {
         "name": "谈判解决",
-        "prob": 15,
-        "note": "恢复 MoU 框架，以解除封锁/制裁换霍尔木兹重开 + 核谈判；当前双方仍谈判但互信极低。",
+        "prob": 10,
+        "note": "恢复 MoU 框架，以解除封锁/制裁换霍尔木兹重开 + 核谈判；当前双方仍谈判但互信极低，特朗普已拒 7 天提案。",
         "name_en": "Negotiated settlement",
-        "note_en": "Restore MoU framework: lift blockade/sanctions for Hormuz reopening + nuclear talks; both still talking but trust is very low."
+        "prob_en": 10,
+        "note_en": "Restore MoU: lift blockade/sanctions for Hormuz reopening + nuclear talks; both still talking but trust very low; Trump already rejected the 7-day proposal."
       }
     ],
     "facts": [
-      "霍尔木兹：战前承担全球约 20% 石油与 LNG 运输；伊朗称海峡「完全关闭」，日均 100+ 艘 → 现仅个位数船只通行",
-      "油价：布伦特 9/24 触及 $103.61（伊朗措辞升级），近期 $95–97；阿曼原油已破 $100；10 月均价升至 $87.84（9 月 $76.36）",
-      "最新升级（9/28 起）：伊朗袭 3 艘霍尔木兹商船（含 LNG 船）→ 特朗普拒 7 天停火、美军 48h 内打击 170+ 目标、撤销伊朗售油许可",
-      "特朗普支持率跌至 32%（路透/益普索，生涯最低），仅 34% 美国人赞成对伊空袭；执政党中期选举承压",
-      "伊朗原油出口由 3 月 ~200 万桶/日 崩至 8 月 ~22–25 万桶/日；CBO 估算美军行动耗资约 $380 亿；五角大楼确认弹药库存战略缺口",
-      "美军伤亡截至 9/3 累计 18 死 / 767 伤；中东部署超 5 万人（9/28 升级后预计上升，暂无官方更新）"
+      "霍尔木兹：战前承担全球约 20% 石油与 LNG 运输；伊朗称海峡「完全关闭」，日均 100+ 艘 → 现仅个位数船只通行（Kpler）",
+      "油价：布伦特 9/24 触及 $103.67（TradingEconomics）；WTI 约 $92.66；阿曼/迪拜原油已破 $100；10 月均价约 $87.84（9 月 $76.36）",
+      "伤亡（更正）：伊朗方面 8/30–9/2 美袭 18 死 / 142 伤（伊朗卫生部）；美军累计伤员约 624（2 月开战以来，9/28 GlobalSecurity 统计），无大规模美军阵亡公开数据",
+      "特朗普支持率：32%（Reuters/Ipsos 9/21，生涯最低）· 但 RCP 等均值 9/28 已回到约 38%；仅 34% 美国人赞成对伊空袭",
+      "伊朗原油出口由 3 月 ~200 万桶/日 崩至 8 月 ~22–25 万桶/日；五角大楼确认弹药库存战略缺口（拦截弹消耗过半）",
+      "9/26–9/28 实际打击规模有限：美军累计约 20 个目标（26 日~10 + 27 日~10 + 28 日短暂防御性空袭），非此前误传的「48h 170+ 目标」"
     ],
     "midterm_impact": "战争是中期选举核心议题之一：① 经济端——霍尔木兹封锁推高油气价格、加剧通胀，对执政党不利；② 民意端——多数美国人反对战事（仅 34% 赞成空袭），削弱特朗普基本盘；③ 若扩大为全面战争或美军重大伤亡，将显著改写选举格局。模型与市场的「民主党夺回两院」定价已部分计入此风险。",
     "risk": "关键红线：美军重大伤亡、大型油轮被击沉、海湾能源设施遭重创——任一发生都可能触发特朗普所称「更大打击」，从威慑变现实。",
     "kpis": [
       {
         "k": "布伦特原油",
-        "v": "$103.6 (9/24 峰值)",
+        "v": "$103.7 (9/24)",
         "s": "近期 $95–97",
         "k_en": "Brent crude",
         "s_en": "recent $95–97"
       },
       {
-        "k": "美军打击目标",
-        "v": "170+ (48h)",
-        "s": "9/28 起",
-        "k_en": "US targets struck",
-        "s_en": "since 9/28"
-      },
-      {
         "k": "特朗普支持率",
-        "v": "32%",
-        "s": "生涯最低",
+        "v": "38% (均值9/28)",
+        "s": "Reuters/Ipsos 9/21 曾跌至 32% 生涯最低",
         "k_en": "Trump approval",
-        "s_en": "career low"
+        "s_en": "Reuters/Ipsos 9/21 hit 32% career low"
       },
       {
         "k": "赞成空袭比例",
         "v": "34%",
         "s": "美国人",
-        "k_en": "Approve airstrikes",
+        "k_en": "Approve strikes",
         "s_en": "Americans"
+      },
+      {
+        "k": "9/26–27 美军打击",
+        "v": "约 20 目标",
+        "s": "非 170+；9/28 有限防御性",
+        "k_en": "US targets 9/26–27",
+        "s_en": "not 170+; 9/28 limited"
       },
       {
         "k": "霍尔木兹",
         "v": "伊朗称完全关闭",
         "s": "日通行→个位数",
         "k_en": "Hormuz",
-        "s_en": "Iran claims fully closed"
+        "s_en": "Iran claims closed"
       },
       {
-        "k": "阿曼原油",
-        "v": "破 $100",
-        "s": "10月均价 $87.84",
-        "k_en": "Oman crude",
-        "s_en": "Oct avg $87.84"
+        "k": "美军累计伤员",
+        "v": "~624",
+        "s": "2月开战以来(9/28)",
+        "k_en": "US wounded",
+        "s_en": "since Feb (9/28)"
       }
     ],
     "as_of_en": "2026-09-30 (major escalation from 9/28)",
-    "source_en": "Compiled from Devdiscourse / Atlas360 / WSJ (via) / Anadolu / Reuters-Ipsos reports 9/28–9/30.",
-    "status_en": "Major escalation · US–Iran renewed large-scale exchanges (ceasefire framework collapsed)",
+    "source_en": "Compiled from CCTV/Xinhua, Global Times, Al Jazeera, Reuters/Ipsos, GlobalSecurity, TradingEconomics/FinanceFeeds, CENTCOM releases, 9/1–9/30. Corrected a prior mistaken '9/28 US 170+ target strike' claim — no authoritative source supports it; reality was limited tit-for-tat strikes.",
+    "status_en": "Limited tit-for-tat strikes continue · talks stalemate (ceasefire proposal rejected, no full escalation)",
     "timeline_en": [
-      "2/28 US–Israel struck Iran, regional conflict erupted",
-      "April: US–Iran ceasefire",
-      "June: signed MoU, intended to end conflict and negotiate",
-      "August: MoU collapsed and formally expired, fighting reignited",
-      "9/1 US struck IRGC Hormuz-area targets; Iran fired missiles at US bases in Jordan/UAE/Bahrain/Iraq/Kuwait",
-      "9/9–10 US Apache downed by Iranian drone near Hormuz; US retaliatory airstrikes on Iranian homeland 9/10",
+      "2/28 US–Israel struck Iran, regional conflict erupted (~7 months ago)",
+      "April: brief US–Iran ceasefire; June: signed MoU, intended to end conflict and talk nuclear",
+      "August: MoU collapsed and expired, fighting reignited",
+      "9/1–9/2 US struck IRGC Hormuz-area targets; Iran fired missiles at US bases in Jordan/UAE/Bahrain/Iraq/Kuwait (Iran: 18 killed / 142 wounded, CGTN/Iran Health Ministry)",
+      "9/9–9/10 US Apache downed by Iranian drone near Hormuz; US retaliatory airstrikes on Iranian homeland 9/10",
       "9/21 US struck Larak Island rocket launchers; Iran retaliated against Jordan/UAE US bases",
-      "9/23 Indirect US–Iran talks during UNGA; Iran offered to reopen Hormuz within 7 days if blockade lifted; Trump said 'deal after election'",
-      "9/24 Brent +4.4% intraday to $103.61; Iran gave US 4–5 day deadline to reopen strait",
-      "From 9/28: Iran attacked 3 merchant ships (incl. LNG carrier) on US-south Hormuz lane → Trump exited 7-day ceasefire framework citing 'ceasefire violation'",
-      "9/28–9/30 US struck 170+ Iranian targets within 48h (Hormuz-area facilities); revoked Iran oil-sale license; Vance 'hit hard if they hit ships', Hegseth 'deeper and wider'",
-      "This week (to 10/4) US–Iran continue talks via Qatar; Trump says 'I think it's over' yet 'they want a deal', both still haggling over Hormuz navigation framework",
-      "Latest poll: Trump approval fell to 32% (career low); only 34% of Americans approve of strikes on Iran"
+      "9/23 Indirect US–Iran talks during UNGA; Iran offered to reopen Hormuz within 7 days if blockade lifted",
+      "9/26 Trump rejected Iran's 7-day ceasefire proposal; US struck ~10 Iranian targets (response to drone hitting a tanker)",
+      "9/27 US struck ~10 more targets, second consecutive day; Iran threatened 'hellish' retaliation",
+      "9/28 US brief defensive airstrike on a drone ground-control station near Abbas Port, downed several drones; IRGC said it hit US bases in Kuwait/Bahrain; CENTCOM said no ashore strikes on Iran 9/28–29",
+      "9/28–9/30 Via Qatar, US and Iran separately kept talking with mediators; conflict a 'limited strikes + talks' stalemate, no full escalation",
+      "Poll: Trump approval 32% (Reuters/Ipsos 9/21, career low; RCP avg ~38% by 9/28) · only 34% of Americans approve strikes on Iran"
     ],
     "facts_en": [
-      "Hormuz: pre-war carried ~20% of global oil & LNG; Iran claims strait 'fully closed', daily 100+ ships → now only single digits",
-      "Oil: Brent hit $103.61 on 9/24 (Iran rhetoric escalation), recent $95–97; Oman crude broke $100; Oct avg rose to $87.84 (Sept $76.36)",
-      "Latest escalation (from 9/28): Iran hit 3 Hormuz merchant ships (incl. LNG) → Trump rejected 7-day ceasefire, US struck 170+ targets in 48h, revoked Iran oil-sale license",
-      "Trump approval fell to 32% (Reuters/Ipsos, career low); only 34% of Americans approve of strikes on Iran; incumbent party under midterm pressure",
-      "Iran crude exports collapsed from ~2.0M b/d in March to ~0.22–0.25M b/d in Aug; CBO estimates ~$38B in US operation costs; Pentagon confirms strategic ammo-stockpile gap",
-      "US casualties as of 9/3: 18 dead / 767 wounded; 50k+ deployed in Middle East (expected to rise after 9/28 escalation, no official update yet)"
+      "Hormuz: pre-war carried ~20% of global oil & LNG; Iran claims strait 'fully closed', daily 100+ ships → now only single digits (Kpler)",
+      "Oil: Brent hit $103.67 on 9/24 (TradingEconomics); WTI ~$92.66; Oman/Dubai crude broke $100; Oct avg ~$87.84 (Sept $76.36)",
+      "Casualties (corrected): Iran 18 killed / 142 wounded from 8/30–9/2 US strikes (Iran Health Ministry); US cumulative wounded ~624 since Feb (GlobalSecurity 9/28), no large-scale US KIA publicly reported",
+      "Trump approval: 32% (Reuters/Ipsos 9/21, career low) · but RCP-type averages back to ~38% by 9/28; only 34% of Americans approve strikes on Iran",
+      "Iran crude exports collapsed from ~2.0M b/d in March to ~0.22–0.25M b/d in Aug; Pentagon confirms strategic ammo-stockpile gap (interceptors >half consumed)",
+      "Actual 9/26–9/28 scale was limited: US struck ~20 targets total (≈10 on 9/26 + ≈10 on 9/27 + a brief 9/28 defensive strike), NOT the previously misreported '170+ in 48h'"
     ],
     "midterm_impact_en": "War is a core midterm issue: ① Economic — Hormuz blockade pushes up oil/gas prices, worsens inflation, hurts the incumbent party; ② Public opinion — most Americans oppose the war (only 34% approve strikes), weakening Trump's base; ③ if it expands into full war or major US casualties, it would significantly reshape the election. Models and markets' 'Dem retake both chambers' pricing already partially prices in this risk.",
     "risk_en": "Key red lines: major US casualties, a large tanker sunk, Gulf energy facilities heavily hit — any of these could trigger Trump's 'bigger strike', turning deterrence into reality."
@@ -1164,8 +1193,43 @@ const SEED = {
         "key_en": "Flip to D needs surprise"
       }
     ]
+  },
+  "sources": {
+    "as_of": "2026-09-30",
+    "items": [
+      {
+        "cat": "模型 / 民调聚合",
+        "cat_en": "Models / poll aggregators",
+        "list": "FiftyPlusOne(Substack)、The Economist、Nate Silver·FLIPR、Split Ticket/The Argument、Race to the WH、DDHQ、Scrutinel、Pollcast、Smarter.vote、VoteHub、Election Statsheet、VotePredictor"
+      },
+      {
+        "cat": "预测市场",
+        "cat_en": "Prediction markets",
+        "list": "Kalshi、Polymarket、PredictIt、Robinhood（Balance of Power 合约）；数据经 Cloudflare 边缘 /api/market 代理"
+      },
+      {
+        "cat": "美伊战争",
+        "cat_en": "US–Iran war",
+        "list": "CCTV/央视网、新华社、环球时报、Al Jazeera、Reuters/Ipsos、GlobalSecurity Oprep、TradingEconomics/FinanceFeeds、美军中央司令部公报"
+      },
+      {
+        "cat": "美联储",
+        "cat_en": "Federal Reserve",
+        "list": "CME FedWatch、NY Fed(Williams)、S&P Global PMI、Reuters、新浪财经、每日经济新闻"
+      },
+      {
+        "cat": "两党 / 初选",
+        "cat_en": "Parties / primaries",
+        "list": "POLITICO、AP/凤凰网、新华社环球、Ahram、USA Today、Cook Political Report、Sabato's Crystal Ball、Inside Elections"
+      }
+    ],
+    "correction": "重要更正（2026-09-30）：此前版本称「9/28 美军 48 小时打击伊朗 170+ 目标、重大升级」。经核查 CCTV/环球/Al Jazeera/GlobalSecurity 等权威信源，该说法无依据——9/26–9/28 实际为有限互袭（美军约 20 个目标 + 9/28 短暂防御性空袭），Centcom 明确 9/28–29 未对伊朗本土岸上打击。已据实更正。",
+    "correction_en": "Important correction (2026-09-30): an earlier version claimed 'US struck 170+ Iranian targets in 48h on 9/28, major escalation.' Per CCTV/Global Times/Al Jazeera/GlobalSecurity, no source supports this; the reality 9/26–9/28 was limited tit-for-tat strikes (~20 targets + a brief 9/28 defensive strike); CENTCOM confirmed no ashore strikes 9/28–29. Corrected.",
+    "disclaimer": "本盘为方法学 / 数据聚合展示，所有百分比来自公开模型与报道快照，存在时效与口径差异；不构成任何选举、投资或行动建议。",
+    "disclaimer_en": "This board is a methodology / data-aggregation display. All percentages come from public models and report snapshots, with timing and scope differences; it does not constitute any election, investment, or action advice."
   }
 };
+
 let DATA = SEED;
 let LIVE = false;
 
@@ -1215,7 +1279,7 @@ const I18N = {
     ex_why:"为什么模型比评级更看多民主党：",
     pd_dem_title:"民主党内部矛盾", pd_rep_title:"共和党内部矛盾", pd_dem_tag:"Democrat", pd_rep_tag:"Republican",
     pc_dem_opp:"民主党 · 机会", pc_dem_flaw:"民主党 · 缺陷", pc_rep_opp:"共和党 · 机会", pc_rep_flaw:"共和党 · 缺陷",
-    ir_timeline:"战事时间线", ir_scenarios:"情景概率（国会研究处 CRS 9/18 框架）", ir_facts:"关键事实",
+    ir_timeline:"战事时间线", ir_scenarios:"情景概率（编者研判）", ir_facts:"关键事实",
     ir_midterm:"对中期选举的影响：", ir_redline:"关键红线：",
     fed_rate_label:"当前联邦基金利率区间", fed_narrative:"叙事反转：",
     fed_mtg_base:"基准：", fed_midterm:"对中期选举的影响：", fed_watch:"盯盘清单：",
@@ -1225,9 +1289,16 @@ const I18N = {
     footer_method:"方法学说明：<a href=\"ANALYSIS.md\" target=\"_blank\" rel=\"noopener\">ANALYSIS.md</a> · 本盘展示各模型对「民主党夺回参众两院概率」的<b style=\"color:var(--amber)\">真实方法论分歧</b>，不做强行归一。数据仅供方法学研判，<b style=\"color:var(--amber)\">不构成任何选举或投资建议</b>。",
     footer_sub:"各模型公开读数截至 {date} · 部署于 Cloudflare 边缘",
     tk_title:"要点速览 · 当前读数",
+    ms_title:"模型谱系 · 共识区间",
+    ms_primary:"主模型(5)", ms_contrast:"对照模型(7)",
+    ms_house:"众院 D 胜率",
+    ms_senate:"参院 D 胜率",
+    ms_spread:"跨度 = 真实方法论分歧",
+    ms_note:"13 个模型 + 预测市场：众院民主党胜率从 {lo}% 到 {hi}%（中位 {med}%），参院从 {slo}% 到 {shi}%（中位 {smed}%）。跨度不是误差，是各模型对「全国波浪 vs 州级结构」「是否计入战争/利率冲击」的根本分歧。",
+    src_panel_title:"数据来源与方法 · 信息源清单",
     tk1:"众院：民主党夺回<b>几乎锁定</b>——预测市场 {hm}、模型均值 ~{avgH}%，中位席位约 {seats}（过半线 218）。",
     tk2:"参院：民主党处于<b>掷硬币区间</b>（模型均值 ~{avgS}%、市场 {sm}）；需净增 4 席，关键看缅因 / 北卡。",
-    tk3:"宏观风险：美伊战争 9/28 <b>重大升级</b>（霍尔木兹受威胁、油价破 $100），叠加美联储 9/16 意外加息，双重压制执政党。",
+    tk3:"宏观风险：美伊战争 9/26–9/28 呈<b>有限互袭 + 谈判拉锯</b>（非此前误传的「9/28 重大升级」），霍尔木兹受威胁、油价破 $100，叠加美联储 9/16 意外加息，双重压制执政党。",
     tk4:"守成逻辑：参议院逐州计票衰减全国浪潮，Sabato 仍看好 GOP 保多数——与民主党夺回<b>并存</b>，不是异端。"
   },
   en: {
@@ -1274,7 +1345,7 @@ const I18N = {
     ex_why:"Why models are more bullish than ratings: ",
     pd_dem_title:"Democratic intra-party rifts", pd_rep_title:"Republican intra-party rifts", pd_dem_tag:"Democrat", pd_rep_tag:"Republican",
     pc_dem_opp:"Democrats · Opportunities", pc_dem_flaw:"Democrats · Flaws", pc_rep_opp:"Republicans · Opportunities", pc_rep_flaw:"Republicans · Flaws",
-    ir_timeline:"War timeline", ir_scenarios:"Scenario probabilities (CRS 9/18 framework)", ir_facts:"Key facts",
+    ir_timeline:"War timeline", ir_scenarios:"Scenario probabilities (editorial estimate)", ir_facts:"Key facts",
     ir_midterm:"Impact on midterms: ", ir_redline:"Key red lines: ",
     fed_rate_label:"Current federal funds rate range", fed_narrative:"Narrative reversal: ",
     fed_mtg_base:"Base case: ", fed_midterm:"Impact on midterms: ", fed_watch:"Watch list: ",
@@ -1284,9 +1355,16 @@ const I18N = {
     footer_method:"Methodology: <a href=\"ANALYSIS.md\" target=\"_blank\" rel=\"noopener\">ANALYSIS.md</a> · This board shows the real methodological divergence among models on 'Democrat retake of House & Senate', with no forced normalization. Data is for methodological study only, <b style=\"color:var(--amber)\">not any election or investment advice</b>.",
     footer_sub:"Public model readings as of {date} · Deployed on Cloudflare edge",
     tk_title:"Key Takeaways · Current Read",
+    ms_title:"Model Landscape · Consensus Band",
+    ms_primary:"Primary (5)", ms_contrast:"Contrast (7)",
+    ms_house:"House D win",
+    ms_senate:"Senate D win",
+    ms_spread:"Spread = real methodological divergence",
+    ms_note:"13 models + markets: House Dem win from {lo}% to {hi}% (median {med}%), Senate from {slo}% to {shi}% (median {smed}%). The spread isn't error — it's the fundamental divergence on 'national wave vs state structure' and 'whether to price in war/rate shocks'.",
+    src_panel_title:"Sources & Method · Reference List",
     tk1:"House: Dem takeover is <b>all but locked</b> — prediction market {hm}, model mean ~{avgH}%, median seats ~{seats} (majority 218).",
     tk2:"Senate: Dems are in a <b>coin-flip band</b> (model mean ~{avgS}%, market {sm}); need net +4, hinges on Maine / N. Carolina.",
-    tk3:"Macro risk: US–Iran war hit <b>major escalation</b> on 9/28 (Hormuz threatened, oil broke $100), plus the Fed's surprise 9/16 hike — both weigh on the incumbent party.",
+    tk3:"Macro risk: the US–Iran conflict is a <b>limited tit-for-tat + talks stalemate</b> 9/26–9/28 (not the previously misreported '9/28 major escalation'); Hormuz threatened, oil broke $100, plus the Fed's surprise 9/16 hike — both weigh on the incumbent.",
     tk4:"Hold logic: the Senate counts state-by-state, damping the national wave; Sabato still favors GOP holding — coexisting with a Dem takeover, not heresy."
   }
 };
@@ -1294,6 +1372,22 @@ let lang = (function(){ try{return localStorage.getItem('lang')||'zh';}catch(e){
 function T(k){ var d=I18N[lang]||I18N.zh; return (d[k]!=null)?d[k]:(I18N.zh[k]!=null?I18N.zh[k]:k); }
 function Tf(k,map){ var s=T(k); for(var m in (map||{})){ s=s.split('{'+m+'}').join(map[m]); } return s; }
 function bi(o,k){ if(!o) return ''; return (lang==='en' && o[k+'_en']!=null)?o[k+'_en']:(o[k]!=null?o[k]:''); }
+function biArr(o,k){ if(!o) return []; var e=o[k+'_en']; if(lang==='en' && e!=null) return e; return (o[k]!=null)?o[k]:[]; }
+function spark(pts,color){
+  if(!pts||pts.length<2) return '';
+  var w=128,h=24,pad=3;
+  var vals=pts.map(function(p){return p.v;});
+  var mn=Math.min.apply(null,vals), mx=Math.max.apply(null,vals);
+  if(mx===mn){mx=mn+2;mn=mn-2;}
+  var n=pts.length;
+  var X=function(i){return pad+(w-2*pad)*(n===1?0.5:i/(n-1));};
+  var Y=function(v){return pad+(h-2*pad)*(1-(v-mn)/(mx-mn));};
+  var dpath=pts.map(function(p,i){return (i?'L':'M')+X(i).toFixed(1)+' '+Y(p.v).toFixed(1);}).join(' ');
+  var last=pts[pts.length-1];
+  return '<svg class="spark" width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'">'+
+    '<path d="'+dpath+'" fill="none" stroke="'+color+'" stroke-width="1.6" stroke-linejoin="round"/>'+
+    '<circle cx="'+X(n-1).toFixed(1)+'" cy="'+Y(last.v).toFixed(1)+'" r="2.2" fill="'+color+'"/></svg>';
+}
 function paintLangToggle(){
   var el=document.getElementById('langToggle'); if(!el) return;
   var opts=el.querySelectorAll('.lt-opt');
@@ -1399,14 +1493,14 @@ function renderIran(){
     (d.kpis||[]).map(function(x){return '<div class="cell"><div class="k">'+bi(x,'k')+'</div><div class="v">'+x.v+'</div>'+(x.s?'<div class="s">'+bi(x,'s')+'</div>':'')+'</div>';}).join('')+
   '</div>';
   var status='<div class="ir-status">⚠ '+bi(d,'status')+'<div class="s">'+bi(d,'as_of')+'</div></div>';
-  var tl='<div class="macro-h">'+T('ir_timeline')+'</div><ul class="tl">'+bi(d,'timeline').map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul>';
+  var tl='<div class="macro-h">'+T('ir_timeline')+'</div><ul class="tl">'+biArr(d,'timeline').map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul>';
   var scn='<div class="macro-h">'+T('ir_scenarios')+'</div><div class="scn">'+
     d.scenarios.map(function(s){
       return '<div class="scn-row"><div class="nm">'+bi(s,'name')+'</div><div class="pr">'+s.prob+'%</div></div>'+
              '<div class="scn-bar"><i style="width:'+s.prob+'%"></i></div>'+
              '<div style="font-size:10px;color:var(--muted);margin:-2px 0 4px">'+bi(s,'note')+'</div>';
     }).join('')+'</div>';
-  var facts='<div class="macro-h">'+T('ir_facts')+'</div><ul class="facts">'+bi(d,'facts').map(function(f){return '<li>'+f+'</li>';}).join('')+'</ul>';
+  var facts='<div class="macro-h">'+T('ir_facts')+'</div><ul class="facts">'+biArr(d,'facts').map(function(f){return '<li>'+f+'</li>';}).join('')+'</ul>';
   wrap.innerHTML = status + kpi + tl + scn + facts +
     '<div class="note" style="margin-top:12px"><b>'+T('ir_midterm')+'</b>'+bi(d,'midterm_impact')+'</div>'+
     '<div class="risk"><b>'+T('ir_redline')+'</b>'+bi(d,'risk')+'</div>'+
@@ -1467,8 +1561,8 @@ function renderTimeline(){
   var nodes=[
     {d:'09-16', cat:'fed',  tag_zh:'已发生', tag_en:'Past',
       lab_zh:'美联储加息至 3.75–4.00%', lab_en:'Fed hiked to 3.75–4.00%'},
-    {d:'09-28', cat:'iran', tag_zh:'已发生', tag_en:'Past',
-      lab_zh:'美伊冲突重大升级', lab_en:'US–Iran major escalation'},
+    {d:'09-26~28', cat:'iran', tag_zh:'已发生', tag_en:'Past',
+      lab_zh:'美伊有限互袭延续', lab_en:'US–Iran limited strikes continue'},
     {d:oct.replace('/','–'), cat:'fed', tag_zh:'待发生', tag_en:'Upcoming',
       lab_zh:'美联储 10 月会议 · 加息维持五五开', lab_en:'Fed Oct meeting · hike/hold ~50–50'},
     {d:ed.slice(5).replace('-','-'), cat:'elec', tag_zh:'待发生', tag_en:'Upcoming',
@@ -1489,6 +1583,34 @@ function renderTimeline(){
     '</div>';
   document.getElementById('roadWrap').innerHTML = html;
   document.getElementById('sec_road').innerHTML = T('sec_road');
+}
+function renderModelsSummary(){
+  var ms = DATA.models;
+  var hd = ms.filter(function(m){return m.house_d!=null;}).map(function(m){return m.house_d;});
+  var sd = ms.filter(function(m){return m.senate_d!=null;}).map(function(m){return m.senate_d;});
+  function stats(a){ a=a.slice().sort(function(x,y){return x-y;}); var n=a.length; var med=n%2?a[(n-1)/2]:((a[n/2-1]+a[n/2])/2); return {lo:a[0],hi:a[n-1],med:med}; }
+  var H=stats(hd), S=stats(sd);
+  var prim=ms.filter(function(m){return m.tier==='primary';}).length;
+  var con=ms.filter(function(m){return m.tier==='contrast';}).length;
+  var wrap=document.getElementById('modelsSummary'); if(!wrap) return;
+  wrap.innerHTML =
+    '<div class="ms-grid">'+
+      '<div class="ms-cell"><div class="k">'+T('ms_house')+'</div><div class="v">'+H.lo+'–'+H.hi+'%</div><div class="s">中位 '+H.med.toFixed(0)+'%</div></div>'+
+      '<div class="ms-cell"><div class="k">'+T('ms_senate')+'</div><div class="v">'+S.lo+'–'+S.hi+'%</div><div class="s">中位 '+S.med.toFixed(0)+'%</div></div>'+
+      '<div class="ms-cell"><div class="k">'+T('ms_primary')+'</div><div class="v">'+prim+'</div><div class="s">'+T('ms_contrast')+' '+con+'</div></div>'+
+    '</div>'+
+    '<div class="ms-note">'+Tf('ms_note',{lo:H.lo,hi:H.hi,med:H.med.toFixed(0),slo:S.lo,shi:S.hi,smed:S.med.toFixed(0)})+'<span class="ms-spread"> · '+T('ms_spread')+'</span></div>';
+}
+function renderSources(){
+  var s = DATA.sources; if(!s) return;
+  var wrap = document.getElementById('srcPanel'); if(!wrap) return;
+  var cats = (s.items||[]).map(function(it){
+    return '<div class="src-cat"><div class="src-cat-h">'+bi(it,'cat')+'</div><div class="src-list">'+bi(it,'list')+'</div></div>';
+  }).join('');
+  wrap.innerHTML =
+    '<div class="src-correction">⚠ '+bi(s,'correction')+'</div>'+
+    '<div class="src-cats">'+cats+'</div>'+
+    '<div class="src-disc">'+bi(s,'disclaimer')+'</div>';
 }
 function render(){
   document.documentElement.lang = (lang==='en')?'en':'zh';
@@ -1513,6 +1635,8 @@ function render(){
   document.getElementById('sec_party').textContent = T('sec_party');
   document.getElementById('sub_party').textContent = T('sub_party');
   document.getElementById('sec_macro').textContent = T('sec_macro');
+  document.getElementById('sec_models_summary').textContent = T('ms_title');
+  document.getElementById('sec_sources').textContent = T('src_panel_title');
   document.getElementById('note_arch').innerHTML = Tf('note_arch',{});
   document.getElementById('disc').innerHTML = Tf('disc',{date:DATA.updated_at.slice(0,10)});
   document.getElementById('footer').innerHTML = Tf('footer_method',{}) + '<br><span style="color:#6e5f48">'+Tf('footer_sub',{date:DATA.updated_at.slice(0,10)})+'</span>';
@@ -1585,6 +1709,7 @@ function render(){
           <div class="row"><span>${T('card_house_label')}</span><b>${hTxt}</b></div>
           <div class="bar"><div class="fill dem" data-w="${hd==null?0:hd}"></div></div>
           ${m.house_seats!=null?('<div class="seat">'+Tf('seat_house',{n:m.house_seats})+'</div>'):''}
+          ${spark(m.history&&m.history.house, '#e8a23d')}
           <div class="row" style="margin-top:10px"><span>${T('card_senate_label')}</span><b>${sTxt}</b>${sd!=null&&sd<50?('<small style="color:var(--rep)"> '+T('card_r_fav')+'</small>'):''}</div>
           <div class="bar"><div class="fill dem" data-w="${sd==null?0:sd}"></div></div>
           ${sd!=null?('<div class="seat">'+T('seat_senate')+'</div>'):''}
@@ -1602,9 +1727,11 @@ function render(){
   renderExpert();
   renderConflicts();
   renderProsCons();
+  renderModelsSummary();
   renderIran();
   renderFed();
   renderTimeline();
+  renderSources();
 }
 
 // ---- 时间序列：每个模型一个 series，date -> x ----
