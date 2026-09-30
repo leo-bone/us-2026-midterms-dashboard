@@ -603,6 +603,7 @@ const SEED = {
     "senate_d": 63,
     "sweep": 64,
     "as_of": "2026-09-30 跨平台共识",
+    "as_of_en": "2026-09-30 cross-platform consensus",
     "note": "Kalshi 9/30：民主党夺回众院 91%、夺回参院 61%；Polymarket「Balance of Power」民主席卷 62–66%（9/22 峰值 66%）。9 月下旬出现「民主党浪潮」跳涨（9/21 席卷单日 +13pp）。跨平台 D 众院 ~92%、D 参院 ~63%。本端点经 Cloudflare 边缘实时代理抓取，抓不到时回退此共识种子。",
     "realtime": true,
     "history": {
@@ -924,6 +925,7 @@ const SEED = {
         "v": "$103.7 (9/24)",
         "s": "近期 $95–97",
         "k_en": "Brent crude",
+        "v_en": "$103.7 (9/24)",
         "s_en": "recent $95–97"
       },
       {
@@ -931,6 +933,7 @@ const SEED = {
         "v": "38% (均值9/28)",
         "s": "Reuters/Ipsos 9/21 曾跌至 32% 生涯最低",
         "k_en": "Trump approval",
+        "v_en": "38% (avg 9/28)",
         "s_en": "Reuters/Ipsos 9/21 hit 32% career low"
       },
       {
@@ -938,6 +941,7 @@ const SEED = {
         "v": "34%",
         "s": "美国人",
         "k_en": "Approve strikes",
+        "v_en": "34%",
         "s_en": "Americans"
       },
       {
@@ -945,6 +949,7 @@ const SEED = {
         "v": "约 20 目标",
         "s": "非 170+；9/28 有限防御性",
         "k_en": "US targets 9/26–27",
+        "v_en": "~20 targets",
         "s_en": "not 170+; 9/28 limited"
       },
       {
@@ -952,17 +957,19 @@ const SEED = {
         "v": "伊朗称完全关闭",
         "s": "日通行→个位数",
         "k_en": "Hormuz",
-        "s_en": "Iran claims closed"
+        "v_en": "Iran claims fully closed",
+        "s_en": "daily traffic → single digits"
       },
       {
         "k": "美军累计伤员",
         "v": "~624",
         "s": "2月开战以来(9/28)",
         "k_en": "US wounded",
+        "v_en": "~624",
         "s_en": "since Feb (9/28)"
       }
     ],
-    "as_of_en": "2026-09-30 (major escalation from 9/28)",
+    "as_of_en": "2026-09-30 (limited strikes 9/26–9/28, no major escalation)",
     "source_en": "Compiled from CCTV/Xinhua, Global Times, Al Jazeera, Reuters/Ipsos, GlobalSecurity, TradingEconomics/FinanceFeeds, CENTCOM releases, 9/1–9/30. Corrected a prior mistaken '9/28 US 170+ target strike' claim — no authoritative source supports it; reality was limited tit-for-tat strikes.",
     "status_en": "Limited tit-for-tat strikes continue · talks stalemate (ceasefire proposal rejected, no full escalation)",
     "timeline_en": [
@@ -1076,6 +1083,7 @@ const SEED = {
         "v": "破 5%",
         "s": "2007 年来首次",
         "k_en": "5Y Treasury",
+        "v_en": "broke 5%",
         "s_en": "broke 5%, first since 2007"
       },
       {
@@ -1200,26 +1208,31 @@ const SEED = {
       {
         "cat": "模型 / 民调聚合",
         "cat_en": "Models / poll aggregators",
+        "list_en": "FiftyPlusOne (Substack), The Economist, Nate Silver · FLIPR, Split Ticket / The Argument, Race to the WH, DDHQ, Scrutinel, Pollcast, Smarter.vote, VoteHub, Election Statsheet, VotePredictor",
         "list": "FiftyPlusOne(Substack)、The Economist、Nate Silver·FLIPR、Split Ticket/The Argument、Race to the WH、DDHQ、Scrutinel、Pollcast、Smarter.vote、VoteHub、Election Statsheet、VotePredictor"
       },
       {
         "cat": "预测市场",
         "cat_en": "Prediction markets",
+        "list_en": "Kalshi, Polymarket, PredictIt, Robinhood (Balance of Power contracts); data via Cloudflare edge /api/market proxy",
         "list": "Kalshi、Polymarket、PredictIt、Robinhood（Balance of Power 合约）；数据经 Cloudflare 边缘 /api/market 代理"
       },
       {
         "cat": "美伊战争",
         "cat_en": "US–Iran war",
+        "list_en": "CCTV / CCTV.com, Xinhua, Global Times, Al Jazeera, Reuters/Ipsos, GlobalSecurity Oprep, TradingEconomics / FinanceFeeds, US CENTCOM releases",
         "list": "CCTV/央视网、新华社、环球时报、Al Jazeera、Reuters/Ipsos、GlobalSecurity Oprep、TradingEconomics/FinanceFeeds、美军中央司令部公报"
       },
       {
         "cat": "美联储",
         "cat_en": "Federal Reserve",
+        "list_en": "CME FedWatch, NY Fed (Williams), S&P Global PMI, Reuters, Sina Finance, National Business Daily",
         "list": "CME FedWatch、NY Fed(Williams)、S&P Global PMI、Reuters、新浪财经、每日经济新闻"
       },
       {
         "cat": "两党 / 初选",
         "cat_en": "Parties / primaries",
+        "list_en": "POLITICO, AP / ifeng, Xinhua Global, Ahram, USA Today, Cook Political Report, Sabato's Crystal Ball, Inside Elections",
         "list": "POLITICO、AP/凤凰网、新华社环球、Ahram、USA Today、Cook Political Report、Sabato's Crystal Ball、Inside Elections"
       }
     ],
@@ -1229,6 +1242,9 @@ const SEED = {
     "disclaimer_en": "This board is a methodology / data-aggregation display. All percentages come from public models and report snapshots, with timing and scope differences; it does not constitute any election, investment, or action advice."
   }
 };
+
+
+
 
 let DATA = SEED;
 let LIVE = false;
@@ -1252,7 +1268,7 @@ const I18N = {
     sub_party:"综合 POLITICO、美联社/凤凰网、新华社环球、Ahram、USA Today 等 2026 公开报道与初选结果整理。模型概率是“天气”，党内裂缝与暴露面是“地形”——后者才是概率之外的真实变量。",
     mode_demo:"演示模式", mode_live:"实时",
     hero_range_label:"众院·民主党胜率区间", hero_mean_label:"模型均值 / 中位",
-    hero_market_label:"预测市场·众院", hero_senate_label:"参院·民主党胜率（模型均值）", hero_seats_label:"众院·民主党中位席位",
+    hero_market_label:"预测市场·众院", hero_senate_label:"参院·民主党胜率（模型均值）", hero_seats_label:"众院·民主党中位席位", hero_dem:"民主党", hero_coin:"掷硬币区间", hero_seats_sub:"模型点位（过半 218）", hero_span:"跨", hero_mean_sub:"均值 · 中位", hero_seats_unit:"席",
     hero_note:"最谨慎 <b style=\"color:var(--rep)\">Election Statsheet {lo}%</b> ↔ 最乐观 <b style=\"color:var(--dem)\">FiftyPlusOne/Pollcast {hi}%</b>。这不是误差，是<b style=\"color:var(--amber)\">真实方法论分歧</b> —— 本盘展示分歧本身。",
     pulse_senate_label:"参议院 · 民主党", pulse_sweep_label:"民主席卷（同赢两院）",
     pulse_center_label:"市场 vs 模型中枢", pulse_center_sub:"市场比 {avg} 模型均值更看多民主党",
@@ -1293,7 +1309,7 @@ const I18N = {
     ms_primary:"主模型(5)", ms_contrast:"对照模型(7)",
     ms_house:"众院 D 胜率",
     ms_senate:"参院 D 胜率",
-    ms_spread:"跨度 = 真实方法论分歧",
+    ms_spread:"跨度 = 真实方法论分歧", ms_median:"中位",
     ms_note:"13 个模型 + 预测市场：众院民主党胜率从 {lo}% 到 {hi}%（中位 {med}%），参院从 {slo}% 到 {shi}%（中位 {smed}%）。跨度不是误差，是各模型对「全国波浪 vs 州级结构」「是否计入战争/利率冲击」的根本分歧。",
     src_panel_title:"数据来源与方法 · 信息源清单",
     tk1:"众院：民主党夺回<b>几乎锁定</b>——预测市场 {hm}、模型均值 ~{avgH}%，中位席位约 {seats}（过半线 218）。",
@@ -1311,17 +1327,17 @@ const I18N = {
     sec_senate_topic:"Senate Deep-Dive · Dem's \"4-Seat Path\" & GOP's \"Hold\"",
     sec_div:"Current Divergence Snapshot · House Dem Win", sec_expert:"Models vs Expert Ratings · Where the Divide Really Is",
     sec_party:"Intra-Party Rifts · Opportunities & Flaws", sec_macro:"Key Macro Variables · Impact on Midterms", sec_road:"Key Dates · Road to Election Day",
-    sub_cards:"Five target models + seven contrast models (incl. market basis). Badges: Auto = script-parseable · Semi = anti-scrape/paywall · Pending = needs headless",
-    sub_house:"Sampling points from public reports (not native daily series); models with ≥2 points are connected, single points shown as dots. Market is true second-level stream (snapshot from public reports here)",
+    sub_cards:"Five target models + seven contrast models (incl. market baseline). Badges: Auto = script-parseable · Semi = anti-scrape/paywall · Pending = needs headless capture",
+    sub_house:"Sampling points from public reports (not native daily series); models with ≥2 points are connected, single points shown as dots. Market is real-time stream (snapshot from public reports here)",
     sub_senate_topic:"Structural facts + the three major rating agencies (Cook / Sabato / Inside Elections) vs models, Sept 2026. Senate is counted state-by-state, not a national wave",
-    sub_expert:"Statistical models (Economist / Silver / FiftyPlusOne etc.) map the national popular-vote lead directly into win odds; state-by-state rating agencies (Cook / Sabato / Inside Elections) are more conservative. Both coexist — the divergence itself is the core this board shows.",
+    sub_expert:"Statistical models (Economist / Silver / FiftyPlusOne etc.) map the national popular-vote lead directly into win odds; state-by-state rating agencies (Cook / Sabato / Inside Elections) are more conservative. Both coexist — the divergence itself is the core that this board shows.",
     sub_party:"Compiled from POLITICO, AP/ifeng, Xinhua Global, Ahram, USA Today and other 2026 public reports and primary results. Model probabilities are 'weather'; intra-party cracks and exposure are 'terrain' — the latter are the real variable beyond the probabilities.",
     mode_demo:"Demo mode", mode_live:"Live",
     hero_range_label:"House · Dem win range", hero_mean_label:"Model mean / median",
-    hero_market_label:"Prediction market · House", hero_senate_label:"Senate · Dem win (model mean)", hero_seats_label:"House · Dem median seats",
-    hero_note:"Most cautious <b style=\"color:var(--rep)\">Election Statsheet {lo}%</b> ↔ most optimistic <b style=\"color:var(--dem)\">FiftyPlusOne/Pollcast {hi}%</b>. This is not error, it is a <b style=\"color:var(--amber)\">real methodological divergence</b> — this board shows the divergence itself.",
+    hero_market_label:"Prediction market · House", hero_senate_label:"Senate · Dem win (model mean)", hero_seats_label:"House · Dem median seats", hero_dem:"Dem", hero_coin:"coin-flip band", hero_seats_sub:"model points (majority 218)", hero_span:"span", hero_mean_sub:"mean · median", hero_seats_unit:"seats",
+    hero_note:"Most cautious <b style=\"color:var(--rep)\">Election Statsheet {lo}%</b> ↔ most optimistic <b style=\"color:var(--dem)\">FiftyPlusOne/Pollcast {hi}%</b>. This is not an error, it is a <b style=\"color:var(--amber)\">real methodological divergence</b> — this board shows the divergence itself.",
     pulse_senate_label:"Senate · Dem", pulse_sweep_label:"Democratic Sweep (win both chambers)",
-    pulse_center_label:"Market vs Model Center", pulse_center_sub:"Market more bullish on Dems than {avg} model mean",
+    pulse_center_label:"Market vs Model Center", pulse_center_sub:"Market more bullish on Dems than the model mean",
     pulse_live:"Live stream · ", pulse_demo:"Snapshot seed (demo drift) · ",
     card_house_label:"House · Dem win prob", card_senate_label:"Senate · Dem win prob", card_r_fav:"R fav",
     seat_house:"↳ Dem projected ~{n} seats (majority 218)", seat_senate:"↳ Flip needs net +4 → 51 (incl. 2 independents)",
@@ -1332,14 +1348,14 @@ const I18N = {
     rangebar:"Model House Dem prob range: <b>{lo}%</b> – <b>{hi}%</b> (median/mean <b>{med}%</b>) · span <b>{span} pt</b> = real methodological divergence",
     sm_threshold_label:"Dem retake threshold", sm_gop_seats_label:"Seats up · party split",
     sm_senate_mean_label:"Senate · model mean", sm_house_mean_label:"vs · House mean",
-    sm_th_state:"Battleground", sm_th_held:"Held by", sm_th_rating:"Rating (Cook/IE)", sm_th_key:"Key",
-    sm_held_r:"GOP holds", sm_held_d:"Dem holds",
+    sm_th_state:"Battleground", sm_th_held:"Held by", sm_th_rating:"Rating (Cook / Inside Elections)", sm_th_key:"Key",
+    sm_held_r:"GOP", sm_held_d:"Dem",
     sm_path_dem_title:"Dem takeover (need net +4)",
-    sm_path_dem_body:"First take <b>North Carolina + Maine</b>, then win 2 of <b>Ohio / Alaska / Michigan</b>, while holding <b>Georgia, New Hampshire, Minnesota</b>. This bets that the national wave (Dems lead national PV by 8-9pt, Trump approval ~33%) pierces state-level structure.",
+    sm_path_dem_body:"First take <b>North Carolina + Maine</b>, then win 2 of <b>Ohio / Alaska / Michigan</b>, while holding <b>Georgia, New Hampshire, Minnesota</b>. This banks on the national wave (Dems lead national PV by 8-9pt, Trump approval ~33%) pierces state-level structure.",
     sm_path_rep_title:"GOP hold (slim edge)",
     sm_path_rep_body:"Just hold the current map. Logic: <b>Senate counts state-by-state</b>, so the national wave is dampened by state structure; if Dems drop 1-2 of <b>Georgia/Michigan/New Hampshire</b>, even winning NC+Maine isn't enough. Sabato's Crystal Ball still favors GOP holding the majority.",
     sm_why_title:"Why the two chambers diverge so much",
-    sm_why_body:"The House is a <b>direct map</b> of the national wave (model mean {h}%, near-certain); the Senate is the <b>stack of 35 state-by-state races</b>, dampened by state structure (model mean {s}%, a real coin-flip). <b>GOP 'slim hold of the Senate' is a real baseline scenario coexisting with a Dem takeover — not heresy.</b>",
+    sm_why_body:"The House is a <b>direct map</b> of the national wave (model mean {h}%, near-certain); the Senate is the <b>stack of 35 state-by-state races</b>, dampened by state structure (model mean {s}%, a real coin-flip). <b>GOP's slim hold of the Senate is a real baseline scenario coexisting with a Dem takeover — not heresy.</b>",
     ex_k1:"Model-implied · House D gain", ex_k2:"Model · House D win", ex_k3:"Model · Senate D win", ex_k4:"Expert-rating-implied · House gain",
     ex_th_rater:"Rating agency", ex_th_house:"House D gain", ex_th_senate:"Senate view", ex_th_note:"Note",
     ex_why:"Why models are more bullish than ratings: ",
@@ -1350,8 +1366,8 @@ const I18N = {
     fed_rate_label:"Current federal funds rate range", fed_narrative:"Narrative reversal: ",
     fed_mtg_base:"Base case: ", fed_midterm:"Impact on midterms: ", fed_watch:"Watch list: ",
     legend_single:"○ single-point sample · — line = ≥2-point trajectory", legend_live:"(live)",
-    note_arch:"Architecture & scope: prediction markets (Kalshi/Polymarket) are the dashboard's only second-level streaming source; all other statistical models are recomputed on schedules (FiftyPlusOne 4x/day, Economist daily, Silver near-daily, Split Ticket weekly, DDHQ/Scrutinel daily). The front-end uses animation to present 'discrete snapshots' as 'continuous flow' — this is exactly what every 'live election board' on the market does. The models span <b>55% (Election Statsheet) to 98% (FiftyPlusOne/Pollcast)</b> on 'Democrat House probability' — this is a <b>real methodological divergence</b>, not error; this board shows the divergence itself, with no forced normalization. Race to the WH's topline sits in a Squarespace <b>iframe</b>, static HTML has no numbers, and headless refresh is unreliable; we added its real <b>2026-08-11 forum-cited Senate snapshot (57.6%→58%)</b>, while the 80% House figure is an <b>estimate</b> based on its methodology (its House page is not scrapable). Data is for methodological study only and <b>does not constitute any election or investment advice</b>.",
-    disc:"Figures from each model's public page/interview and public reports (as of {date}) · prediction-market figures are cross-platform consensus snapshots, refreshable as true streaming via the Cloudflare edge proxy (/api/market)",
+    note_arch:"Architecture & scope: prediction markets (Kalshi/Polymarket) are the dashboard's only real-time streaming source; all other statistical models are recomputed on schedules (FiftyPlusOne 4x/day, Economist daily, Silver near-daily, Split Ticket weekly, DDHQ/Scrutinel daily). The front-end uses animation to present 'discrete snapshots' as 'continuous flow' — this is exactly what every 'live election board' on the market does. The models span <b>55% (Election Statsheet) to 98% (FiftyPlusOne/Pollcast)</b> on 'Democrat House probability' — this is a <b>real methodological divergence</b>, not an error; this board shows the divergence itself, with no forced normalization. Race to the WH's topline sits in a Squarespace <b>iframe</b>, static HTML has no numbers, and headless refresh is unreliable; we added its real <b>2026-08-11 forum-cited Senate snapshot (57.6%→58%)</b>, while the 80% House figure is an <b>estimate</b> based on its methodology (its House page is not scrapable). Data is for methodological study only and <b>does not constitute any election or investment advice</b>.",
+    disc:"Figures from each model's public page/interview and public reports (as of {date}) · prediction-market figures are cross-platform consensus snapshots, refreshable as live streaming via the Cloudflare edge proxy (/api/market)",
     footer_method:"Methodology: <a href=\"ANALYSIS.md\" target=\"_blank\" rel=\"noopener\">ANALYSIS.md</a> · This board shows the real methodological divergence among models on 'Democrat retake of House & Senate', with no forced normalization. Data is for methodological study only, <b style=\"color:var(--amber)\">not any election or investment advice</b>.",
     footer_sub:"Public model readings as of {date} · Deployed on Cloudflare edge",
     tk_title:"Key Takeaways · Current Read",
@@ -1359,12 +1375,12 @@ const I18N = {
     ms_primary:"Primary (5)", ms_contrast:"Contrast (7)",
     ms_house:"House D win",
     ms_senate:"Senate D win",
-    ms_spread:"Spread = real methodological divergence",
-    ms_note:"13 models + markets: House Dem win from {lo}% to {hi}% (median {med}%), Senate from {slo}% to {shi}% (median {smed}%). The spread isn't error — it's the fundamental divergence on 'national wave vs state structure' and 'whether to price in war/rate shocks'.",
+    ms_spread:"Spread = real methodological divergence", ms_median:"median",
+    ms_note:"13 models + markets: House Dem win from {lo}% to {hi}% (median {med}%), Senate from {slo}% to {shi}% (median {smed}%). The spread isn't an error — it's the fundamental divergence on 'national wave vs state structure' and 'whether to price in war/rate shocks'.",
     src_panel_title:"Sources & Method · Reference List",
     tk1:"House: Dem takeover is <b>all but locked</b> — prediction market {hm}, model mean ~{avgH}%, median seats ~{seats} (majority 218).",
     tk2:"Senate: Dems are in a <b>coin-flip band</b> (model mean ~{avgS}%, market {sm}); need net +4, hinges on Maine / N. Carolina.",
-    tk3:"Macro risk: the US–Iran conflict is a <b>limited tit-for-tat + talks stalemate</b> 9/26–9/28 (not the previously misreported '9/28 major escalation'); Hormuz threatened, oil broke $100, plus the Fed's surprise 9/16 hike — both weigh on the incumbent.",
+    tk3:"Macro risk: the US–Iran situation is a <b>limited tit-for-tat strikes plus a stalled negotiation</b> 9/26–9/28 (not the previously misreported '9/28 major escalation'); Hormuz threatened, oil broke $100, plus the Fed's surprise 9/16 hike — both weigh on the incumbent.",
     tk4:"Hold logic: the Senate counts state-by-state, damping the national wave; Sabato still favors GOP holding — coexisting with a Dem takeover, not heresy."
   }
 };
@@ -1418,6 +1434,7 @@ fetch('data.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(j=>{
     DATA.markets.senate_d=m.senate_d;
     if(m.sweep!=null) DATA.markets.sweep=m.sweep;
     DATA.markets.as_of='实时 · '+m.as_of;
+    DATA.markets.as_of_en='Live · '+m.as_of;
     DATA.markets.note=m.source;
     LIVE=true;
   }
@@ -1444,15 +1461,15 @@ function renderExpert(){
   var rows=ex.raters.map(function(r){
     return '<tr>'+
       '<td><b>'+r.name+'</b><div style="color:var(--muted);font-size:10px">'+bi(r,'stance')+'</div></td>'+
-      '<td style="color:var(--dem);font-weight:600">'+r.house_d_gain+'</td>'+
+      '<td style="color:var(--dem);font-weight:600">'+bi(r,'house_d_gain')+'</td>'+
       '<td>'+bi(r,'senate')+'</td>'+
       '<td style="color:var(--muted)">'+bi(r,'note')+'</td></tr>';
   }).join('');
   wrap.innerHTML =
     '<div class="sen-kpi">'+
-      '<div class="cell"><div class="k">'+T('ex_k1')+'</div><div class="v">'+mi.house_d_gain+'</div></div>'+
-      '<div class="cell"><div class="k">'+T('ex_k2')+'</div><div class="v">'+mi.house_d_prob+'</div></div>'+
-      '<div class="cell"><div class="k">'+T('ex_k3')+'</div><div class="v">'+mi.senate_d_prob+'</div></div>'+
+      '<div class="cell"><div class="k">'+T('ex_k1')+'</div><div class="v">'+bi(mi,'house_d_gain')+'</div></div>'+
+      '<div class="cell"><div class="k">'+T('ex_k2')+'</div><div class="v">'+bi(mi,'house_d_prob')+'</div></div>'+
+      '<div class="cell"><div class="k">'+T('ex_k3')+'</div><div class="v">'+bi(mi,'senate_d_prob')+'</div></div>'+
       '<div class="cell"><div class="k">'+T('ex_k4')+'</div><div class="v" style="color:var(--gold)">+2 ~ +10</div></div>'+
     '</div>'+
     '<table class="sen-tbl"><thead><tr><th>'+T('ex_th_rater')+'</th><th>'+T('ex_th_house')+'</th><th>'+T('ex_th_senate')+'</th><th>'+T('ex_th_note')+'</th></tr></thead><tbody>'+rows+'</tbody></table>'+
@@ -1470,7 +1487,7 @@ function renderConflicts(){
   function card(side,title,tag){
     var arr=pd.conflicts[side];
     return '<div class="pd-card '+side+'"><h3>'+title+'<span class="tag">'+tag+'</span></h3><ul>'+
-      arr.map(function(x){return '<li><b>'+x.theme+'：</b>'+bi(x,'detail')+'</li>';}).join('')+'</ul></div>';
+      arr.map(function(x){return '<li><b>'+bi(x,'theme')+':</b>'+bi(x,'detail')+'</li>';}).join('')+'</ul></div>';
   }
   wrap.innerHTML = card('dem',T('pd_dem_title'),T('pd_dem_tag')) + card('rep',T('pd_rep_title'),T('pd_rep_tag'));
 }
@@ -1490,7 +1507,7 @@ function renderIran(){
   var d=DATA.iran; if(!d) return;
   var wrap=document.getElementById('iranWrap'); if(!wrap) return;
   var kpi='<div class="sen-kpi">'+
-    (d.kpis||[]).map(function(x){return '<div class="cell"><div class="k">'+bi(x,'k')+'</div><div class="v">'+x.v+'</div>'+(x.s?'<div class="s">'+bi(x,'s')+'</div>':'')+'</div>';}).join('')+
+    (d.kpis||[]).map(function(x){return '<div class="cell"><div class="k">'+bi(x,'k')+'</div><div class="v">'+bi(x,'v')+'</div>'+(x.s?'<div class="s">'+bi(x,'s')+'</div>':'')+'</div>';}).join('')+
   '</div>';
   var status='<div class="ir-status">⚠ '+bi(d,'status')+'<div class="s">'+bi(d,'as_of')+'</div></div>';
   var tl='<div class="macro-h">'+T('ir_timeline')+'</div><ul class="tl">'+biArr(d,'timeline').map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul>';
@@ -1514,7 +1531,7 @@ function renderFed(){
     '<div style="font-size:14px;color:var(--gold);font-weight:700">'+bi(d,'current_range')+'</div></div>';
   var nar='<div class="note" style="margin-bottom:10px"><b>'+T('fed_narrative')+'</b>'+bi(d,'narrative')+'</div>';
   var kp='<div class="sen-kpi">'+
-    (d.kpis||[]).map(function(x){return '<div class="cell"><div class="k">'+bi(x,'k')+'</div><div class="v">'+x.v+'</div>'+(x.s?'<div class="s">'+bi(x,'s')+'</div>':'')+'</div>';}).join('')+
+    (d.kpis||[]).map(function(x){return '<div class="cell"><div class="k">'+bi(x,'k')+'</div><div class="v">'+bi(x,'v')+'</div>'+(x.s?'<div class="s">'+bi(x,'s')+'</div>':'')+'</div>';}).join('')+
   '</div>';
   var mtgs=d.meetings.map(function(m){
     var rows=m.probs.map(function(p){
@@ -1595,8 +1612,8 @@ function renderModelsSummary(){
   var wrap=document.getElementById('modelsSummary'); if(!wrap) return;
   wrap.innerHTML =
     '<div class="ms-grid">'+
-      '<div class="ms-cell"><div class="k">'+T('ms_house')+'</div><div class="v">'+H.lo+'–'+H.hi+'%</div><div class="s">中位 '+H.med.toFixed(0)+'%</div></div>'+
-      '<div class="ms-cell"><div class="k">'+T('ms_senate')+'</div><div class="v">'+S.lo+'–'+S.hi+'%</div><div class="s">中位 '+S.med.toFixed(0)+'%</div></div>'+
+      '<div class="ms-cell"><div class="k">'+T('ms_house')+'</div><div class="v">'+H.lo+'–'+H.hi+'%</div><div class="s">'+T('ms_median')+' '+H.med.toFixed(0)+'%</div></div>'+
+      '<div class="ms-cell"><div class="k">'+T('ms_senate')+'</div><div class="v">'+S.lo+'–'+S.hi+'%</div><div class="s">'+T('ms_median')+' '+S.med.toFixed(0)+'%</div></div>'+
       '<div class="ms-cell"><div class="k">'+T('ms_primary')+'</div><div class="v">'+prim+'</div><div class="s">'+T('ms_contrast')+' '+con+'</div></div>'+
     '</div>'+
     '<div class="ms-note">'+Tf('ms_note',{lo:H.lo,hi:H.hi,med:H.med.toFixed(0),slo:S.lo,shi:S.hi,smed:S.med.toFixed(0)})+'<span class="ms-spread"> · '+T('ms_spread')+'</span></div>';
@@ -1646,11 +1663,11 @@ function render(){
   const lo=Math.min(...hdVals), hi=Math.max(...hdVals), med=modelAvgHouse(), mid=modelMedianHouse();
   const hs=modelMedianHouseSeats();
   document.getElementById('hero').innerHTML =
-    '<div class="stat"><div class="k">'+T('hero_range_label')+'</div><div class="v">'+lo+'%–'+hi+'%<small> 跨 '+(hi-lo)+' pt</small></div></div>'+
-    '<div class="stat"><div class="k">'+T('hero_mean_label')+'</div><div class="v">'+med.toFixed(0)+'%<small> 均值 · 中位 '+mid.toFixed(0)+'%</small></div></div>'+
-    '<div class="stat"><div class="k">'+T('hero_market_label')+'</div><div class="v">'+pct(DATA.markets.house_d)+'<small> 民主党</small></div></div>'+
-    '<div class="stat"><div class="k">'+T('hero_senate_label')+'</div><div class="v">'+modelAvgSenate().toFixed(0)+'%<small> 掷硬币区间</small></div></div>'+
-    '<div class="stat"><div class="k">'+T('hero_seats_label')+'</div><div class="v">'+(hs!=null?hs+' 席':'—')+'<small> 模型点位（过半 218）</small></div></div>'+
+    '<div class="stat"><div class="k">'+T('hero_range_label')+'</div><div class="v">'+lo+'%–'+hi+'%<small> '+T('hero_span')+' '+(hi-lo)+' pt</small></div></div>'+
+    '<div class="stat"><div class="k">'+T('hero_mean_label')+'</div><div class="v">'+med.toFixed(0)+'%<small> '+T('hero_mean_sub')+' '+mid.toFixed(0)+'%</small></div></div>'+
+    '<div class="stat"><div class="k">'+T('hero_market_label')+'</div><div class="v">'+pct(DATA.markets.house_d)+'<small> '+T('hero_dem')+'</small></div></div>'+
+    '<div class="stat"><div class="k">'+T('hero_senate_label')+'</div><div class="v">'+modelAvgSenate().toFixed(0)+'%<small> '+T('hero_coin')+'</small></div></div>'+
+    '<div class="stat"><div class="k">'+T('hero_seats_label')+'</div><div class="v">'+(hs!=null?hs+' '+T('hero_seats_unit'):'—')+'<small> '+T('hero_seats_sub')+'</small></div></div>'+
     '<div class="note2">'+Tf('hero_note',{lo:lo,hi:hi})+'</div>';
 
   // takeaway executive summary (synthesized)
@@ -1669,7 +1686,7 @@ function render(){
     <div class="panel">
       <div class="label"><span class="live-dot"></span>${bi(mk,'name')}</div>
       <div class="big" id="m-house">${pct(mk.house_d)}<span class="pct"> ${lang==='en'?'House · Dem':'众院·民主党'}</span></div>
-      <div class="sub">${(LIVE?T('pulse_live'):T('pulse_demo'))+mk.as_of}</div>
+      <div class="sub">${(LIVE?T('pulse_live'):T('pulse_demo'))+bi(mk,'as_of')}</div>
     </div>
     <div class="panel">
       <div class="label">${T('pulse_senate_label')}</div>
@@ -1679,7 +1696,7 @@ function render(){
     <div class="panel">
       <div class="label">${T('pulse_sweep_label')}</div>
       <div class="big" id="m-sweep" style="color:var(--gold)">${pct(mk.sweep)}</div>
-      <div class="sub">Polymarket / Kalshi「Balance of Power」</div>
+      <div class="sub">Polymarket / Kalshi "Balance of Power"</div>
     </div>
     <div class="panel">
       <div class="label">${T('pulse_center_label')}</div>

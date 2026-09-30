@@ -321,6 +321,7 @@
     "senate_d": 63,
     "sweep": 64,
     "as_of": "2026-09-30 跨平台共识",
+    "as_of_en": "2026-09-30 cross-platform consensus",
     "note": "Kalshi 9/30：民主党夺回众院 91%、夺回参院 61%；Polymarket「Balance of Power」民主席卷 62–66%（9/22 峰值 66%）。9 月下旬出现「民主党浪潮」跳涨（9/21 席卷单日 +13pp）。跨平台 D 众院 ~92%、D 参院 ~63%。本端点经 Cloudflare 边缘实时代理抓取，抓不到时回退此共识种子。",
     "realtime": true,
     "history": {
@@ -642,6 +643,7 @@
         "v": "$103.7 (9/24)",
         "s": "近期 $95–97",
         "k_en": "Brent crude",
+        "v_en": "$103.7 (9/24)",
         "s_en": "recent $95–97"
       },
       {
@@ -649,6 +651,7 @@
         "v": "38% (均值9/28)",
         "s": "Reuters/Ipsos 9/21 曾跌至 32% 生涯最低",
         "k_en": "Trump approval",
+        "v_en": "38% (avg 9/28)",
         "s_en": "Reuters/Ipsos 9/21 hit 32% career low"
       },
       {
@@ -656,6 +659,7 @@
         "v": "34%",
         "s": "美国人",
         "k_en": "Approve strikes",
+        "v_en": "34%",
         "s_en": "Americans"
       },
       {
@@ -663,6 +667,7 @@
         "v": "约 20 目标",
         "s": "非 170+；9/28 有限防御性",
         "k_en": "US targets 9/26–27",
+        "v_en": "~20 targets",
         "s_en": "not 170+; 9/28 limited"
       },
       {
@@ -670,17 +675,19 @@
         "v": "伊朗称完全关闭",
         "s": "日通行→个位数",
         "k_en": "Hormuz",
-        "s_en": "Iran claims closed"
+        "v_en": "Iran claims fully closed",
+        "s_en": "daily traffic → single digits"
       },
       {
         "k": "美军累计伤员",
         "v": "~624",
         "s": "2月开战以来(9/28)",
         "k_en": "US wounded",
+        "v_en": "~624",
         "s_en": "since Feb (9/28)"
       }
     ],
-    "as_of_en": "2026-09-30 (major escalation from 9/28)",
+    "as_of_en": "2026-09-30 (limited strikes 9/26–9/28, no major escalation)",
     "source_en": "Compiled from CCTV/Xinhua, Global Times, Al Jazeera, Reuters/Ipsos, GlobalSecurity, TradingEconomics/FinanceFeeds, CENTCOM releases, 9/1–9/30. Corrected a prior mistaken '9/28 US 170+ target strike' claim — no authoritative source supports it; reality was limited tit-for-tat strikes.",
     "status_en": "Limited tit-for-tat strikes continue · talks stalemate (ceasefire proposal rejected, no full escalation)",
     "timeline_en": [
@@ -794,6 +801,7 @@
         "v": "破 5%",
         "s": "2007 年来首次",
         "k_en": "5Y Treasury",
+        "v_en": "broke 5%",
         "s_en": "broke 5%, first since 2007"
       },
       {
@@ -918,26 +926,31 @@
       {
         "cat": "模型 / 民调聚合",
         "cat_en": "Models / poll aggregators",
+          "list_en": "FiftyPlusOne (Substack), The Economist, Nate Silver · FLIPR, Split Ticket / The Argument, Race to the WH, DDHQ, Scrutinel, Pollcast, Smarter.vote, VoteHub, Election Statsheet, VotePredictor",
         "list": "FiftyPlusOne(Substack)、The Economist、Nate Silver·FLIPR、Split Ticket/The Argument、Race to the WH、DDHQ、Scrutinel、Pollcast、Smarter.vote、VoteHub、Election Statsheet、VotePredictor"
       },
       {
         "cat": "预测市场",
         "cat_en": "Prediction markets",
+          "list_en": "Kalshi, Polymarket, PredictIt, Robinhood (Balance of Power contracts); data via Cloudflare edge /api/market proxy",
         "list": "Kalshi、Polymarket、PredictIt、Robinhood（Balance of Power 合约）；数据经 Cloudflare 边缘 /api/market 代理"
       },
       {
         "cat": "美伊战争",
         "cat_en": "US–Iran war",
+          "list_en": "CCTV / CCTV.com, Xinhua, Global Times, Al Jazeera, Reuters/Ipsos, GlobalSecurity Oprep, TradingEconomics / FinanceFeeds, US CENTCOM releases",
         "list": "CCTV/央视网、新华社、环球时报、Al Jazeera、Reuters/Ipsos、GlobalSecurity Oprep、TradingEconomics/FinanceFeeds、美军中央司令部公报"
       },
       {
         "cat": "美联储",
         "cat_en": "Federal Reserve",
+          "list_en": "CME FedWatch, NY Fed (Williams), S&P Global PMI, Reuters, Sina Finance, National Business Daily",
         "list": "CME FedWatch、NY Fed(Williams)、S&P Global PMI、Reuters、新浪财经、每日经济新闻"
       },
       {
         "cat": "两党 / 初选",
         "cat_en": "Parties / primaries",
+          "list_en": "POLITICO, AP / ifeng, Xinhua Global, Ahram, USA Today, Cook Political Report, Sabato's Crystal Ball, Inside Elections",
         "list": "POLITICO、AP/凤凰网、新华社环球、Ahram、USA Today、Cook Political Report、Sabato's Crystal Ball、Inside Elections"
       }
     ],
