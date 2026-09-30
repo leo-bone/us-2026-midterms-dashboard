@@ -21,7 +21,7 @@
   }
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:var(--bg);color:var(--text);font-family:-apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,sans-serif;line-height:1.5;padding:28px 18px 60px}
-  .wrap{max-width:1120px;margin:0 auto}
+  .wrap{max-width:1120px;margin:0 auto;position:relative}
   header{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px;margin-bottom:22px;border-bottom:1px solid var(--border);padding-bottom:16px}
   h1{font-size:22px;letter-spacing:.5px;color:var(--amber2)}
   h1 small{display:block;font-size:12px;color:var(--muted);font-weight:400;margin-top:4px;letter-spacing:0}
@@ -30,6 +30,9 @@
   .section-title{font-size:13px;color:var(--amber);letter-spacing:1px;margin:28px 0 12px;text-transform:uppercase;display:flex;align-items:center;gap:8px}
   .section-title::before{content:"";width:14px;height:2px;background:var(--amber);display:inline-block}
   .subhead{font-size:11px;color:var(--muted);margin:-6px 0 12px}
+  /* lang toggle */
+  .lang-toggle{position:fixed;top:14px;right:18px;z-index:50;background:rgba(36,28,20,.92);color:var(--amber2);border:1px solid var(--amber);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;letter-spacing:.5px;backdrop-filter:blur(4px);transition:all .2s}
+  .lang-toggle:hover{background:var(--amber);color:#1b1510}
   /* live pulse */
   .pulse{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
   .pulse .panel{background:linear-gradient(160deg,#2a2014,#211910);border:1px solid var(--border);border-radius:14px;padding:18px}
@@ -149,6 +152,7 @@
   .fed-mtg .hd .bc{font-size:10.5px;color:var(--muted)}
   .seat{font-size:10px;color:var(--gold);margin-top:6px;opacity:.9}
   @media(max-width:760px){.pd-grid{grid-template-columns:1fr}.pc-grid{grid-template-columns:1fr}}
+  @media(max-width:760px){
     body{padding:18px 12px 50px}
     .pulse{grid-template-columns:1fr}
     .grid{grid-template-columns:1fr}
@@ -160,62 +164,56 @@
 </head>
 <body>
 <div class="wrap">
+  <button id="langToggle" class="lang-toggle" onclick="toggleLang()">EN</button>
   <header>
-    <h1>2026 中期选举 · 预测模型实时仪表盘
-      <small>统计模型 + 预测市场 · 众议院 / 参议院控制权概率（民主党 %）· 共 <span id="cnt">—</span> 个模型 + 预测市场</small>
-    </h1>
-    <div class="meta">选举日 <b>2026-11-03</b><br>数据快照 <b id="upd">—</b><br><span id="srcinfo"></span></div>
+    <h1 id="h1"></h1>
+    <div class="meta" id="meta"></div>
   </header>
 
   <div class="hero" id="hero"></div>
 
-  <div class="section-title"><span class="live-dot"></span>实时心跳 · 预测市场<span class="mode-badge" id="modebadge">演示模式</span></div>
+  <div class="section-title" id="sec_pulse"></div>
   <div class="pulse" id="pulse"></div>
 
-  <div class="section-title">模型概率卡片</div>
-  <div class="subhead">五大目标模型 + 七个对照模型（含市场口径对照）。徽章：<span style="color:var(--green)">自动</span>=脚本可解析 · <span style="color:var(--red)">半自动</span>=反爬/付费墙 · <span style="color:var(--muted)">待抓取</span>=需 headless</div>
+  <div class="section-title" id="sec_cards"></div>
+  <div class="subhead" id="sub_cards"></div>
   <div class="grid" id="grid"></div>
 
-  <div class="section-title">民主党夺回众院概率 · 近期轨迹</div>
-  <div class="subhead">基于公开报道的采样点（非模型原生逐日序列）；≥2 个点的模型连成线，单点标圆点。市场为真实秒级流（此处取公开报道快照）</div>
+  <div class="section-title" id="sec_house"></div>
+  <div class="subhead" id="sub_house"></div>
   <div class="chart-wrap"><canvas id="chartH" height="300"></canvas><div class="legend" id="legendH"></div></div>
 
-  <div class="section-title">民主党夺回参议院概率 · 近期轨迹</div>
+  <div class="section-title" id="sec_senate"></div>
   <div class="chart-wrap"><canvas id="chartS" height="300"></canvas><div class="legend" id="legendS"></div></div>
 
-  <div class="section-title">参议院专题 · 民主党的“四席之路” 与 共和党的“守成”</div>
-  <div class="subhead">结构性事实 + 2026-09 三大评级机构（Cook / Sabato / Inside Elections）与各模型对照。参议院逐州计票，不等同于全国波浪</div>
+  <div class="section-title" id="sec_senate_topic"></div>
+  <div class="subhead" id="sub_senate_topic"></div>
   <div class="sen-wrap" id="senWrap"></div>
 
-  <div class="section-title">当前分歧快照 · 众院民主党胜率</div>
+  <div class="section-title" id="sec_div"></div>
   <div class="dv" id="dv"></div>
   <div class="rangebar" id="rangebar"></div>
 
-  <div class="section-title">模型 vs 专家评级 · 分歧的真正核心</div>
-  <div class="subhead">统计模型（Economist / Silver / FiftyPlusOne 等）把全国普选领先直接映射成赢面；Cook / Sabato / Inside Elections 等逐州评级机构更保守。二者并存——分歧本身才是这张盘要展示的核心。</div>
+  <div class="section-title" id="sec_expert"></div>
+  <div class="subhead" id="sub_expert"></div>
   <div class="sen-wrap" id="expertWrap"></div>
 
-  <div class="section-title">两党内部矛盾 · 机会与缺陷</div>
-  <div class="subhead">综合 POLITICO、美联社/凤凰网、新华社环球、Ahram、USA Today 等 2026 公开报道与初选结果整理。模型概率是“天气”，党内裂缝与暴露面是“地形”——后者才是概率之外的真实变量。</div>
+  <div class="section-title" id="sec_party"></div>
+  <div class="subhead" id="sub_party"></div>
   <div class="pd-grid" id="conflicts"></div>
   <div class="pc-grid" id="proscons"></div>
 
-  <div class="section-title">关键宏观变量 · 影响中期选举</div>
+  <div class="section-title" id="sec_macro"></div>
   <div class="sen-wrap" id="iranWrap"></div>
   <div class="sen-wrap" id="fedWrap" style="margin-top:14px"></div>
 
-  <div class="note">
-    <b>架构与口径说明：</b> 预测市场（Kalshi/Polymarket）是仪表盘唯一<b>秒级流式</b>来源，其余统计模型均为<b>定时重算</b>（FiftyPlusOne 4 次/天、Economist 每天、Silver 近每天、Split Ticket 周更、DDHQ/Scrutinel 每天）。前端用动画把"离散快照"呈现为"连续流动"——这是市面上所有"选举实时盘"的真实做法。各模型对"众院民主党概率"给出 <b>55%（Election Statsheet）到 98%（FiftyPlusOne/Pollcast）</b> 的跨度，这是<b>真实方法论分歧</b>而非误差，本盘展示分歧本身，不做强行归一。Race to the WH 的 topline 嵌在 Squarespace 的 <b>iframe</b> 里、静态 HTML 无数字、本机 headless 不稳；已补入其 <b>2026-08-11 论坛转引的真实参院快照（57.6%→58%）</b>，众院 80% 为基于其方法定位的<b>估算</b>（站点众院页不可抓取）。数据仅供方法学研判，<b>不构成任何选举或投资建议</b>。
-  </div>
-  <div class="disc">数值来自各模型公开页面/访谈与公开报道（截至 2026-09-30）· 预测市场数值为跨平台共识快照，经 Cloudflare 边缘实时代理（/api/market）可真流式刷新</div><footer>
-      <b>方法学说明：</b><a href="ANALYSIS.md" target="_blank" rel="noopener">ANALYSIS.md</a> ·
-      本盘展示各模型对「民主党夺回参众两院概率」的<b style="color:var(--amber)">真实方法论分歧</b>，不做强行归一。数据仅供方法学研判，<b style="color:var(--amber)">不构成任何选举或投资建议</b>。<br>
-      <span style="color:#6e5f48">各模型公开读数截至 2026-09-30 · 部署于 Cloudflare 边缘</span>
-    </footer>
+  <div class="note" id="note_arch"></div>
+  <div class="disc" id="disc"></div>
+  <footer id="footer"></footer>
 </div>
 
 <script>
-const SEED = const SEED = {
+const SEED = {
   "updated_at": "2026-09-30T12:44:00+08:00",
   "election_day": "2026-11-03",
   "live": false,
@@ -254,7 +252,9 @@ const SEED = const SEED = {
           }
         ]
       },
-      "house_seats": 238
+      "house_seats": 238,
+      "method_en": "Bayesian model stacking · 4x/day",
+      "source_en": "Substack render page (author cited 9/23: median 238 seats, 98% majority; 9/20 poll 97%H / 64%S)"
     },
     {
       "id": "economist",
@@ -267,7 +267,9 @@ const SEED = const SEED = {
       "as_of": "2026-09-18",
       "source": "经济学人《US in Brief》9/18 官方公告：92%H / 59%S（7 月为 77%/45%，油价推升）",
       "auto": false,
-      "history": null
+      "history": null,
+      "method_en": "Bayesian hierarchical · 25,001 simulations/day",
+      "source_en": "Economist 'US in Brief' official 9/18 notice: 92%H / 59%S (was 77%/45% in July; oil-price driven)"
     },
     {
       "id": "silver",
@@ -309,7 +311,9 @@ const SEED = const SEED = {
             "v": 65
           }
         ]
-      }
+      },
+      "method_en": "Weighted polls + fundamentals · 40k joint simulations",
+      "source_en": "Silver free-post topline (Deluxe 65%S; low-mid 60% band; 9/28 homepage D+9.2)"
     },
     {
       "id": "splitticket",
@@ -344,7 +348,9 @@ const SEED = const SEED = {
           }
         ]
       },
-      "house_seats": 232
+      "house_seats": 232,
+      "method_en": "MRP + Monte Carlo · weekly",
+      "source_en": "The Argument (ex Split Ticket) 9/24 article: median 232D (+18), GOP majority only 11%; D 85%H/55%S basis"
     },
     {
       "id": "racetothewh",
@@ -357,7 +363,9 @@ const SEED = const SEED = {
       "as_of": "2026-08-11（参院快照·众院为估算）",
       "source": "参院 57.6%/51.2 席为 2026-08-11 论坛转引真实快照（RTtWH 每日 5 万次模拟、近三 cycle 正确预测参院多数）；众院数值 80% 为基于其方法定位的估算（站点众院页未提供可抓取的『控制权 %』）。topline 嵌于 Squarespace iframe，静态 HTML 无数字，无法 headless 自动刷新。",
       "auto": true,
-      "history": null
+      "history": null,
+      "method_en": "Data-driven · daily simulation",
+      "source_en": "Senate 57.6% / 51.2 seats is a real 2026-08-11 forum-cited snapshot (RTtWH ~50k sims/day, correctly called Senate majority in last 3 cycles); House 80% is an estimate based on its methodology (site's House page has no scrapable 'control %'). Topline sits in a Squarespace iframe, static HTML has no numbers, headless refresh unreliable."
     },
     {
       "id": "ddhq",
@@ -391,7 +399,9 @@ const SEED = const SEED = {
             "v": 54
           }
         ]
-      }
+      },
+      "method_en": "Daily · free embed",
+      "source_en": "votes.decisiondeskhq.com free page (updated 9/25 14:27)"
     },
     {
       "id": "scrutinel",
@@ -418,7 +428,9 @@ const SEED = const SEED = {
           }
         ]
       },
-      "house_seats": 232
+      "house_seats": 232,
+      "method_en": "Daily · free",
+      "source_en": "scrutinel.com free page (9/27 17:24; projects 232D / 203R)"
     },
     {
       "id": "pollcast",
@@ -440,7 +452,9 @@ const SEED = const SEED = {
         ],
         "senate": null
       },
-      "house_seats": 235
+      "house_seats": 235,
+      "method_en": "Daily · free",
+      "source_en": "pollcast.net (9/18: D 97.3%, projects 234.7 seats)"
     },
     {
       "id": "smartervote",
@@ -466,7 +480,9 @@ const SEED = const SEED = {
         ],
         "senate": null
       },
-      "house_seats": 229
+      "house_seats": 229,
+      "method_en": "AI model · free",
+      "source_en": "smarter.vote/forecast (9/27: D 73%, projects 229D-206R)"
     },
     {
       "id": "votehub",
@@ -479,7 +495,9 @@ const SEED = const SEED = {
       "as_of": "2026-08末",
       "source": "GD Politics 8/31 引述：D 77%H / R 53%S（即 D 47%S）",
       "auto": true,
-      "history": null
+      "history": null,
+      "method_en": "Aggregated polls + market tweak",
+      "source_en": "GD Politics 8/31 cited: D 77%H / R 53%S (i.e. D 47%S)"
     },
     {
       "id": "statsheet",
@@ -492,7 +510,9 @@ const SEED = const SEED = {
       "as_of": "2026-09",
       "source": "Noah News 引述：D 55%H / 28%S（最谨慎一端）",
       "auto": true,
-      "history": null
+      "history": null,
+      "method_en": "Bayesian · cautious",
+      "source_en": "Noah News cited: D 55%H / 28%S (most cautious end)"
     },
     {
       "id": "votepredictor",
@@ -505,7 +525,9 @@ const SEED = const SEED = {
       "as_of": "2026-09",
       "source": "Noah News 引述：D 76%H / R 75%S（即 D 25%S）",
       "auto": true,
-      "history": null
+      "history": null,
+      "method_en": "Simulation",
+      "source_en": "Noah News cited: D 76%H / R 75%S (i.e. D 25%S)"
     }
   ],
   "markets": {
@@ -579,7 +601,9 @@ const SEED = const SEED = {
           "v": 64
         }
       ]
-    }
+    },
+    "name_en": "Prediction Markets (Kalshi / Polymarket)",
+    "note_en": "Kalshi 9/30: Dem retake House 91%, retake Senate 61%; Polymarket 'Balance of Power' Dem sweep 62–66% (peak 66% on 9/22). Late-Sept 'Dem wave' jump (sweep +13pp on 9/21). Cross-platform D House ~92%, D Senate ~63%. This endpoint is proxied via Cloudflare edge; falls back to this consensus seed when unreachable."
   },
   "expert_ratings": {
     "as_of": "2026-09-29",
@@ -587,7 +611,10 @@ const SEED = const SEED = {
     "model_implied": {
       "house_d_gain": "+18（中位 232D）",
       "house_d_prob": "85–98%",
-      "senate_d_prob": "49–65%"
+      "senate_d_prob": "49–65%",
+      "house_d_gain_en": "+18 (median 232D)",
+      "house_d_prob_en": "85–98%",
+      "senate_d_prob_en": "49–65%"
     },
     "raters": [
       {
@@ -595,24 +622,35 @@ const SEED = const SEED = {
         "stance": "谨慎",
         "house_d_gain": "+2 ~ +6",
         "senate": "D 微弱优 / 掷硬币",
-        "note": "9 月下旬：民主党在多数竞争众院选区领先，但翻 R 席有限"
+        "note": "9 月下旬：民主党在多数竞争众院选区领先，但翻 R 席有限",
+        "stance_en": "Cautious",
+        "senate_en": "D slight edge / tossup",
+        "note_en": "Late Sept: D leads in most competitive House districts, but few R seats flip."
       },
       {
         "name": "Sabato's Crystal Ball",
         "stance": "结构衰减派",
         "house_d_gain": "+5 ~ +10",
         "senate": "看好 R 保多数",
-        "note": "参议院逐州计票，全国浪潮被州级结构衰减"
+        "note": "参议院逐州计票，全国浪潮被州级结构衰减",
+        "stance_en": "Structural-decay camp",
+        "senate_en": "Favors GOP hold",
+        "note_en": "Senate counts state-by-state; national wave dampened by state-level structure."
       },
       {
         "name": "Inside Elections",
         "stance": "逐州计票派",
         "house_d_gain": "+2 ~ +8",
         "senate": "D 略优但窄",
-        "note": "按州评级，不入全国波浪模型"
+        "note": "按州评级，不入全国波浪模型",
+        "stance_en": "State-by-state camp",
+        "senate_en": "D slight but narrow",
+        "note_en": "Rates by state, not a national-wave model."
       }
     ],
-    "note": "统计模型把全国普选领先（D+8~9pt）直接映射为众院赢面（均值 ~85%+），并给出参议院 49–65% 的掷硬币区间；三大评级机构更保守，仅把少数共和党席位评为 Lean D / Tossup，隐含众院增益 +2~+10。二者并存：模型快、评级慢且更挑剔；分歧本身才是这张盘要展示的核心。"
+    "note": "统计模型把全国普选领先（D+8~9pt）直接映射为众院赢面（均值 ~85%+），并给出参议院 49–65% 的掷硬币区间；三大评级机构更保守，仅把少数共和党席位评为 Lean D / Tossup，隐含众院增益 +2~+10。二者并存：模型快、评级慢且更挑剔；分歧本身才是这张盘要展示的核心。",
+    "source_en": "The Argument (Lakshya Jain) 9/24 roundup of Cook Political Report / Sabato's Crystal Ball / Inside Elections, cross-referenced with statistical models and prediction markets.",
+    "note_en": "Statistical models map the national popular-vote lead (D+8~9pt) directly into House odds (mean ~85%+), and give a Senate 49–65% coin-flip band; the three rating agencies are more conservative, rating only a handful of GOP seats Lean D / Tossup, implying House gains of +2~+10. Both coexist: models are fast, ratings are slow and pickier; the divergence itself is the core story this dashboard shows."
   },
   "party_dynamics": {
     "as_of": "2026-09-30",
@@ -621,49 +659,71 @@ const SEED = const SEED = {
       "dem": [
         {
           "theme": "路线之争：进步派 vs 建制派",
-          "detail": "“Mamdani 效应”与 DSA 崛起，纽约、科罗拉多等多名资深议员在初选被进步派击败；温和派(34%)与民主社会主义者(34%)势均力敌、互相警惕，分裂恰逢中期选举关键期。"
+          "detail": "“Mamdani 效应”与 DSA 崛起，纽约、科罗拉多等多名资深议员在初选被进步派击败；温和派(34%)与民主社会主义者(34%)势均力敌、互相警惕，分裂恰逢中期选举关键期。",
+          "theme_en": "Ideological fight: progressives vs establishment",
+          "detail_en": "The 'Mamdani effect' and DSA rise — multiple senior incumbent lawmakers lost primaries to progressives in NY, CO, etc.; moderates (34%) and democratic socialists (34%) are evenly matched and mutually wary, exactly during the critical midterm window."
         },
         {
           "theme": "参议院领导权危机",
-          "detail": "舒默(Schumer)的夺回战略遭本党进步派参议员公开“打脸”——在缅因/密歇根/明尼苏达背书反建制候选人；其领袖地位与 2026 命运直接挂钩。"
+          "detail": "舒默(Schumer)的夺回战略遭本党进步派参议员公开“打脸”——在缅因/密歇根/明尼苏达背书反建制候选人；其领袖地位与 2026 命运直接挂钩。",
+          "theme_en": "Senate leadership crisis",
+          "detail_en": "Schumer's takeover strategy was publicly 'humiliated' by his own progressive senators — who endorsed anti-establishment candidates in ME/MI/MN; his leadership and 2026 fate are directly tied."
         },
         {
           "theme": "资金危机",
-          "detail": "DNC 现金仅约 $16.5M、负债 $18.3M；全党战备金约 $400M，远低于共和党 ~$1B 战备；大额捐赠者绕开 DNC，认为其管理混乱。"
+          "detail": "DNC 现金仅约 $16.5M、负债 $18.3M；全党战备金约 $400M，远低于共和党 ~$1B 战备；大额捐赠者绕开 DNC，认为其管理混乱。",
+          "theme_en": "Funding crisis",
+          "detail_en": "DNC cash ~$16.5M, debt $18.3M; party war chest ~$400M, far below GOP ~$1B; big donors bypass DNC, seeing it as mismanaged."
         },
         {
           "theme": "巴以议题分裂",
-          "detail": "约 60% 民主党认为美国“过于挺以”（2024 仅 45%）；AIPAC 与进步派在初选正面对撞（密歇根 El-Sayed vs Stevens）。"
+          "detail": "约 60% 民主党认为美国“过于挺以”（2024 仅 45%）；AIPAC 与进步派在初选正面对撞（密歇根 El-Sayed vs Stevens）。",
+          "theme_en": "Israel–Palestine split",
+          "detail_en": "~60% of Democrats think the US is 'too pro-Israel' (vs 45% in 2024); AIPAC vs progressives collide head-on in primaries (MI El-Sayed vs Stevens)."
         },
         {
           "theme": "候选人筛选失误",
-          "detail": "缅因进步派候选人 Platner 因争议退选，挑战 Collins 的布局陷入被动，暴露党内候选人质控漏洞。"
+          "detail": "缅因进步派候选人 Platner 因争议退选，挑战 Collins 的布局陷入被动，暴露党内候选人质控漏洞。",
+          "theme_en": "Candidate vetting failures",
+          "detail_en": "ME progressive candidate Platner withdrew over controversy; the challenge to Collins faltered, exposing a party vetting gap."
         }
       ],
       "rep": [
         {
           "theme": "裸多数纪律",
-          "detail": "众院 218–214（含空缺），自由党团(Massie/Mace/Gonzales 等)屡次违抗领导；任意缺席都可能失票。"
+          "detail": "众院 218–214（含空缺），自由党团(Massie/Mace/Gonzales 等)屡次违抗领导；任意缺席都可能失票。",
+          "theme_en": "Razor-thin majority discipline",
+          "detail_en": "House 218–214 (with vacancies); Freedom Caucus (Massie/Mace/Gonzales etc.) repeatedly defies leadership; any absence can cost a vote."
         },
         {
           "theme": "Epstein 档案裂痕",
-          "detail": "MTG 因与特朗普在 Epstein 文件上决裂而辞职；Massie 把司法部长拖去 Epstein 听证；MAGA 内部对“掩盖”不满。"
+          "detail": "MTG 因与特朗普在 Epstein 文件上决裂而辞职；Massie 把司法部长拖去 Epstein 听证；MAGA 内部对“掩盖”不满。",
+          "theme_en": "Epstein files rift",
+          "detail_en": "MTG resigned after breaking with Trump over Epstein files; Massie dragged the AG to Epstein hearings; MAGA unhappy with the 'cover-up'."
         },
         {
           "theme": "特朗普初选清洗",
-          "detail": "已扳倒 Massie、Cassidy 及 5 名印第安纳州参议员，并挑战 Cornyn（挺 Paxton）；有共和党人警告削弱大选候选人。"
+          "detail": "已扳倒 Massie、Cassidy 及 5 名印第安纳州参议员，并挑战 Cornyn（挺 Paxton）；有共和党人警告削弱大选候选人。",
+          "theme_en": "Trump primary purge",
+          "detail_en": "Already toppled Massie, Cassidy and 5 Indiana state senators, and challenges Cornyn (backs Paxton); some Republicans warn it weakens the general-election candidate pool."
         },
         {
           "theme": "MAGA 内部分化",
-          "detail": "部分核心支持者对海外军事干预、过度挺以、与科技/金融精英过从甚密深感不满，阵营走向派系化。"
+          "detail": "部分核心支持者对海外军事干预、过度挺以、与科技/金融精英过从甚密深感不满，阵营走向派系化。",
+          "theme_en": "MAGA internal fragmentation",
+          "detail_en": "Some core supporters deeply unhappy with overseas military intervention, over-the-top pro-Israel stance, and coziness with tech/finance elites; the camp is factionalizing."
         },
         {
           "theme": "退休潮",
-          "detail": "近 30 名共和党众议员考虑不谋求连任，空缺席位成民主党突破口。"
+          "detail": "近 30 名共和党众议员考虑不谋求连任，空缺席位成民主党突破口。",
+          "theme_en": "Retirement wave",
+          "detail_en": "Nearly 30 Republican House members considering not seeking re-election; open seats become Dem openings."
         },
         {
           "theme": "选区重划党争",
-          "detail": "特朗普强推 TX 重划(估 +5 席)，印第安纳等地反弹；民主党以 CA 等州反制，加剧选举诉讼风险。"
+          "detail": "特朗普强推 TX 重划(估 +5 席)，印第安纳等地反弹；民主党以 CA 等州反制，加剧选举诉讼风险。",
+          "theme_en": "Redistricting warfare",
+          "detail_en": "Trump pushes TX redraw (est +5 seats); Indiana etc. pushback; Dems counter with CA and others, raising election-litigation risk."
         }
       ]
     },
@@ -682,6 +742,20 @@ const SEED = const SEED = {
           "“软弱”人设（民调显示多数认为民主党面对特朗普不够强硬）",
           "参议院地形不利：35 席改选中 16 安全 R vs 9 安全 D，真竞争仅 10 席",
           "候选人筛选与筹款效率问题（DNC 被批管理混乱、一度因钓鱼邮件损失 $29k）"
+        ],
+        "opportunities_en": [
+          "National popular vote lead D+8~9pt (historic); model House win mean ~85%+",
+          "Trump approval at lows (~33–40%, near term bottom)",
+          "Historical pattern: incumbent party loses avg 28 House + 4 Senate seats at midterms",
+          "Poor economic sentiment (inflation/cost of living) favors 'punish-the-incumbent' flips",
+          "GOP razor-thin House: 14 R competitive seats vs only 4 D; high exposure"
+        ],
+        "flaws_en": [
+          "Funding disadvantage (~$400M vs GOP ~$1B)",
+          "Intra-party ideological split, progressives vs establishment bleed each other",
+          "'Weak' image (polls show most think Dems aren't tough enough against Trump)",
+          "Tough Senate map: of 35 seats up, 16 safe R vs 9 safe D, only ~10 truly competitive",
+          "Candidate vetting and fundraising efficiency issues (DNC criticized as mismanaged; once lost $29k to a phishing email)"
         ]
       },
       "rep": {
@@ -697,9 +771,23 @@ const SEED = const SEED = {
           "Epstein/MAGA 内裂与初选清洗，可能削弱大选竞争力",
           "退休潮（近 30 人）放大空缺席风险",
           "经济体感差引发惩罚性投票"
+        ],
+        "opportunities_en": [
+          "Favorable Senate map: of 35 seats up, 16 safe R, only ~10 truly competitive (6 R contested); need lose ≤2 to hold",
+          "Redistricting (TX est +5) can pad the thin majority",
+          "Trump mobilization + MAGA base, high primary unity",
+          "Dems' funding and unity disadvantages are exploitable"
+        ],
+        "flaws_en": [
+          "Razor-thin House (218–214, lose ≤3 and it's gone)",
+          "Trump's low poll numbers become a 'referendum' drag (midterms usually punish incumbents)",
+          "Epstein / MAGA rifts and primary purges may weaken general-election competitiveness",
+          "Retirement wave (~30) amplifies open-seat risk",
+          "Poor economic sentiment triggers punish-the-incumbent voting"
         ]
       }
-    }
+    },
+    "source_en": "Compiled from POLITICO, AP/ifeng, Xinhua Global, Ahram, USA Today and other 2026 public reports and primary results."
   },
   "iran": {
     "as_of": "2026-09-30（9/28 起重大升级）",
@@ -724,22 +812,30 @@ const SEED = const SEED = {
       {
         "name": "长期低烈度对峙（现状延续）",
         "prob": 30,
-        "note": "美军周期性「割草式」打击 + 伊朗水雷/无人机/袭船维持航道风险；但 9/28 升级后强度显著抬升。"
+        "note": "美军周期性「割草式」打击 + 伊朗水雷/无人机/袭船维持航道风险；但 9/28 升级后强度显著抬升。",
+        "name_en": "Prolonged low-intensity standoff (status quo)",
+        "note_en": "US periodic 'mowing-grass' strikes + Iran mines/drones/ship attacks keep lane risk; but intensity jumped after 9/28."
       },
       {
         "name": "不稳定停火",
         "prob": 20,
-        "note": "因经济或内外压力暂停军事行动但无全面协议；卡塔尔斡旋下的脆弱窗口。"
+        "note": "因经济或内外压力暂停军事行动但无全面协议；卡塔尔斡旋下的脆弱窗口。",
+        "name_en": "Unstable ceasefire",
+        "note_en": "Pause military action under economic/internal pressure but no comprehensive deal; fragile Qatar-brokered window."
       },
       {
         "name": "冲突扩大（含能源设施/地面部队）",
         "prob": 35,
-        "note": "误判升级链：打击—报复—扩大。伊朗可打击海湾能源设施；美或被逼引入地面部队，五角大楼已警告弹药缺口。9/28 170+ 目标打击已逼近此情景。"
+        "note": "误判升级链：打击—报复—扩大。伊朗可打击海湾能源设施；美或被逼引入地面部队，五角大楼已警告弹药缺口。9/28 170+ 目标打击已逼近此情景。",
+        "name_en": "Conflict expands (energy facilities / ground troops)",
+        "note_en": "Miscalculation escalation chain: strike–retaliate–expand. Iran can hit Gulf energy facilities; US may be forced to introduce ground troops; Pentagon already warned of ammo shortfall. The 170+ target strike on 9/28 is approaching this scenario."
       },
       {
         "name": "谈判解决",
         "prob": 15,
-        "note": "恢复 MoU 框架，以解除封锁/制裁换霍尔木兹重开 + 核谈判；当前双方仍谈判但互信极低。"
+        "note": "恢复 MoU 框架，以解除封锁/制裁换霍尔木兹重开 + 核谈判；当前双方仍谈判但互信极低。",
+        "name_en": "Negotiated settlement",
+        "note_en": "Restore MoU framework: lift blockade/sanctions for Hormuz reopening + nuclear talks; both still talking but trust is very low."
       }
     ],
     "facts": [
@@ -756,34 +852,74 @@ const SEED = const SEED = {
       {
         "k": "布伦特原油",
         "v": "$103.6 (9/24 峰值)",
-        "s": "近期 $95–97"
+        "s": "近期 $95–97",
+        "k_en": "Brent crude",
+        "s_en": "recent $95–97"
       },
       {
         "k": "美军打击目标",
         "v": "170+ (48h)",
-        "s": "9/28 起"
+        "s": "9/28 起",
+        "k_en": "US targets struck",
+        "s_en": "since 9/28"
       },
       {
         "k": "特朗普支持率",
         "v": "32%",
-        "s": "生涯最低"
+        "s": "生涯最低",
+        "k_en": "Trump approval",
+        "s_en": "career low"
       },
       {
         "k": "赞成空袭比例",
         "v": "34%",
-        "s": "美国人"
+        "s": "美国人",
+        "k_en": "Approve airstrikes",
+        "s_en": "Americans"
       },
       {
         "k": "霍尔木兹",
         "v": "伊朗称完全关闭",
-        "s": "日通行→个位数"
+        "s": "日通行→个位数",
+        "k_en": "Hormuz",
+        "s_en": "Iran claims fully closed"
       },
       {
         "k": "阿曼原油",
         "v": "破 $100",
-        "s": "10月均价 $87.84"
+        "s": "10月均价 $87.84",
+        "k_en": "Oman crude",
+        "s_en": "Oct avg $87.84"
       }
-    ]
+    ],
+    "as_of_en": "2026-09-30 (major escalation from 9/28)",
+    "source_en": "Compiled from Devdiscourse / Atlas360 / WSJ (via) / Anadolu / Reuters-Ipsos reports 9/28–9/30.",
+    "status_en": "Major escalation · US–Iran renewed large-scale exchanges (ceasefire framework collapsed)",
+    "timeline_en": [
+      "2/28 US–Israel struck Iran, regional conflict erupted",
+      "April: US–Iran ceasefire",
+      "June: signed MoU, intended to end conflict and negotiate",
+      "August: MoU collapsed and formally expired, fighting reignited",
+      "9/1 US struck IRGC Hormuz-area targets; Iran fired missiles at US bases in Jordan/UAE/Bahrain/Iraq/Kuwait",
+      "9/9–10 US Apache downed by Iranian drone near Hormuz; US retaliatory airstrikes on Iranian homeland 9/10",
+      "9/21 US struck Larak Island rocket launchers; Iran retaliated against Jordan/UAE US bases",
+      "9/23 Indirect US–Iran talks during UNGA; Iran offered to reopen Hormuz within 7 days if blockade lifted; Trump said 'deal after election'",
+      "9/24 Brent +4.4% intraday to $103.61; Iran gave US 4–5 day deadline to reopen strait",
+      "From 9/28: Iran attacked 3 merchant ships (incl. LNG carrier) on US-south Hormuz lane → Trump exited 7-day ceasefire framework citing 'ceasefire violation'",
+      "9/28–9/30 US struck 170+ Iranian targets within 48h (Hormuz-area facilities); revoked Iran oil-sale license; Vance 'hit hard if they hit ships', Hegseth 'deeper and wider'",
+      "This week (to 10/4) US–Iran continue talks via Qatar; Trump says 'I think it's over' yet 'they want a deal', both still haggling over Hormuz navigation framework",
+      "Latest poll: Trump approval fell to 32% (career low); only 34% of Americans approve of strikes on Iran"
+    ],
+    "facts_en": [
+      "Hormuz: pre-war carried ~20% of global oil & LNG; Iran claims strait 'fully closed', daily 100+ ships → now only single digits",
+      "Oil: Brent hit $103.61 on 9/24 (Iran rhetoric escalation), recent $95–97; Oman crude broke $100; Oct avg rose to $87.84 (Sept $76.36)",
+      "Latest escalation (from 9/28): Iran hit 3 Hormuz merchant ships (incl. LNG) → Trump rejected 7-day ceasefire, US struck 170+ targets in 48h, revoked Iran oil-sale license",
+      "Trump approval fell to 32% (Reuters/Ipsos, career low); only 34% of Americans approve of strikes on Iran; incumbent party under midterm pressure",
+      "Iran crude exports collapsed from ~2.0M b/d in March to ~0.22–0.25M b/d in Aug; CBO estimates ~$38B in US operation costs; Pentagon confirms strategic ammo-stockpile gap",
+      "US casualties as of 9/3: 18 dead / 767 wounded; 50k+ deployed in Middle East (expected to rise after 9/28 escalation, no official update yet)"
+    ],
+    "midterm_impact_en": "War is a core midterm issue: ① Economic — Hormuz blockade pushes up oil/gas prices, worsens inflation, hurts the incumbent party; ② Public opinion — most Americans oppose the war (only 34% approve strikes), weakening Trump's base; ③ if it expands into full war or major US casualties, it would significantly reshape the election. Models and markets' 'Dem retake both chambers' pricing already partially prices in this risk.",
+    "risk_en": "Key red lines: major US casualties, a large tanker sunk, Gulf energy facilities heavily hit — any of these could trigger Trump's 'bigger strike', turning deterrence into reality."
   },
   "fed": {
     "as_of": "2026-09-30",
@@ -799,15 +935,22 @@ const SEED = const SEED = {
           {
             "name": "再加息 25bp",
             "p": 50.4,
-            "src": "CME FedWatch 9/30：加息 50.4% / 维持 49.6%；Williams 9/29「不急于行动」后押注回落"
+            "src": "CME FedWatch 9/30：加息 50.4% / 维持 49.6%；Williams 9/29「不急于行动」后押注回落",
+            "name_en": "Another +25bp hike",
+            "src_en": "CME FedWatch 9/30: hike 50.4% / hold 49.6%; Williams 9/29 'not in a hurry' eased bets"
           },
           {
             "name": "维持 3.75%–4.00% 不变",
             "p": 49.6,
-            "src": "CME FedWatch 9/30"
+            "src": "CME FedWatch 9/30",
+            "name_en": "Hold at 3.75%–4.00%",
+            "src_en": "CME FedWatch 9/30"
           }
         ],
-        "note": "会议恰在 11/3 中期选举前一周，政治敏感度极高；若加息将直接推高房贷/消费贷成本"
+        "note": "会议恰在 11/3 中期选举前一周，政治敏感度极高；若加息将直接推高房贷/消费贷成本",
+        "label_en": "October meeting",
+        "base_case_en": "Hike vs hold near 50/50 (CME 9/30: 50.4% vs 49.6%); bets eased after dovish officials spoke",
+        "note_en": "Meeting falls exactly one week before the 11/3 midterm — extremely politically sensitive; a hike would directly raise mortgage/consumer-loan costs"
       },
       {
         "label": "12月会议",
@@ -817,20 +960,29 @@ const SEED = const SEED = {
           {
             "name": "年底落 4.00%–4.25%（再+25bp）",
             "p": 49.8,
-            "src": "CME FedWatch 9/30"
+            "src": "CME FedWatch 9/30",
+            "name_en": "Year-end at 4.00%–4.25% (+25bp)",
+            "src_en": "CME FedWatch 9/30"
           },
           {
             "name": "年底落 4.25%–4.50%（再+50bp）",
             "p": 41.8,
-            "src": "CME FedWatch 9/30（一个月前仅 2.6%）"
+            "src": "CME FedWatch 9/30（一个月前仅 2.6%）",
+            "name_en": "Year-end at 4.25%–4.50% (+50bp)",
+            "src_en": "CME FedWatch 9/30 (only 2.6% a month ago)"
           },
           {
             "name": "年底维持 3.75%–4.00% 不变",
             "p": 8.5,
-            "src": "CME FedWatch 9/30 鸽派尾部"
+            "src": "CME FedWatch 9/30 鸽派尾部",
+            "name_en": "Year-end hold 3.75%–4.00%",
+            "src_en": "CME FedWatch 9/30 dovish tail"
           }
         ],
-        "note": "SEP 中位暗示年内再加息一次；CME 9/30 显示年底前至少再加息一次概率 91.6%；Williams 9/29「若经济符合预期，年底或再上调一次」"
+        "note": "SEP 中位暗示年内再加息一次；CME 9/30 显示年底前至少再加息一次概率 91.6%；Williams 9/29「若经济符合预期，年底或再上调一次」",
+        "label_en": "December meeting",
+        "base_case_en": "Year-end rate likely above current: CME 9/30 shows ≥+25bp probability 91.6%",
+        "note_en": "SEP median implies one more hike this year; CME 9/30 shows ≥one more hike by year-end 91.6%; Williams 9/29 'if economy as expected, may raise once more by year-end'"
       }
     ],
     "midterm_impact": "利率是中期选举的经济主轴：① 维持/上调高利率 → 房贷、消费信贷成本居高，压制家庭部门，对执政党不利；② 若因战争油价推升通胀而加息，等于把地缘风险转嫁为国内利率压力，双重不利于现任政府；③ 特朗普与 Fed 的公开对立，把货币政策变成选举争议点。",
@@ -839,39 +991,267 @@ const SEED = const SEED = {
       {
         "k": "CME 10月加息概率",
         "v": "50.4%",
-        "s": "vs 维持 49.6%"
+        "s": "vs 维持 49.6%",
+        "k_en": "CME Oct hike prob",
+        "s_en": "vs hold 49.6%"
       },
       {
         "k": "10Y 美债收益率",
         "v": ">5.1%",
-        "s": "约 19 年高位"
+        "s": "约 19 年高位",
+        "k_en": "10Y Treasury yield",
+        "s_en": "~19-yr high"
       },
       {
         "k": "5Y 美债",
         "v": "破 5%",
-        "s": "2007 年来首次"
+        "s": "2007 年来首次",
+        "k_en": "5Y Treasury",
+        "s_en": "broke 5%, first since 2007"
       },
       {
         "k": "美元指数",
         "v": "101.06",
-        "s": "7/29 来最高"
+        "s": "7/29 来最高",
+        "k_en": "Dollar index",
+        "s_en": "highest since 7/29"
       },
       {
         "k": "9月 服务业 PMI",
         "v": "58.7",
-        "s": "59 个月高"
+        "s": "59 个月高",
+        "k_en": "Sept services PMI",
+        "s_en": "59-month high"
       },
       {
         "k": "核心 PCE",
         "v": "3.2–3.3%",
-        "s": "8 月同比"
+        "s": "8 月同比",
+        "k_en": "Core PCE",
+        "s_en": "Aug YoY"
+      }
+    ],
+    "as_of_en": "2026-09-30",
+    "source_en": "Compiled from CME FedWatch 9/30 / NY Fed Williams 9/29 / S&P Global PMI / Sina Finance / National Business Daily.",
+    "current_range_en": "3.75%–4.00% (after 9/16 +25bp hike, up from 3.50%–3.75%)",
+    "narrative_en": "Narrative reversal: the year-start '2–3 cuts this year' was rewritten by the surprise +25bp hike on 9/16 (range 3.50%–3.75% → 3.75%–4.00%). On 9/29 NY Fed Williams said 'not in a hurry', traders cut October hike bets, pricing only one more hike by year-end; but 9/30 CME still shows October hike 50.4% vs hold 49.6% — a true coin flip. Driving the hikes is re-accelerating inflation: Sept S&P composite PMI 58.4 (62-month high), services 58.7 (59-month high), plus the Iran-war oil shock (Brent briefly $103+).",
+    "midterm_impact_en": "Rates are the economic spine of the midterms: ① holding/raising high rates → mortgage and consumer-credit costs stay high, squeeze households, hurt the incumbent party; ② if hikes come from war-oil inflation, it transfers geopolitical risk into domestic rate pressure — doubly bad for the current administration; ③ Trump's public feud with the Fed turns monetary policy into an election flashpoint.",
+    "watch_en": "Core PCE (Aug YoY 3.2–3.3%, released 9/26), Sept CPI & NFP, oil (Brent holding $100?), Trump vs Fed public feud, last jobs report before 10/27 meeting"
+  },
+  "senate_map": {
+    "as_of": "2026-09",
+    "note": "评级综合 Cook Political Report / Sabato's Crystal Ball / Inside Elections 2026 年 9 月下旬估算；席位结构与市场/模型一致——民主党需净增 4 席（含副总统打破 50-50）。",
+    "note_en": "Ratings compiled from Cook Political Report / Sabato's Crystal Ball / Inside Elections late-Sept 2026 estimates; seat structure consistent with markets/models — Dems need net +4 (incl. VP breaking 50-50).",
+    "seats": [
+      {
+        "state": "缅因 Maine",
+        "state_en": "Maine",
+        "trend": "Collins 民调落后 ~5pt（Kalshi 给 D 68%）",
+        "trend_en": "Collins trails ~5pt (Kalshi gives D 68%)",
+        "holder": "R",
+        "rating": "Tossup",
+        "key": "最清晰翻 D 信号",
+        "key_en": "Clearest flip-to-D signal"
+      },
+      {
+        "state": "北卡罗来纳 NC",
+        "state_en": "North Carolina",
+        "trend": "Tillis 退休，Cooper 出马领先",
+        "trend_en": "Tillis retiring, Cooper running ahead",
+        "holder": "R",
+        "rating": "Lean D / Tossup",
+        "key": "开放席，D 头号目标",
+        "key_en": "Open seat, D's #1 target"
+      },
+      {
+        "state": "俄亥俄 OH",
+        "state_en": "Ohio",
+        "trend": "Brown 61%（Kalshi）",
+        "trend_en": "Brown 61% (Kalshi)",
+        "holder": "D",
+        "rating": "Lean D",
+        "key": "D 最贵防守",
+        "key_en": "D's most expensive defense"
+      },
+      {
+        "state": "密歇根 MI",
+        "state_en": "Michigan",
+        "trend": "开放席，R 强募",
+        "trend_en": "Open seat, R strong fundraising",
+        "holder": "D",
+        "rating": "Tossup",
+        "key": "D 须守住",
+        "key_en": "D must hold"
+      },
+      {
+        "state": "佐治亚 GA",
+        "state_en": "Georgia",
+        "trend": "Ossoff 小幅领先",
+        "trend_en": "Ossoff slight lead",
+        "holder": "D",
+        "rating": "Tossup",
+        "key": "D 须守住",
+        "key_en": "D must hold"
+      },
+      {
+        "state": "新罕布什尔 NH",
+        "state_en": "New Hampshire",
+        "trend": "Hassan 稳",
+        "trend_en": "Hassan safe",
+        "holder": "D",
+        "rating": "Lean D",
+        "key": "D 须守住",
+        "key_en": "D must hold"
+      },
+      {
+        "state": "明尼苏达 MN",
+        "state_en": "Minnesota",
+        "trend": "开放席，D 略优",
+        "trend_en": "Open seat, D slight edge",
+        "holder": "D",
+        "rating": "Lean D",
+        "key": "D 须守住",
+        "key_en": "D must hold"
+      },
+      {
+        "state": "阿拉斯加 AK",
+        "state_en": "Alaska",
+        "trend": "Sullivan 稳，D 偶有缝隙",
+        "trend_en": "Sullivan safe, D occasional cracks",
+        "holder": "R",
+        "rating": "Lean R",
+        "key": "翻 D 需意外",
+        "key_en": "Flip to D needs surprise"
       }
     ]
   }
 };
-
 let DATA = SEED;
 let LIVE = false;
+
+// ---------------- i18n ----------------
+const I18N = {
+  zh: {
+    page_title:"2026 中期选举 · 预测模型实时仪表盘",
+    h1:"2026 中期选举 · 预测模型实时仪表盘",
+    h1_sub:"统计模型 + 预测市场 · 众议院 / 参议院控制权概率（民主党 %）· 共 {n} 个模型 + 预测市场",
+    meta_election_day:"选举日", meta_snapshot:"数据快照", src_models:"来源：{n} 模型 + 市场",
+    sec_pulse:"实时心跳 · 预测市场", sec_cards:"模型概率卡片",
+    sec_house:"民主党夺回众院概率 · 近期轨迹", sec_senate:"民主党夺回参议院概率 · 近期轨迹",
+    sec_senate_topic:"参议院专题 · 民主党的“四席之路” 与 共和党的“守成”",
+    sec_div:"当前分歧快照 · 众院民主党胜率", sec_expert:"模型 vs 专家评级 · 分歧的真正核心",
+    sec_party:"两党内部矛盾 · 机会与缺陷", sec_macro:"关键宏观变量 · 影响中期选举",
+    sub_cards:"五大目标模型 + 七个对照模型（含市场口径对照）。徽章：自动=脚本可解析 · 半自动=反爬/付费墙 · 待抓取=需 headless",
+    sub_house:"基于公开报道的采样点（非模型原生逐日序列）；≥2 个点的模型连成线，单点标圆点。市场为真实秒级流（此处取公开报道快照）",
+    sub_senate_topic:"结构性事实 + 2026-09 三大评级机构（Cook / Sabato / Inside Elections）与各模型对照。参议院逐州计票，不等同于全国波浪",
+    sub_expert:"统计模型（Economist / Silver / FiftyPlusOne 等）把全国普选领先直接映射成赢面；Cook / Sabato / Inside Elections 等逐州评级机构更保守。二者并存——分歧本身才是这张盘要展示的核心。",
+    sub_party:"综合 POLITICO、美联社/凤凰网、新华社环球、Ahram、USA Today 等 2026 公开报道与初选结果整理。模型概率是“天气”，党内裂缝与暴露面是“地形”——后者才是概率之外的真实变量。",
+    mode_demo:"演示模式", mode_live:"实时",
+    hero_range_label:"众院·民主党胜率区间", hero_mean_label:"模型均值 / 中位",
+    hero_market_label:"预测市场·众院", hero_senate_label:"参院·民主党胜率（模型均值）", hero_seats_label:"众院·民主党中位席位",
+    hero_note:"最谨慎 <b style=\"color:var(--rep)\">Election Statsheet {lo}%</b> ↔ 最乐观 <b style=\"color:var(--dem)\">FiftyPlusOne/Pollcast {hi}%</b>。这不是误差，是<b style=\"color:var(--amber)\">真实方法论分歧</b> —— 本盘展示分歧本身。",
+    pulse_senate_label:"参议院 · 民主党", pulse_sweep_label:"民主席卷（同赢两院）",
+    pulse_center_label:"市场 vs 模型中枢", pulse_center_sub:"市场比 {avg} 模型均值更看多民主党",
+    pulse_live:"实时流式 · ", pulse_demo:"快照种子（演示游动）· ",
+    card_house_label:"众议院 · 民主党胜率", card_senate_label:"参议院 · 民主党胜率", card_r_fav:"R 优",
+    seat_house:"↳ 民主党预期约 {n} 席（过半线 218）", seat_senate:"↳ 翻转需净增 4 席 → 51（含 2 名独立人士）",
+    src_label:"来源：", asof_label:"读数时点：",
+    badge_auto:"自动", badge_semi:"半自动", badge_pending:"待抓取",
+    contrast_header:"— 对照模型（补全分歧两端的谨慎派与乐观派）—",
+    div_market_label:"预测市场",
+    rangebar:"模型众院民主党概率区间：<b>{lo}%</b> – <b>{hi}%</b>（中位/均值 <b>{med}%</b>）· 跨度 <b>{span} pt</b> = 真实方法论分歧",
+    sm_threshold_label:"民主党夺回门槛", sm_gop_seats_label:"改选席位·共和党持有",
+    sm_senate_mean_label:"参院·模型均值", sm_house_mean_label:"对比·众院均值",
+    sm_th_state:"战场州", sm_th_held:"谁守", sm_th_rating:"评级(Cook/IE)", sm_th_key:"要点",
+    sm_held_r:"共和党守", sm_held_d:"民主党守",
+    sm_path_dem_title:"民主党夺回（需净增 4）",
+    sm_path_dem_body:"先拿 <b>北卡罗来纳 + 缅因</b>，再需从 <b>俄亥俄 / 阿拉斯加 / 密歇根</b> 中赢 2 席，同时守住 <b>佐治亚、新罕布什尔、明尼苏达</b>。押注全国浪潮（全美普选民主党领先 8-9pt、特朗普支持率约 33%）能击穿州级结构。",
+    sm_path_rep_title:"共和党保住（微弱优势）",
+    sm_path_rep_body:"只需守住现有版图。逻辑：<b>参议院逐州计票</b>，全国浪潮须被州级结构衰减；只要民主党的 <b>佐治亚/密歇根/新罕布什尔</b> 丢 1-2 席，即使赢下北卡+缅因也不够。Sabato 水晶球至今仍看好共和党保住多数。",
+    sm_why_title:"为什么两院差距这么大",
+    sm_why_body:"众院是全国波浪的<b>直接映射</b>（模型均值 {h}%，近乎确定）；参院是<b>35 场逐州选举的叠加</b>，被州级结构“衰减”（模型均值 {s}%，实为掷硬币）。<b>共和党“微弱保住参议院”是与民主党夺回并存的真实基准情形，不是异端。</b>",
+    ex_k1:"模型隐含 · 众院 D 增益", ex_k2:"模型 · 众院 D 胜率", ex_k3:"模型 · 参院 D 胜率", ex_k4:"专家评级隐含 · 众院增益",
+    ex_th_rater:"评级机构", ex_th_house:"众院 D 增益", ex_th_senate:"参议院看法", ex_th_note:"要点",
+    ex_why:"为什么模型比评级更看多民主党：",
+    pd_dem_title:"民主党内部矛盾", pd_rep_title:"共和党内部矛盾", pd_dem_tag:"Democrat", pd_rep_tag:"Republican",
+    pc_dem_opp:"民主党 · 机会", pc_dem_flaw:"民主党 · 缺陷", pc_rep_opp:"共和党 · 机会", pc_rep_flaw:"共和党 · 缺陷",
+    ir_timeline:"战事时间线", ir_scenarios:"情景概率（国会研究处 CRS 9/18 框架）", ir_facts:"关键事实",
+    ir_midterm:"对中期选举的影响：", ir_redline:"关键红线：",
+    fed_rate_label:"当前联邦基金利率区间", fed_narrative:"叙事反转：",
+    fed_mtg_base:"基准：", fed_midterm:"对中期选举的影响：", fed_watch:"盯盘清单：",
+    legend_single:"○ 单点采样 · — 连线为 ≥2 点轨迹", legend_live:"（实时）",
+    note_arch:"架构与口径说明：预测市场（Kalshi/Polymarket）是仪表盘唯一秒级流式来源，其余统计模型均为定时重算（FiftyPlusOne 4 次/天、Economist 每天、Silver 近每天、Split Ticket 周更、DDHQ/Scrutinel 每天）。前端用动画把“离散快照”呈现为“连续流动”——这是市面上所有“选举实时盘”的真实做法。各模型对“众院民主党概率”给出 <b>55%（Election Statsheet）到 98%（FiftyPlusOne/Pollcast）</b> 的跨度，这是<b>真实方法论分歧</b>而非误差，本盘展示分歧本身，不做强行归一。Race to the WH 的 topline 嵌在 Squarespace 的 <b>iframe</b> 里、静态 HTML 无数字、本机 headless 不稳；已补入其 <b>2026-08-11 论坛转引的真实参院快照（57.6%→58%）</b>，众院 80% 为基于其方法定位的<b>估算</b>（站点众院页不可抓取）。数据仅供方法学研判，<b>不构成任何选举或投资建议</b>。",
+    disc:"数值来自各模型公开页面/访谈与公开报道（截至 {date}）· 预测市场数值为跨平台共识快照，经 Cloudflare 边缘实时代理（/api/market）可真流式刷新",
+    footer_method:"方法学说明：<a href=\"ANALYSIS.md\" target=\"_blank\" rel=\"noopener\">ANALYSIS.md</a> · 本盘展示各模型对「民主党夺回参众两院概率」的<b style=\"color:var(--amber)\">真实方法论分歧</b>，不做强行归一。数据仅供方法学研判，<b style=\"color:var(--amber)\">不构成任何选举或投资建议</b>。",
+    footer_sub:"各模型公开读数截至 {date} · 部署于 Cloudflare 边缘"
+  },
+  en: {
+    page_title:"2026 Midterm Elections · Live Forecast Model Dashboard",
+    h1:"2026 Midterm Elections · Live Forecast Model Dashboard",
+    h1_sub:"Statistical models + prediction markets · House / Senate control probability (Democrat %) · {n} models + markets",
+    meta_election_day:"Election Day", meta_snapshot:"Data snapshot", src_models:"Source: {n} models + markets",
+    sec_pulse:"Live Pulse · Prediction Markets", sec_cards:"Model Probability Cards",
+    sec_house:"Democrat House Win Prob · Recent Trajectory", sec_senate:"Democrat Senate Win Prob · Recent Trajectory",
+    sec_senate_topic:"Senate Deep-Dive · Dem's \"4-Seat Path\" & GOP's \"Hold\"",
+    sec_div:"Current Divergence Snapshot · House Dem Win", sec_expert:"Models vs Expert Ratings · Where the Divide Really Is",
+    sec_party:"Intra-Party Rifts · Opportunities & Flaws", sec_macro:"Key Macro Variables · Impact on Midterms",
+    sub_cards:"Five target models + seven contrast models (incl. market basis). Badges: Auto = script-parseable · Semi = anti-scrape/paywall · Pending = needs headless",
+    sub_house:"Sampling points from public reports (not native daily series); models with ≥2 points are connected, single points shown as dots. Market is true second-level stream (snapshot from public reports here)",
+    sub_senate_topic:"Structural facts + the three major rating agencies (Cook / Sabato / Inside Elections) vs models, Sept 2026. Senate is counted state-by-state, not a national wave",
+    sub_expert:"Statistical models (Economist / Silver / FiftyPlusOne etc.) map the national popular-vote lead directly into win odds; state-by-state rating agencies (Cook / Sabato / Inside Elections) are more conservative. Both coexist — the divergence itself is the core this board shows.",
+    sub_party:"Compiled from POLITICO, AP/ifeng, Xinhua Global, Ahram, USA Today and other 2026 public reports and primary results. Model probabilities are 'weather'; intra-party cracks and exposure are 'terrain' — the latter are the real variable beyond the probabilities.",
+    mode_demo:"Demo mode", mode_live:"Live",
+    hero_range_label:"House · Dem win range", hero_mean_label:"Model mean / median",
+    hero_market_label:"Prediction market · House", hero_senate_label:"Senate · Dem win (model mean)", hero_seats_label:"House · Dem median seats",
+    hero_note:"Most cautious <b style=\"color:var(--rep)\">Election Statsheet {lo}%</b> ↔ most optimistic <b style=\"color:var(--dem)\">FiftyPlusOne/Pollcast {hi}%</b>. This is not error, it is a <b style=\"color:var(--amber)\">real methodological divergence</b> — this board shows the divergence itself.",
+    pulse_senate_label:"Senate · Dem", pulse_sweep_label:"Democratic Sweep (win both chambers)",
+    pulse_center_label:"Market vs Model Center", pulse_center_sub:"Market more bullish on Dems than {avg} model mean",
+    pulse_live:"Live stream · ", pulse_demo:"Snapshot seed (demo drift) · ",
+    card_house_label:"House · Dem win prob", card_senate_label:"Senate · Dem win prob", card_r_fav:"R fav",
+    seat_house:"↳ Dem projected ~{n} seats (majority 218)", seat_senate:"↳ Flip needs net +4 → 51 (incl. 2 independents)",
+    src_label:"Source: ", asof_label:"As of: ",
+    badge_auto:"Auto", badge_semi:"Semi", badge_pending:"Pending",
+    contrast_header:"— Contrast models (caution & optimism at the extremes) —",
+    div_market_label:"Prediction Market",
+    rangebar:"Model House Dem prob range: <b>{lo}%</b> – <b>{hi}%</b> (median/mean <b>{med}%</b>) · span <b>{span} pt</b> = real methodological divergence",
+    sm_threshold_label:"Dem retake threshold", sm_gop_seats_label:"Seats up · held by GOP",
+    sm_senate_mean_label:"Senate · model mean", sm_house_mean_label:"vs · House mean",
+    sm_th_state:"Battleground", sm_th_held:"Held by", sm_th_rating:"Rating (Cook/IE)", sm_th_key:"Key",
+    sm_held_r:"GOP holds", sm_held_d:"Dem holds",
+    sm_path_dem_title:"Dem takeover (need net +4)",
+    sm_path_dem_body:"First take <b>North Carolina + Maine</b>, then win 2 of <b>Ohio / Alaska / Michigan</b>, while holding <b>Georgia, New Hampshire, Minnesota</b>. This bets that the national wave (Dems lead national PV by 8-9pt, Trump approval ~33%) pierces state-level structure.",
+    sm_path_rep_title:"GOP hold (slim edge)",
+    sm_path_rep_body:"Just hold the current map. Logic: <b>Senate counts state-by-state</b>, so the national wave is dampened by state structure; if Dems drop 1-2 of <b>Georgia/Michigan/New Hampshire</b>, even winning NC+Maine isn't enough. Sabato's Crystal Ball still favors GOP holding the majority.",
+    sm_why_title:"Why the two chambers diverge so much",
+    sm_why_body:"The House is a <b>direct map</b> of the national wave (model mean {h}%, near-certain); the Senate is the <b>stack of 35 state-by-state races</b>, dampened by state structure (model mean {s}%, a real coin-flip). <b>GOP 'slim hold of the Senate' is a real baseline scenario coexisting with a Dem takeover — not heresy.</b>",
+    ex_k1:"Model-implied · House D gain", ex_k2:"Model · House D win", ex_k3:"Model · Senate D win", ex_k4:"Expert-rating-implied · House gain",
+    ex_th_rater:"Rating agency", ex_th_house:"House D gain", ex_th_senate:"Senate view", ex_th_note:"Note",
+    ex_why:"Why models are more bullish than ratings: ",
+    pd_dem_title:"Democratic intra-party rifts", pd_rep_title:"Republican intra-party rifts", pd_dem_tag:"Democrat", pd_rep_tag:"Republican",
+    pc_dem_opp:"Democrats · Opportunities", pc_dem_flaw:"Democrats · Flaws", pc_rep_opp:"Republicans · Opportunities", pc_rep_flaw:"Republicans · Flaws",
+    ir_timeline:"War timeline", ir_scenarios:"Scenario probabilities (CRS 9/18 framework)", ir_facts:"Key facts",
+    ir_midterm:"Impact on midterms: ", ir_redline:"Key red lines: ",
+    fed_rate_label:"Current federal funds rate range", fed_narrative:"Narrative reversal: ",
+    fed_mtg_base:"Base case: ", fed_midterm:"Impact on midterms: ", fed_watch:"Watch list: ",
+    legend_single:"○ single-point sample · — line = ≥2-point trajectory", legend_live:"(live)",
+    note_arch:"Architecture & scope: prediction markets (Kalshi/Polymarket) are the dashboard's only second-level streaming source; all other statistical models are recomputed on schedules (FiftyPlusOne 4x/day, Economist daily, Silver near-daily, Split Ticket weekly, DDHQ/Scrutinel daily). The front-end uses animation to present 'discrete snapshots' as 'continuous flow' — this is exactly what every 'live election board' on the market does. The models span <b>55% (Election Statsheet) to 98% (FiftyPlusOne/Pollcast)</b> on 'Democrat House probability' — this is a <b>real methodological divergence</b>, not error; this board shows the divergence itself, with no forced normalization. Race to the WH's topline sits in a Squarespace <b>iframe</b>, static HTML has no numbers, and headless refresh is unreliable; we added its real <b>2026-08-11 forum-cited Senate snapshot (57.6%→58%)</b>, while the 80% House figure is an <b>estimate</b> based on its methodology (its House page is not scrapable). Data is for methodological study only and <b>does not constitute any election or investment advice</b>.",
+    disc:"Figures from each model's public page/interview and public reports (as of {date}) · prediction-market figures are cross-platform consensus snapshots, refreshable as true streaming via the Cloudflare edge proxy (/api/market)",
+    footer_method:"Methodology: <a href=\"ANALYSIS.md\" target=\"_blank\" rel=\"noopener\">ANALYSIS.md</a> · This board shows the real methodological divergence among models on 'Democrat retake of House & Senate', with no forced normalization. Data is for methodological study only, <b style=\"color:var(--amber)\">not any election or investment advice</b>.",
+    footer_sub:"Public model readings as of {date} · Deployed on Cloudflare edge"
+  }
+};
+let lang = (function(){ try{return localStorage.getItem('lang')||'zh';}catch(e){return 'zh';} })();
+function T(k){ var d=I18N[lang]||I18N.zh; return (d[k]!=null)?d[k]:(I18N.zh[k]!=null?I18N.zh[k]:k); }
+function Tf(k,map){ var s=T(k); for(var m in (map||{})){ s=s.split('{'+m+'}').join(map[m]); } return s; }
+function bi(o,k){ if(!o) return ''; return (lang==='en' && o[k+'_en']!=null)?o[k+'_en']:(o[k]!=null?o[k]:''); }
+function toggleLang(){
+  lang = (lang==='zh')?'en':'zh';
+  try{ localStorage.setItem('lang', lang); }catch(e){}
+  document.documentElement.lang = (lang==='en')?'en':'zh';
+  document.getElementById('langToggle').textContent = (lang==='zh')?'EN':'中';
+  render();
+}
+
 // 数据来源两级：① data.json（模型快照，站内文件）② /api/market（Cloudflare 边缘实时代理的 Polymarket/Kalshi）
 fetch('data.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(j=>{
   if(j){ DATA=j; LIVE=!!j.live; }
@@ -889,26 +1269,14 @@ fetch('data.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(j=>{
 }).catch(()=>{ render(); });
 
 // ---- 辅助函数（render 依赖） ----
-const SENATE_MAP = {
-  note: "评级综合 Cook Political Report / Sabato's Crystal Ball / Inside Elections 2026 年 9 月下旬估算；席位结构与市场/模型一致——民主党需净增 4 席（含副总统打破 50-50）。",
-  seats: [
-    {state:"缅因 Maine", trend:"Collins 民调落后 ~5pt（Kalshi 给 D 68%）", holder:"R", rating:"Tossup", key:"最清晰翻 D 信号"},
-    {state:"北卡罗来纳 NC", trend:"Tillis 退休，Cooper 出马领先", holder:"R", rating:"Lean D / Tossup", key:"开放席，D 头号目标"},
-    {state:"俄亥俄 OH", trend:"Brown 61%（Kalshi）", holder:"D", rating:"Lean D", key:"D 最贵防守"},
-    {state:"密歇根 MI", trend:"开放席，R 强募", holder:"D", rating:"Tossup", key:"D 须守住"},
-    {state:"佐治亚 GA", trend:"Ossoff 小幅领先", holder:"D", rating:"Tossup", key:"D 须守住"},
-    {state:"新罕布什尔 NH", trend:"Hassan 稳", holder:"D", rating:"Lean D", key:"D 须守住"},
-    {state:"明尼苏达 MN", trend:"开放席，D 略优", holder:"D", rating:"Lean D", key:"D 须守住"},
-    {state:"阿拉斯加 AK", trend:"Sullivan 稳，D 偶有缝隙", holder:"R", rating:"Lean R", key:"翻 D 需意外"}
-  ]
-};
+const SENATE_MAP = DATA.senate_map || {seats:[]};
 function dayNum(d){ var p=String(d).split('-'); return (parseInt(p[0],10)||0)*30 + (parseInt(p[1],10)||0); }
 function pct(v){ if(v==null||isNaN(v)) return '—'; var n=Math.round(v*10)/10; return n+'%'; }
 function badge(m){
   var hasVal=(m.house_d!=null||m.senate_d!=null);
-  if(!hasVal) return '<span class="badge pending">待抓取</span>';
-  if(m.auto===true) return '<span class="badge auto">自动</span>';
-  return '<span class="badge manual">半自动</span>';
+  if(!hasVal) return '<span class="badge pending">'+T('badge_pending')+'</span>';
+  if(m.auto===true) return '<span class="badge auto">'+T('badge_auto')+'</span>';
+  return '<span class="badge manual">'+T('badge_semi')+'</span>';
 }
 function modelAvgHouse(){ var v=DATA.models.filter(m=>m.house_d!=null).map(m=>m.house_d); return v.length? v.reduce((a,b)=>a+b,0)/v.length:0; }
 function modelMedianHouse(){ var v=DATA.models.filter(m=>m.house_d!=null).map(m=>m.house_d).sort((a,b)=>a-b); var n=v.length; if(!n) return 0; return n%2? v[(n-1)/2]:(v[n/2-1]+v[n/2])/2; }
@@ -919,20 +1287,20 @@ function renderExpert(){
   var mi=ex.model_implied;
   var rows=ex.raters.map(function(r){
     return '<tr>'+
-      '<td><b>'+r.name+'</b><div style="color:var(--muted);font-size:10px">'+r.stance+'</div></td>'+
+      '<td><b>'+r.name+'</b><div style="color:var(--muted);font-size:10px">'+bi(r,'stance')+'</div></td>'+
       '<td style="color:var(--dem);font-weight:600">'+r.house_d_gain+'</td>'+
-      '<td>'+r.senate+'</td>'+
-      '<td style="color:var(--muted)">'+r.note+'</td></tr>';
+      '<td>'+bi(r,'senate')+'</td>'+
+      '<td style="color:var(--muted)">'+bi(r,'note')+'</td></tr>';
   }).join('');
   wrap.innerHTML =
     '<div class="sen-kpi">'+
-      '<div class="cell"><div class="k">模型隐含 · 众院 D 增益</div><div class="v">'+mi.house_d_gain+'</div></div>'+
-      '<div class="cell"><div class="k">模型 · 众院 D 胜率</div><div class="v">'+mi.house_d_prob+'</div></div>'+
-      '<div class="cell"><div class="k">模型 · 参院 D 胜率</div><div class="v">'+mi.senate_d_prob+'</div></div>'+
-      '<div class="cell"><div class="k">专家评级隐含 · 众院增益</div><div class="v" style="color:var(--gold)">+2 ~ +10</div></div>'+
+      '<div class="cell"><div class="k">'+T('ex_k1')+'</div><div class="v">'+mi.house_d_gain+'</div></div>'+
+      '<div class="cell"><div class="k">'+T('ex_k2')+'</div><div class="v">'+mi.house_d_prob+'</div></div>'+
+      '<div class="cell"><div class="k">'+T('ex_k3')+'</div><div class="v">'+mi.senate_d_prob+'</div></div>'+
+      '<div class="cell"><div class="k">'+T('ex_k4')+'</div><div class="v" style="color:var(--gold)">+2 ~ +10</div></div>'+
     '</div>'+
-    '<table class="sen-tbl"><thead><tr><th>评级机构</th><th>众院 D 增益</th><th>参议院看法</th><th>要点</th></tr></thead><tbody>'+rows+'</tbody></table>'+
-    '<div class="note" style="margin-top:12px"><b>为什么模型比评级更看多民主党：</b>'+ex.note+'</div>';
+    '<table class="sen-tbl"><thead><tr><th>'+T('ex_th_rater')+'</th><th>'+T('ex_th_house')+'</th><th>'+T('ex_th_senate')+'</th><th>'+T('ex_th_note')+'</th></tr></thead><tbody>'+rows+'</tbody></table>'+
+    '<div class="note" style="margin-top:12px"><b>'+T('ex_why')+'</b>'+bi(ex,'note')+'</div>';
 }
 function modelMedianHouseSeats(){
   var v=DATA.models.filter(m=>m.house_seats!=null).map(m=>m.house_seats);
@@ -946,127 +1314,151 @@ function renderConflicts(){
   function card(side,title,tag){
     var arr=pd.conflicts[side];
     return '<div class="pd-card '+side+'"><h3>'+title+'<span class="tag">'+tag+'</span></h3><ul>'+
-      arr.map(function(x){return '<li><b>'+x.theme+'：</b>'+x.detail+'</li>';}).join('')+'</ul></div>';
+      arr.map(function(x){return '<li><b>'+x.theme+'：</b>'+bi(x,'detail')+'</li>';}).join('')+'</ul></div>';
   }
-  wrap.innerHTML = card('dem','民主党内部矛盾','Democrat') + card('rep','共和党内部矛盾','Republican');
+  wrap.innerHTML = card('dem',T('pd_dem_title'),T('pd_dem_tag')) + card('rep',T('pd_rep_title'),T('pd_rep_tag'));
 }
 function renderProsCons(){
   var pd=DATA.party_dynamics; if(!pd) return;
   var wrap=document.getElementById('proscons'); if(!wrap) return;
   function col(side,label){
     var pc=pd.pros_cons[side];
-    return '<div class="pc-card opp"><h4>'+label+' · 机会</h4><ul>'+pc.opportunities.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul></div>'+
-           '<div class="pc-card flaw"><h4>'+label+' · 缺陷</h4><ul>'+pc.flaws.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul></div>';
+    var opp = pc.opportunities_en || pc.opportunities;
+    var flw = pc.flaws_en || pc.flaws;
+    return '<div class="pc-card opp"><h4>'+label+' · '+T('pc_dem_opp').split(' · ').pop()+'</h4><ul>'+opp.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul></div>'+
+           '<div class="pc-card flaw"><h4>'+label+' · '+T('pc_dem_flaw').split(' · ').pop()+'</h4><ul>'+flw.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul></div>';
   }
-  wrap.innerHTML = col('dem','民主党') + col('rep','共和党');
+  wrap.innerHTML = col('dem', lang==='en'?'Democrats':'民主党') + col('rep', lang==='en'?'Republicans':'共和党');
 }
 function renderIran(){
   var d=DATA.iran; if(!d) return;
   var wrap=document.getElementById('iranWrap'); if(!wrap) return;
   var kpi='<div class="sen-kpi">'+
-    (d.kpis||[]).map(function(x){return '<div class="cell"><div class="k">'+x.k+'</div><div class="v">'+x.v+'</div>'+(x.s?'<div class="s">'+x.s+'</div>':'');}).join('')+
+    (d.kpis||[]).map(function(x){return '<div class="cell"><div class="k">'+bi(x,'k')+'</div><div class="v">'+x.v+'</div>'+(x.s?'<div class="s">'+bi(x,'s')+'</div>':'');}).join('')+
   '</div>';
-  var tl='<div class="macro-h">战事时间线</div><ul class="tl">'+d.timeline.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul>';
-  var scn='<div class="macro-h">情景概率（国会研究处 CRS 9/18 框架）</div><div class="scn">'+
+  var tl='<div class="macro-h">'+T('ir_timeline')+'</div><ul class="tl">'+bi(d,'timeline').map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul>';
+  var scn='<div class="macro-h">'+T('ir_scenarios')+'</div><div class="scn">'+
     d.scenarios.map(function(s){
-      return '<div class="scn-row"><div class="nm">'+s.name+'</div><div class="pr">'+s.prob+'%</div></div>'+
+      return '<div class="scn-row"><div class="nm">'+bi(s,'name')+'</div><div class="pr">'+s.prob+'%</div></div>'+
              '<div class="scn-bar"><i style="width:'+s.prob+'%"></i></div>'+
-             '<div style="font-size:10px;color:var(--muted);margin:-2px 0 4px">'+s.note+'</div>';
+             '<div style="font-size:10px;color:var(--muted);margin:-2px 0 4px">'+bi(s,'note')+'</div>';
     }).join('')+'</div>';
-  var facts='<div class="macro-h">关键事实</div><ul class="facts">'+d.facts.map(function(f){return '<li>'+f+'</li>';}).join('')+'</ul>';
+  var facts='<div class="macro-h">'+T('ir_facts')+'</div><ul class="facts">'+bi(d,'facts').map(function(f){return '<li>'+f+'</li>';}).join('')+'</ul>';
   wrap.innerHTML = kpi + tl + scn + facts +
-    '<div class="note" style="margin-top:12px"><b>对中期选举的影响：</b>'+d.midterm_impact+'</div>'+
-    '<div class="risk"><b>关键红线：</b>'+d.risk+'</div>'+
-    '<div style="font-size:10px;color:#6e5f48;margin-top:8px">来源：'+d.source+' · 截至 '+d.as_of+'</div>';
+    '<div class="note" style="margin-top:12px"><b>'+T('ir_midterm')+'</b>'+bi(d,'midterm_impact')+'</div>'+
+    '<div class="risk"><b>'+T('ir_redline')+'</b>'+bi(d,'risk')+'</div>'+
+    '<div style="font-size:10px;color:#6e5f48;margin-top:8px">'+bi(d,'source')+' · '+bi(d,'as_of')+'</div>';
 }
 function renderFed(){
   var d=DATA.fed; if(!d) return;
   var wrap=document.getElementById('fedWrap'); if(!wrap) return;
   var head='<div style="display:flex;justify-content:space-between;align-items:baseline;padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:var(--panel2);margin-bottom:10px">'+
-    '<div style="font-size:11px;color:var(--muted)">当前联邦基金利率区间</div>'+
-    '<div style="font-size:14px;color:var(--gold);font-weight:700">'+d.current_range+'</div></div>';
-  var nar='<div class="note" style="margin-bottom:10px"><b>叙事反转：</b>'+d.narrative+'</div>';
+    '<div style="font-size:11px;color:var(--muted)">'+T('fed_rate_label')+'</div>'+
+    '<div style="font-size:14px;color:var(--gold);font-weight:700">'+bi(d,'current_range')+'</div></div>';
+  var nar='<div class="note" style="margin-bottom:10px"><b>'+T('fed_narrative')+'</b>'+bi(d,'narrative')+'</div>';
   var kp='<div class="sen-kpi">'+
-    (d.kpis||[]).map(function(x){return '<div class="cell"><div class="k">'+x.k+'</div><div class="v">'+x.v+'</div>'+(x.s?'<div class="s">'+x.s+'</div>':'');}).join('')+
+    (d.kpis||[]).map(function(x){return '<div class="cell"><div class="k">'+bi(x,'k')+'</div><div class="v">'+x.v+'</div>'+(x.s?'<div class="s">'+bi(x,'s')+'</div>':'');}).join('')+
   '</div>';
   var mtgs=d.meetings.map(function(m){
     var rows=m.probs.map(function(p){
-      return '<div class="scn-row"><div class="nm">'+p.name+'</div><div class="pr">'+p.p+'%</div></div>'+
+      return '<div class="scn-row"><div class="nm">'+bi(p,'name')+'</div><div class="pr">'+p.p+'%</div></div>'+
              '<div class="scn-bar"><i style="width:'+p.p+'%"></i></div>'+
-             '<div style="font-size:9.5px;color:var(--muted);margin:-2px 0 4px">'+p.src+'</div>';
+             '<div style="font-size:9.5px;color:var(--muted);margin:-2px 0 4px">'+bi(p,'src')+'</div>';
     }).join('');
-    return '<div class="fed-mtg"><div class="hd"><div class="dt">'+m.label+' · '+m.date+'</div><div class="bc">基准：'+m.base_case+'</div></div>'+
+    return '<div class="fed-mtg"><div class="hd"><div class="dt">'+bi(m,'label')+' · '+m.date+'</div><div class="bc">'+T('fed_mtg_base')+bi(m,'base_case')+'</div></div>'+
            '<div class="scn">'+rows+'</div>'+
-           '<div style="font-size:10px;color:var(--muted);margin-top:6px">'+m.note+'</div></div>';
+           '<div style="font-size:10px;color:var(--muted);margin-top:6px">'+bi(m,'note')+'</div></div>';
   }).join('');
   wrap.innerHTML = head + nar + kp + mtgs +
-    '<div class="note" style="margin-top:12px"><b>对中期选举的影响：</b>'+d.midterm_impact+'</div>'+
-    '<div class="risk"><b>盯盘清单：</b>'+d.watch+'</div>'+
-    '<div style="font-size:10px;color:#6e5f48;margin-top:8px">来源：'+d.source+' · 截至 '+d.as_of+'</div>';
+    '<div class="note" style="margin-top:12px"><b>'+T('fed_midterm')+'</b>'+bi(d,'midterm_impact')+'</div>'+
+    '<div class="risk"><b>'+T('fed_watch')+'</b>'+bi(d,'watch')+'</div>'+
+    '<div style="font-size:10px;color:#6e5f48;margin-top:8px">'+bi(d,'source')+' · '+bi(d,'as_of')+'</div>';
 }
 function renderSenateMap(){
   var wrap=document.getElementById('senWrap'); if(!wrap) return;
   var avgS=modelAvgSenate(), avgH=modelAvgHouse();
   var rows=SENATE_MAP.seats.map(function(s){return '<tr>'+
-    '<td><b>'+s.state+'</b><div style="color:var(--muted);font-size:10px">'+s.trend+'</div></td>'+
-    '<td class="st '+(s.holder==='R'?'r':'d')+'">'+(s.holder==='R'?'共和党守':'民主党守')+'</td>'+
+    '<td><b>'+bi(s,'state')+'</b><div style="color:var(--muted);font-size:10px">'+bi(s,'trend')+'</div></td>'+
+    '<td class="st '+(s.holder==='R'?'r':'d')+'">'+(s.holder==='R'?T('sm_held_r'):T('sm_held_d'))+'</td>'+
     '<td class="st">'+s.rating+'</td>'+
-    '<td style="color:var(--muted)">'+s.key+'</td></tr>';}).join('');
+    '<td style="color:var(--muted)">'+bi(s,'key')+'</td></tr>';}).join('');
   wrap.innerHTML =
     '<div class="sen-kpi">'+
-      '<div class="cell"><div class="k">民主党夺回门槛</div><div class="v">净增 4 席</div></div>'+
-      '<div class="cell"><div class="k">改选席位·共和党持有</div><div class="v">22 / 35</div></div>'+
-      '<div class="cell"><div class="k">参院·模型均值</div><div class="v">'+avgS.toFixed(1)+'%</div></div>'+
-      '<div class="cell"><div class="k">对比·众院均值</div><div class="v">'+avgH.toFixed(1)+'%</div></div>'+
+      '<div class="cell"><div class="k">'+T('sm_threshold_label')+'</div><div class="v">'+'net +4'+'</div></div>'+
+      '<div class="cell"><div class="k">'+T('sm_gop_seats_label')+'</div><div class="v">22 / 35</div></div>'+
+      '<div class="cell"><div class="k">'+T('sm_senate_mean_label')+'</div><div class="v">'+avgS.toFixed(1)+'%</div></div>'+
+      '<div class="cell"><div class="k">'+T('sm_house_mean_label')+'</div><div class="v">'+avgH.toFixed(1)+'%</div></div>'+
     '</div>'+
-    '<table class="sen-tbl"><thead><tr><th>战场州</th><th>谁守</th><th>评级(Cook/IE)</th><th>要点</th></tr></thead><tbody>'+rows+'</tbody></table>'+
+    '<table class="sen-tbl"><thead><tr><th>'+T('sm_th_state')+'</th><th>'+T('sm_th_held')+'</th><th>'+T('sm_th_rating')+'</th><th>'+T('sm_th_key')+'</th></tr></thead><tbody>'+rows+'</tbody></table>'+
     '<div class="sen-paths">'+
-      '<div class="p dem"><h4>民主党夺回（需净增 4）</h4>先拿 <b>北卡罗来纳 + 缅因</b>，再需从 <b>俄亥俄 / 阿拉斯加 / 密歇根</b> 中赢 2 席，同时守住 <b>佐治亚、新罕布什尔、明尼苏达</b>。押注全国浪潮（全美普选民主党领先 8-9pt、特朗普支持率约 33%）能击穿州级结构。</div>'+
-      '<div class="p rep"><h4>共和党保住（微弱优势）</h4>只需守住现有版图。逻辑：<b>参议院逐州计票</b>，全国浪潮须被州级结构衰减；只要民主党的 <b>佐治亚/密歇根/新罕布什尔</b> 丢 1-2 席，即使赢下北卡+缅因也不够。Sabato 水晶球至今仍看好共和党保住多数。</div>'+
+      '<div class="p dem"><h4>'+T('sm_path_dem_title')+'</h4>'+Tf('sm_path_dem_body',{})+'</div>'+
+      '<div class="p rep"><h4>'+T('sm_path_rep_title')+'</h4>'+Tf('sm_path_rep_body',{})+'</div>'+
     '</div>'+
-    '<div class="note" style="margin-top:14px"><b>为什么两院差距这么大：</b>众院是全国波浪的<b>直接映射</b>（模型均值 '+avgH.toFixed(0)+'%，近乎确定）；参院是<b>35 场逐州选举的叠加</b>，被州级结构“衰减”（模型均值 '+avgS.toFixed(0)+'%，实为掷硬币）。<b>共和党“微弱保住参议院”是与民主党夺回并存的真实基准情形，不是异端。</b></div>'+
-    '<div style="font-size:10px;color:#6e5f48;margin-top:8px">'+SENATE_MAP.note+'</div>';
+    '<div class="note" style="margin-top:14px"><b>'+T('sm_why_title')+'：</b>'+Tf('sm_why_body',{h:avgH.toFixed(0),s:avgS.toFixed(0)})+'</div>'+
+    '<div style="font-size:10px;color:#6e5f48;margin-top:8px">'+bi(SENATE_MAP,'note')+'</div>';
 }
 function render(){
+  document.title = T('page_title');
+  document.documentElement.lang = (lang==='en')?'en':'zh';
+  document.getElementById('langToggle').textContent = (lang==='zh')?'EN':'中';
+  document.getElementById('h1').innerHTML = T('h1')+'<small>'+Tf('h1_sub',{n:DATA.models.length})+'</small>';
+  document.getElementById('meta').innerHTML = T('meta_election_day')+' <b>'+DATA.election_day+'</b><br>'+T('meta_snapshot')+' <b id="upd"></b><br><span id="srcinfo"></span>';
   document.getElementById('upd').textContent = DATA.updated_at.replace('T',' ').slice(0,16);
-  document.getElementById('srcinfo').innerHTML = '来源：<b>'+DATA.models.length+' 模型 + 市场</b>';
-  document.getElementById('cnt').textContent = DATA.models.length;
-  document.getElementById('modebadge').textContent = LIVE ? '实时' : '演示模式';
-  document.getElementById('modebadge').className = 'mode-badge' + (LIVE ? ' live' : '');
+  document.getElementById('srcinfo').innerHTML = Tf('src_models',{n:DATA.models.length});
+  document.getElementById('modebadge') && (document.getElementById('modebadge').textContent='');
+  document.getElementById('sec_pulse').innerHTML = '<span class="live-dot"></span>'+T('sec_pulse')+'<span class="mode-badge" id="modebadge">'+T('mode_demo')+'</span>';
+  var mb=document.getElementById('modebadge'); if(mb){ mb.textContent = LIVE ? T('mode_live') : T('mode_demo'); mb.className='mode-badge'+(LIVE?' live':''); }
+  document.getElementById('sec_cards').textContent = T('sec_cards');
+  document.getElementById('sub_cards').textContent = T('sub_cards');
+  document.getElementById('sec_house').textContent = T('sec_house');
+  document.getElementById('sub_house').textContent = T('sub_house');
+  document.getElementById('sec_senate').textContent = T('sec_senate');
+  document.getElementById('sec_senate_topic').textContent = T('sec_senate_topic');
+  document.getElementById('sub_senate_topic').textContent = T('sub_senate_topic');
+  document.getElementById('sec_div').textContent = T('sec_div');
+  document.getElementById('sec_expert').textContent = T('sec_expert');
+  document.getElementById('sub_expert').textContent = T('sub_expert');
+  document.getElementById('sec_party').textContent = T('sec_party');
+  document.getElementById('sub_party').textContent = T('sub_party');
+  document.getElementById('sec_macro').textContent = T('sec_macro');
+  document.getElementById('note_arch').innerHTML = Tf('note_arch',{});
+  document.getElementById('disc').innerHTML = Tf('disc',{date:DATA.updated_at.slice(0,10)});
+  document.getElementById('footer').innerHTML = Tf('footer_method',{}) + '<br><span style="color:#6e5f48">'+Tf('footer_sub',{date:DATA.updated_at.slice(0,10)})+'</span>';
+
   // hero spread
   const hdVals=DATA.models.filter(m=>m.house_d!=null).map(m=>m.house_d);
   const lo=Math.min(...hdVals), hi=Math.max(...hdVals), med=modelAvgHouse(), mid=modelMedianHouse();
   const hs=modelMedianHouseSeats();
   document.getElementById('hero').innerHTML =
-    '<div class="stat"><div class="k">众院·民主党胜率区间</div><div class="v">'+lo+'%–'+hi+'%<small> 跨 '+(hi-lo)+' pt</small></div></div>'+
-    '<div class="stat"><div class="k">模型均值 / 中位</div><div class="v">'+med.toFixed(0)+'%<small> 均值 · 中位 '+mid.toFixed(0)+'%</small></div></div>'+
-    '<div class="stat"><div class="k">预测市场·众院</div><div class="v">'+pct(DATA.markets.house_d)+'<small> 民主党</small></div></div>'+
-    '<div class="stat"><div class="k">参院·民主党胜率（模型均值）</div><div class="v">'+modelAvgSenate().toFixed(0)+'%<small> 掷硬币区间</small></div></div>'+
-    '<div class="stat"><div class="k">众院·民主党中位席位</div><div class="v">'+(hs!=null?hs+' 席':'—')+'<small> 模型点位（过半 218）</small></div></div>'+
-    '<div class="note2">最谨慎 <b style="color:var(--rep)">Election Statsheet '+lo+'%</b> ↔ 最乐观 <b style="color:var(--dem)">FiftyPlusOne/Pollcast '+hi+'%</b>。这不是误差，是<b style="color:var(--amber)">真实方法论分歧</b> —— 本盘展示分歧本身。</div>';
+    '<div class="stat"><div class="k">'+T('hero_range_label')+'</div><div class="v">'+lo+'%–'+hi+'%<small> 跨 '+(hi-lo)+' pt</small></div></div>'+
+    '<div class="stat"><div class="k">'+T('hero_mean_label')+'</div><div class="v">'+med.toFixed(0)+'%<small> 均值 · 中位 '+mid.toFixed(0)+'%</small></div></div>'+
+    '<div class="stat"><div class="k">'+T('hero_market_label')+'</div><div class="v">'+pct(DATA.markets.house_d)+'<small> 民主党</small></div></div>'+
+    '<div class="stat"><div class="k">'+T('hero_senate_label')+'</div><div class="v">'+modelAvgSenate().toFixed(0)+'%<small> 掷硬币区间</small></div></div>'+
+    '<div class="stat"><div class="k">'+T('hero_seats_label')+'</div><div class="v">'+(hs!=null?hs+' 席':'—')+'<small> 模型点位（过半 218）</small></div></div>'+
+    '<div class="note2">'+Tf('hero_note',{lo:lo,hi:hi})+'</div>';
 
   // pulse (real-time market)
   const mk=DATA.markets;
   document.getElementById('pulse').innerHTML = `
     <div class="panel">
-      <div class="label"><span class="live-dot"></span>${mk.name}</div>
-      <div class="big" id="m-house">${pct(mk.house_d)}<span class="pct"> 众院·民主党</span></div>
-      <div class="sub">${LIVE?'实时流式 · ':'快照种子（演示游动）· '}${mk.as_of}</div>
+      <div class="label"><span class="live-dot"></span>${bi(mk,'name')}</div>
+      <div class="big" id="m-house">${pct(mk.house_d)}<span class="pct"> ${lang==='en'?'House · Dem':'众院·民主党'}</span></div>
+      <div class="sub">${(LIVE?T('pulse_live'):T('pulse_demo'))+mk.as_of}</div>
     </div>
     <div class="panel">
-      <div class="label">参议院 · 民主党</div>
+      <div class="label">${T('pulse_senate_label')}</div>
       <div class="big" id="m-senate">${pct(mk.senate_d)}</div>
-      <div class="sub">${mk.note}</div>
+      <div class="sub">${bi(mk,'note')}</div>
     </div>
     <div class="panel">
-      <div class="label">民主席卷（同赢两院）</div>
+      <div class="label">${T('pulse_sweep_label')}</div>
       <div class="big" id="m-sweep" style="color:var(--gold)">${pct(mk.sweep)}</div>
       <div class="sub">Polymarket / Kalshi「Balance of Power」</div>
     </div>
     <div class="panel">
-      <div class="label">市场 vs 模型中枢</div>
+      <div class="label">${T('pulse_center_label')}</div>
       <div class="big" style="font-size:22px;color:var(--gold)" id="m-diff">—<span class="pct"> pt</span></div>
-      <div class="sub" id="m-diff-sub">市场比 <span id="avgH"></span> 模型均值更看多民主党</div>
+      <div class="sub" id="m-diff-sub">${Tf('pulse_center_sub',{avg:''})}<span id="avgH"></span></div>
     </div>`;
   document.getElementById('avgH').textContent = modelAvgHouse().toFixed(0)+'%';
 
@@ -1075,7 +1467,7 @@ function render(){
   ['primary','contrast'].forEach(tier=>{
     if(tier==='contrast'){
       const h=document.createElement('div'); h.style.cssText='grid-column:1/-1;font-size:11px;color:var(--muted);margin:8px 0 -2px;letter-spacing:.5px';
-      h.textContent='— 对照模型（补全分歧两端的谨慎派与乐观派）—'; grid.appendChild(h);
+      h.textContent=T('contrast_header'); grid.appendChild(h);
     }
     DATA.models.filter(m=>m.tier===tier).forEach(m=>{
       const hd=m.house_d, sd=m.senate_d;
@@ -1084,18 +1476,18 @@ function render(){
       const hTxt = hd==null?'—':pct(hd), sTxt = sd==null?'—':pct(sd);
       card.innerHTML=`
         <div class="top">
-          <div><div class="name">${m.name}</div><div class="author">${m.author}</div><div class="method">${m.method}</div></div>
+          <div><div class="name">${m.name}</div><div class="author">${m.author}</div><div class="method">${bi(m,'method')}</div></div>
           ${badge(m)}
         </div>
         <div class="metric">
-          <div class="row"><span>众议院 · 民主党胜率</span><b>${hTxt}</b></div>
+          <div class="row"><span>${T('card_house_label')}</span><b>${hTxt}</b></div>
           <div class="bar"><div class="fill dem" data-w="${hd==null?0:hd}"></div></div>
-          ${m.house_seats!=null?'<div class="seat">↳ 民主党预期约 '+m.house_seats+' 席（过半线 218）</div>':''}
-          <div class="row" style="margin-top:10px"><span>参议院 · 民主党胜率</span><b>${sTxt}</b>${sd!=null&&sd<50?'<small style="color:var(--rep)"> R 优</small>':''}</div>
+          ${m.house_seats!=null?('<div class="seat">'+Tf('seat_house',{n:m.house_seats})+'</div>'):''}
+          <div class="row" style="margin-top:10px"><span>${T('card_senate_label')}</span><b>${sTxt}</b>${sd!=null&&sd<50?('<small style="color:var(--rep)"> '+T('card_r_fav')+'</small>'):''}</div>
           <div class="bar"><div class="fill dem" data-w="${sd==null?0:sd}"></div></div>
-          ${sd!=null?'<div class="seat">↳ 翻转需净增 4 席 → 51（含 2 名独立人士）</div>':''}
+          ${sd!=null?('<div class="seat">'+T('seat_senate')+'</div>'):''}
         </div>
-        <div class="foot"><span class="src-tag">来源：</span>${m.source}<br>读数时点：${m.as_of}</div>`;
+        <div class="foot"><span class="src-tag">${T('src_label')}</span>${bi(m,'source')}<br>${T('asof_label')}${m.as_of}</div>`;
       grid.appendChild(card);
     });
   });
@@ -1117,7 +1509,7 @@ const SERIES_COLORS = ['#e8a23d','#4a90d9','#6fbf73','#caa24a','#d9694a','#9c8a6
 function allSeries(chamber){
   const arr=[];
   DATA.models.forEach(m=>{ if(m.history && m.history[chamber]) arr.push({name:m.name,pts:m.history[chamber],color:null,kind:'model'}); });
-  if(DATA.markets.history && DATA.markets.history[chamber]) arr.push({name:'市场',pts:DATA.markets.history[chamber],color:'#e8a23d',kind:'market'});
+  if(DATA.markets.history && DATA.markets.history[chamber]) arr.push({name:bi(DATA.markets,'name'),pts:DATA.markets.history[chamber],color:'#e8a23d',kind:'market'});
   return arr;
 }
 function drawSeries(canvasId, legendId, chamber){
@@ -1126,7 +1518,6 @@ function drawSeries(canvasId, legendId, chamber){
   const ctx=cv.getContext('2d'); ctx.scale(2,2); ctx.clearRect(0,0,W,H);
   const padL=44,padR=14,padT=16,padB=34;
   const plotW=W-padL-padR, plotH=H-padT-padB;
-  // y grid 0-100
   ctx.strokeStyle='#3a2c1d'; ctx.fillStyle='#9c8a6e'; ctx.font='10px sans-serif'; ctx.textAlign='right';
   for(let v=0;v<=100;v+=20){const y=padT+plotH*(1-v/100);ctx.beginPath();ctx.moveTo(padL,y);ctx.lineTo(W-padR,y);ctx.stroke();ctx.fillText(v+'%',padL-6,y+3);}
   const series=allSeries(chamber);
@@ -1135,7 +1526,6 @@ function drawSeries(canvasId, legendId, chamber){
   let xmin=Math.min(...xs, 8*30+1), xmax=Math.max(...xs, 9*30+28);
   const X=d=>padL+plotW*( (dayNum(d)-xmin)/(xmax-xmin) );
   const Y=v=>padT+plotH*(1-v/100);
-  // assign colors
   let ci=0;
   series.forEach(s=>{ if(s.kind==='market'){s.color='#e8a23d';} else {s.color=SERIES_COLORS[ci%SERIES_COLORS.length];ci++;} });
   series.forEach(s=>{
@@ -1152,12 +1542,10 @@ function drawSeries(canvasId, legendId, chamber){
       ctx.strokeStyle=s.color;ctx.setLineDash([2,2]);ctx.beginPath();ctx.moveTo(X(p.d),Y(p.v));ctx.lineTo(X(p.d),padT+plotH);ctx.stroke();ctx.setLineDash([]);
     }
   });
-  // x labels
   ctx.fillStyle='#9c8a6e'; ctx.textAlign='center'; ctx.font='10px sans-serif';
   [ '08-15','09-01','09-15','09-28' ].forEach(d=>{ if(dayNum(d)>=xmin&&dayNum(d)<=xmax) ctx.fillText(d, X(d), padT+plotH+16); });
-  // legend
-  document.getElementById(legendId).innerHTML = series.map(s=>`<span><i style="background:${s.color}"></i>${s.name}${s.kind==='market'?'（实时）':''}</span>`).join('')
-    + '<span style="color:#9c8a6e">○ 单点采样 · — 连线为 ≥2 点轨迹</span>';
+  document.getElementById(legendId).innerHTML = series.map(s=>`<span><i style="background:${s.color}"></i>${s.name}${s.kind==='market'?T('legend_live'):''}</span>`).join('')
+    + '<span style="color:#9c8a6e">'+T('legend_single')+'</span>';
 }
 
 // ---- 分歧快照：横条 + 区间带 ----
@@ -1174,25 +1562,24 @@ function drawDivergence(){
       <div class="val">${pct(m.house_d)}</div>`;
     dv.appendChild(r);
   });
-  // market marker row
   const r=document.createElement('div'); r.className='row';
-  r.innerHTML=`<div class="nm" style="color:var(--amber2)">预测市场</div>
+  r.innerHTML=`<div class="nm" style="color:var(--amber2)">${T('div_market_label')}</div>
     <div class="track"><div class="band" style="left:${bandL}%;width:${bandW}%"></div><div class="mk" style="left:${DATA.markets.house_d}%"></div></div>
     <div class="val" style="color:var(--amber2)">${pct(DATA.markets.house_d)}</div>`;
   dv.appendChild(r);
   document.getElementById('rangebar').innerHTML =
-    `模型众院民主党概率区间：<b>${lo}%</b> – <b>${hi}%</b>（中位/均值 <b>${med.toFixed(0)}%</b>）· 跨度 <b>${(hi-lo)} pt</b> = 真实方法论分歧`;
+    Tf('rangebar',{lo:lo,hi:hi,med:med.toFixed(0),span:(hi-lo)});
 }
 
 // ---- 模拟"实时心跳"：市场数值在种子值附近小幅游走（真接入 API 后删除此段） ----
 let mHouse=DATA.markets.house_d, mSenate=DATA.markets.senate_d, mSweep=DATA.markets.sweep||62;
 function updatePulse(){
-  if(LIVE) return;   // 接入真实市场 API 后，停止演示游动
+  if(LIVE) return;
   mHouse=Math.max(82,Math.min(93,mHouse+(Math.random()-0.5)*0.8));
   mSenate=Math.max(50,Math.min(64,mSenate+(Math.random()-0.5)*0.6));
   mSweep=Math.max(55,Math.min(68,mSweep+(Math.random()-0.5)*0.6));
   const h=document.getElementById('m-house'), s=document.getElementById('m-senate'), d=document.getElementById('m-diff'), w=document.getElementById('m-sweep');
-  if(h)h.innerHTML=mHouse.toFixed(1)+'%<span class="pct"> 众院·民主党</span>';
+  if(h)h.innerHTML=mHouse.toFixed(1)+'%<span class="pct"> '+(lang==='en'?'House · Dem':'众院·民主党')+'</span>';
   if(s)s.textContent=mSenate.toFixed(1)+'%';
   if(w)w.textContent=mSweep.toFixed(0)+'%';
   if(d){const diff=mHouse-modelAvgHouse(); d.innerHTML=(diff>=0?'+':'−')+Math.abs(diff).toFixed(0)+'<span class="pct"> pt</span>';}

@@ -37,7 +37,9 @@
           }
         ]
       },
-      "house_seats": 238
+      "house_seats": 238,
+      "method_en": "Bayesian model stacking · 4x/day",
+      "source_en": "Substack render page (author cited 9/23: median 238 seats, 98% majority; 9/20 poll 97%H / 64%S)"
     },
     {
       "id": "economist",
@@ -50,7 +52,9 @@
       "as_of": "2026-09-18",
       "source": "经济学人《US in Brief》9/18 官方公告：92%H / 59%S（7 月为 77%/45%，油价推升）",
       "auto": false,
-      "history": null
+      "history": null,
+      "method_en": "Bayesian hierarchical · 25,001 simulations/day",
+      "source_en": "Economist 'US in Brief' official 9/18 notice: 92%H / 59%S (was 77%/45% in July; oil-price driven)"
     },
     {
       "id": "silver",
@@ -92,7 +96,9 @@
             "v": 65
           }
         ]
-      }
+      },
+      "method_en": "Weighted polls + fundamentals · 40k joint simulations",
+      "source_en": "Silver free-post topline (Deluxe 65%S; low-mid 60% band; 9/28 homepage D+9.2)"
     },
     {
       "id": "splitticket",
@@ -127,7 +133,9 @@
           }
         ]
       },
-      "house_seats": 232
+      "house_seats": 232,
+      "method_en": "MRP + Monte Carlo · weekly",
+      "source_en": "The Argument (ex Split Ticket) 9/24 article: median 232D (+18), GOP majority only 11%; D 85%H/55%S basis"
     },
     {
       "id": "racetothewh",
@@ -140,7 +148,9 @@
       "as_of": "2026-08-11（参院快照·众院为估算）",
       "source": "参院 57.6%/51.2 席为 2026-08-11 论坛转引真实快照（RTtWH 每日 5 万次模拟、近三 cycle 正确预测参院多数）；众院数值 80% 为基于其方法定位的估算（站点众院页未提供可抓取的『控制权 %』）。topline 嵌于 Squarespace iframe，静态 HTML 无数字，无法 headless 自动刷新。",
       "auto": true,
-      "history": null
+      "history": null,
+      "method_en": "Data-driven · daily simulation",
+      "source_en": "Senate 57.6% / 51.2 seats is a real 2026-08-11 forum-cited snapshot (RTtWH ~50k sims/day, correctly called Senate majority in last 3 cycles); House 80% is an estimate based on its methodology (site's House page has no scrapable 'control %'). Topline sits in a Squarespace iframe, static HTML has no numbers, headless refresh unreliable."
     },
     {
       "id": "ddhq",
@@ -174,7 +184,9 @@
             "v": 54
           }
         ]
-      }
+      },
+      "method_en": "Daily · free embed",
+      "source_en": "votes.decisiondeskhq.com free page (updated 9/25 14:27)"
     },
     {
       "id": "scrutinel",
@@ -201,7 +213,9 @@
           }
         ]
       },
-      "house_seats": 232
+      "house_seats": 232,
+      "method_en": "Daily · free",
+      "source_en": "scrutinel.com free page (9/27 17:24; projects 232D / 203R)"
     },
     {
       "id": "pollcast",
@@ -223,7 +237,9 @@
         ],
         "senate": null
       },
-      "house_seats": 235
+      "house_seats": 235,
+      "method_en": "Daily · free",
+      "source_en": "pollcast.net (9/18: D 97.3%, projects 234.7 seats)"
     },
     {
       "id": "smartervote",
@@ -249,7 +265,9 @@
         ],
         "senate": null
       },
-      "house_seats": 229
+      "house_seats": 229,
+      "method_en": "AI model · free",
+      "source_en": "smarter.vote/forecast (9/27: D 73%, projects 229D-206R)"
     },
     {
       "id": "votehub",
@@ -262,7 +280,9 @@
       "as_of": "2026-08末",
       "source": "GD Politics 8/31 引述：D 77%H / R 53%S（即 D 47%S）",
       "auto": true,
-      "history": null
+      "history": null,
+      "method_en": "Aggregated polls + market tweak",
+      "source_en": "GD Politics 8/31 cited: D 77%H / R 53%S (i.e. D 47%S)"
     },
     {
       "id": "statsheet",
@@ -275,7 +295,9 @@
       "as_of": "2026-09",
       "source": "Noah News 引述：D 55%H / 28%S（最谨慎一端）",
       "auto": true,
-      "history": null
+      "history": null,
+      "method_en": "Bayesian · cautious",
+      "source_en": "Noah News cited: D 55%H / 28%S (most cautious end)"
     },
     {
       "id": "votepredictor",
@@ -288,7 +310,9 @@
       "as_of": "2026-09",
       "source": "Noah News 引述：D 76%H / R 75%S（即 D 25%S）",
       "auto": true,
-      "history": null
+      "history": null,
+      "method_en": "Simulation",
+      "source_en": "Noah News cited: D 76%H / R 75%S (i.e. D 25%S)"
     }
   ],
   "markets": {
@@ -362,7 +386,9 @@
           "v": 64
         }
       ]
-    }
+    },
+    "name_en": "Prediction Markets (Kalshi / Polymarket)",
+    "note_en": "Kalshi 9/30: Dem retake House 91%, retake Senate 61%; Polymarket 'Balance of Power' Dem sweep 62–66% (peak 66% on 9/22). Late-Sept 'Dem wave' jump (sweep +13pp on 9/21). Cross-platform D House ~92%, D Senate ~63%. This endpoint is proxied via Cloudflare edge; falls back to this consensus seed when unreachable."
   },
   "expert_ratings": {
     "as_of": "2026-09-29",
@@ -370,7 +396,10 @@
     "model_implied": {
       "house_d_gain": "+18（中位 232D）",
       "house_d_prob": "85–98%",
-      "senate_d_prob": "49–65%"
+      "senate_d_prob": "49–65%",
+      "house_d_gain_en": "+18 (median 232D)",
+      "house_d_prob_en": "85–98%",
+      "senate_d_prob_en": "49–65%"
     },
     "raters": [
       {
@@ -378,24 +407,35 @@
         "stance": "谨慎",
         "house_d_gain": "+2 ~ +6",
         "senate": "D 微弱优 / 掷硬币",
-        "note": "9 月下旬：民主党在多数竞争众院选区领先，但翻 R 席有限"
+        "note": "9 月下旬：民主党在多数竞争众院选区领先，但翻 R 席有限",
+        "stance_en": "Cautious",
+        "senate_en": "D slight edge / tossup",
+        "note_en": "Late Sept: D leads in most competitive House districts, but few R seats flip."
       },
       {
         "name": "Sabato's Crystal Ball",
         "stance": "结构衰减派",
         "house_d_gain": "+5 ~ +10",
         "senate": "看好 R 保多数",
-        "note": "参议院逐州计票，全国浪潮被州级结构衰减"
+        "note": "参议院逐州计票，全国浪潮被州级结构衰减",
+        "stance_en": "Structural-decay camp",
+        "senate_en": "Favors GOP hold",
+        "note_en": "Senate counts state-by-state; national wave dampened by state-level structure."
       },
       {
         "name": "Inside Elections",
         "stance": "逐州计票派",
         "house_d_gain": "+2 ~ +8",
         "senate": "D 略优但窄",
-        "note": "按州评级，不入全国波浪模型"
+        "note": "按州评级，不入全国波浪模型",
+        "stance_en": "State-by-state camp",
+        "senate_en": "D slight but narrow",
+        "note_en": "Rates by state, not a national-wave model."
       }
     ],
-    "note": "统计模型把全国普选领先（D+8~9pt）直接映射为众院赢面（均值 ~85%+），并给出参议院 49–65% 的掷硬币区间；三大评级机构更保守，仅把少数共和党席位评为 Lean D / Tossup，隐含众院增益 +2~+10。二者并存：模型快、评级慢且更挑剔；分歧本身才是这张盘要展示的核心。"
+    "note": "统计模型把全国普选领先（D+8~9pt）直接映射为众院赢面（均值 ~85%+），并给出参议院 49–65% 的掷硬币区间；三大评级机构更保守，仅把少数共和党席位评为 Lean D / Tossup，隐含众院增益 +2~+10。二者并存：模型快、评级慢且更挑剔；分歧本身才是这张盘要展示的核心。",
+    "source_en": "The Argument (Lakshya Jain) 9/24 roundup of Cook Political Report / Sabato's Crystal Ball / Inside Elections, cross-referenced with statistical models and prediction markets.",
+    "note_en": "Statistical models map the national popular-vote lead (D+8~9pt) directly into House odds (mean ~85%+), and give a Senate 49–65% coin-flip band; the three rating agencies are more conservative, rating only a handful of GOP seats Lean D / Tossup, implying House gains of +2~+10. Both coexist: models are fast, ratings are slow and pickier; the divergence itself is the core story this dashboard shows."
   },
   "party_dynamics": {
     "as_of": "2026-09-30",
@@ -404,49 +444,71 @@
       "dem": [
         {
           "theme": "路线之争：进步派 vs 建制派",
-          "detail": "“Mamdani 效应”与 DSA 崛起，纽约、科罗拉多等多名资深议员在初选被进步派击败；温和派(34%)与民主社会主义者(34%)势均力敌、互相警惕，分裂恰逢中期选举关键期。"
+          "detail": "“Mamdani 效应”与 DSA 崛起，纽约、科罗拉多等多名资深议员在初选被进步派击败；温和派(34%)与民主社会主义者(34%)势均力敌、互相警惕，分裂恰逢中期选举关键期。",
+          "theme_en": "Ideological fight: progressives vs establishment",
+          "detail_en": "The 'Mamdani effect' and DSA rise — multiple senior incumbent lawmakers lost primaries to progressives in NY, CO, etc.; moderates (34%) and democratic socialists (34%) are evenly matched and mutually wary, exactly during the critical midterm window."
         },
         {
           "theme": "参议院领导权危机",
-          "detail": "舒默(Schumer)的夺回战略遭本党进步派参议员公开“打脸”——在缅因/密歇根/明尼苏达背书反建制候选人；其领袖地位与 2026 命运直接挂钩。"
+          "detail": "舒默(Schumer)的夺回战略遭本党进步派参议员公开“打脸”——在缅因/密歇根/明尼苏达背书反建制候选人；其领袖地位与 2026 命运直接挂钩。",
+          "theme_en": "Senate leadership crisis",
+          "detail_en": "Schumer's takeover strategy was publicly 'humiliated' by his own progressive senators — who endorsed anti-establishment candidates in ME/MI/MN; his leadership and 2026 fate are directly tied."
         },
         {
           "theme": "资金危机",
-          "detail": "DNC 现金仅约 $16.5M、负债 $18.3M；全党战备金约 $400M，远低于共和党 ~$1B 战备；大额捐赠者绕开 DNC，认为其管理混乱。"
+          "detail": "DNC 现金仅约 $16.5M、负债 $18.3M；全党战备金约 $400M，远低于共和党 ~$1B 战备；大额捐赠者绕开 DNC，认为其管理混乱。",
+          "theme_en": "Funding crisis",
+          "detail_en": "DNC cash ~$16.5M, debt $18.3M; party war chest ~$400M, far below GOP ~$1B; big donors bypass DNC, seeing it as mismanaged."
         },
         {
           "theme": "巴以议题分裂",
-          "detail": "约 60% 民主党认为美国“过于挺以”（2024 仅 45%）；AIPAC 与进步派在初选正面对撞（密歇根 El-Sayed vs Stevens）。"
+          "detail": "约 60% 民主党认为美国“过于挺以”（2024 仅 45%）；AIPAC 与进步派在初选正面对撞（密歇根 El-Sayed vs Stevens）。",
+          "theme_en": "Israel–Palestine split",
+          "detail_en": "~60% of Democrats think the US is 'too pro-Israel' (vs 45% in 2024); AIPAC vs progressives collide head-on in primaries (MI El-Sayed vs Stevens)."
         },
         {
           "theme": "候选人筛选失误",
-          "detail": "缅因进步派候选人 Platner 因争议退选，挑战 Collins 的布局陷入被动，暴露党内候选人质控漏洞。"
+          "detail": "缅因进步派候选人 Platner 因争议退选，挑战 Collins 的布局陷入被动，暴露党内候选人质控漏洞。",
+          "theme_en": "Candidate vetting failures",
+          "detail_en": "ME progressive candidate Platner withdrew over controversy; the challenge to Collins faltered, exposing a party vetting gap."
         }
       ],
       "rep": [
         {
           "theme": "裸多数纪律",
-          "detail": "众院 218–214（含空缺），自由党团(Massie/Mace/Gonzales 等)屡次违抗领导；任意缺席都可能失票。"
+          "detail": "众院 218–214（含空缺），自由党团(Massie/Mace/Gonzales 等)屡次违抗领导；任意缺席都可能失票。",
+          "theme_en": "Razor-thin majority discipline",
+          "detail_en": "House 218–214 (with vacancies); Freedom Caucus (Massie/Mace/Gonzales etc.) repeatedly defies leadership; any absence can cost a vote."
         },
         {
           "theme": "Epstein 档案裂痕",
-          "detail": "MTG 因与特朗普在 Epstein 文件上决裂而辞职；Massie 把司法部长拖去 Epstein 听证；MAGA 内部对“掩盖”不满。"
+          "detail": "MTG 因与特朗普在 Epstein 文件上决裂而辞职；Massie 把司法部长拖去 Epstein 听证；MAGA 内部对“掩盖”不满。",
+          "theme_en": "Epstein files rift",
+          "detail_en": "MTG resigned after breaking with Trump over Epstein files; Massie dragged the AG to Epstein hearings; MAGA unhappy with the 'cover-up'."
         },
         {
           "theme": "特朗普初选清洗",
-          "detail": "已扳倒 Massie、Cassidy 及 5 名印第安纳州参议员，并挑战 Cornyn（挺 Paxton）；有共和党人警告削弱大选候选人。"
+          "detail": "已扳倒 Massie、Cassidy 及 5 名印第安纳州参议员，并挑战 Cornyn（挺 Paxton）；有共和党人警告削弱大选候选人。",
+          "theme_en": "Trump primary purge",
+          "detail_en": "Already toppled Massie, Cassidy and 5 Indiana state senators, and challenges Cornyn (backs Paxton); some Republicans warn it weakens the general-election candidate pool."
         },
         {
           "theme": "MAGA 内部分化",
-          "detail": "部分核心支持者对海外军事干预、过度挺以、与科技/金融精英过从甚密深感不满，阵营走向派系化。"
+          "detail": "部分核心支持者对海外军事干预、过度挺以、与科技/金融精英过从甚密深感不满，阵营走向派系化。",
+          "theme_en": "MAGA internal fragmentation",
+          "detail_en": "Some core supporters deeply unhappy with overseas military intervention, over-the-top pro-Israel stance, and coziness with tech/finance elites; the camp is factionalizing."
         },
         {
           "theme": "退休潮",
-          "detail": "近 30 名共和党众议员考虑不谋求连任，空缺席位成民主党突破口。"
+          "detail": "近 30 名共和党众议员考虑不谋求连任，空缺席位成民主党突破口。",
+          "theme_en": "Retirement wave",
+          "detail_en": "Nearly 30 Republican House members considering not seeking re-election; open seats become Dem openings."
         },
         {
           "theme": "选区重划党争",
-          "detail": "特朗普强推 TX 重划(估 +5 席)，印第安纳等地反弹；民主党以 CA 等州反制，加剧选举诉讼风险。"
+          "detail": "特朗普强推 TX 重划(估 +5 席)，印第安纳等地反弹；民主党以 CA 等州反制，加剧选举诉讼风险。",
+          "theme_en": "Redistricting warfare",
+          "detail_en": "Trump pushes TX redraw (est +5 seats); Indiana etc. pushback; Dems counter with CA and others, raising election-litigation risk."
         }
       ]
     },
@@ -465,6 +527,20 @@
           "“软弱”人设（民调显示多数认为民主党面对特朗普不够强硬）",
           "参议院地形不利：35 席改选中 16 安全 R vs 9 安全 D，真竞争仅 10 席",
           "候选人筛选与筹款效率问题（DNC 被批管理混乱、一度因钓鱼邮件损失 $29k）"
+        ],
+        "opportunities_en": [
+          "National popular vote lead D+8~9pt (historic); model House win mean ~85%+",
+          "Trump approval at lows (~33–40%, near term bottom)",
+          "Historical pattern: incumbent party loses avg 28 House + 4 Senate seats at midterms",
+          "Poor economic sentiment (inflation/cost of living) favors 'punish-the-incumbent' flips",
+          "GOP razor-thin House: 14 R competitive seats vs only 4 D; high exposure"
+        ],
+        "flaws_en": [
+          "Funding disadvantage (~$400M vs GOP ~$1B)",
+          "Intra-party ideological split, progressives vs establishment bleed each other",
+          "'Weak' image (polls show most think Dems aren't tough enough against Trump)",
+          "Tough Senate map: of 35 seats up, 16 safe R vs 9 safe D, only ~10 truly competitive",
+          "Candidate vetting and fundraising efficiency issues (DNC criticized as mismanaged; once lost $29k to a phishing email)"
         ]
       },
       "rep": {
@@ -480,9 +556,23 @@
           "Epstein/MAGA 内裂与初选清洗，可能削弱大选竞争力",
           "退休潮（近 30 人）放大空缺席风险",
           "经济体感差引发惩罚性投票"
+        ],
+        "opportunities_en": [
+          "Favorable Senate map: of 35 seats up, 16 safe R, only ~10 truly competitive (6 R contested); need lose ≤2 to hold",
+          "Redistricting (TX est +5) can pad the thin majority",
+          "Trump mobilization + MAGA base, high primary unity",
+          "Dems' funding and unity disadvantages are exploitable"
+        ],
+        "flaws_en": [
+          "Razor-thin House (218–214, lose ≤3 and it's gone)",
+          "Trump's low poll numbers become a 'referendum' drag (midterms usually punish incumbents)",
+          "Epstein / MAGA rifts and primary purges may weaken general-election competitiveness",
+          "Retirement wave (~30) amplifies open-seat risk",
+          "Poor economic sentiment triggers punish-the-incumbent voting"
         ]
       }
-    }
+    },
+    "source_en": "Compiled from POLITICO, AP/ifeng, Xinhua Global, Ahram, USA Today and other 2026 public reports and primary results."
   },
   "iran": {
     "as_of": "2026-09-30（9/28 起重大升级）",
@@ -507,22 +597,30 @@
       {
         "name": "长期低烈度对峙（现状延续）",
         "prob": 30,
-        "note": "美军周期性「割草式」打击 + 伊朗水雷/无人机/袭船维持航道风险；但 9/28 升级后强度显著抬升。"
+        "note": "美军周期性「割草式」打击 + 伊朗水雷/无人机/袭船维持航道风险；但 9/28 升级后强度显著抬升。",
+        "name_en": "Prolonged low-intensity standoff (status quo)",
+        "note_en": "US periodic 'mowing-grass' strikes + Iran mines/drones/ship attacks keep lane risk; but intensity jumped after 9/28."
       },
       {
         "name": "不稳定停火",
         "prob": 20,
-        "note": "因经济或内外压力暂停军事行动但无全面协议；卡塔尔斡旋下的脆弱窗口。"
+        "note": "因经济或内外压力暂停军事行动但无全面协议；卡塔尔斡旋下的脆弱窗口。",
+        "name_en": "Unstable ceasefire",
+        "note_en": "Pause military action under economic/internal pressure but no comprehensive deal; fragile Qatar-brokered window."
       },
       {
         "name": "冲突扩大（含能源设施/地面部队）",
         "prob": 35,
-        "note": "误判升级链：打击—报复—扩大。伊朗可打击海湾能源设施；美或被逼引入地面部队，五角大楼已警告弹药缺口。9/28 170+ 目标打击已逼近此情景。"
+        "note": "误判升级链：打击—报复—扩大。伊朗可打击海湾能源设施；美或被逼引入地面部队，五角大楼已警告弹药缺口。9/28 170+ 目标打击已逼近此情景。",
+        "name_en": "Conflict expands (energy facilities / ground troops)",
+        "note_en": "Miscalculation escalation chain: strike–retaliate–expand. Iran can hit Gulf energy facilities; US may be forced to introduce ground troops; Pentagon already warned of ammo shortfall. The 170+ target strike on 9/28 is approaching this scenario."
       },
       {
         "name": "谈判解决",
         "prob": 15,
-        "note": "恢复 MoU 框架，以解除封锁/制裁换霍尔木兹重开 + 核谈判；当前双方仍谈判但互信极低。"
+        "note": "恢复 MoU 框架，以解除封锁/制裁换霍尔木兹重开 + 核谈判；当前双方仍谈判但互信极低。",
+        "name_en": "Negotiated settlement",
+        "note_en": "Restore MoU framework: lift blockade/sanctions for Hormuz reopening + nuclear talks; both still talking but trust is very low."
       }
     ],
     "facts": [
@@ -539,34 +637,74 @@
       {
         "k": "布伦特原油",
         "v": "$103.6 (9/24 峰值)",
-        "s": "近期 $95–97"
+        "s": "近期 $95–97",
+        "k_en": "Brent crude",
+        "s_en": "recent $95–97"
       },
       {
         "k": "美军打击目标",
         "v": "170+ (48h)",
-        "s": "9/28 起"
+        "s": "9/28 起",
+        "k_en": "US targets struck",
+        "s_en": "since 9/28"
       },
       {
         "k": "特朗普支持率",
         "v": "32%",
-        "s": "生涯最低"
+        "s": "生涯最低",
+        "k_en": "Trump approval",
+        "s_en": "career low"
       },
       {
         "k": "赞成空袭比例",
         "v": "34%",
-        "s": "美国人"
+        "s": "美国人",
+        "k_en": "Approve airstrikes",
+        "s_en": "Americans"
       },
       {
         "k": "霍尔木兹",
         "v": "伊朗称完全关闭",
-        "s": "日通行→个位数"
+        "s": "日通行→个位数",
+        "k_en": "Hormuz",
+        "s_en": "Iran claims fully closed"
       },
       {
         "k": "阿曼原油",
         "v": "破 $100",
-        "s": "10月均价 $87.84"
+        "s": "10月均价 $87.84",
+        "k_en": "Oman crude",
+        "s_en": "Oct avg $87.84"
       }
-    ]
+    ],
+    "as_of_en": "2026-09-30 (major escalation from 9/28)",
+    "source_en": "Compiled from Devdiscourse / Atlas360 / WSJ (via) / Anadolu / Reuters-Ipsos reports 9/28–9/30.",
+    "status_en": "Major escalation · US–Iran renewed large-scale exchanges (ceasefire framework collapsed)",
+    "timeline_en": [
+      "2/28 US–Israel struck Iran, regional conflict erupted",
+      "April: US–Iran ceasefire",
+      "June: signed MoU, intended to end conflict and negotiate",
+      "August: MoU collapsed and formally expired, fighting reignited",
+      "9/1 US struck IRGC Hormuz-area targets; Iran fired missiles at US bases in Jordan/UAE/Bahrain/Iraq/Kuwait",
+      "9/9–10 US Apache downed by Iranian drone near Hormuz; US retaliatory airstrikes on Iranian homeland 9/10",
+      "9/21 US struck Larak Island rocket launchers; Iran retaliated against Jordan/UAE US bases",
+      "9/23 Indirect US–Iran talks during UNGA; Iran offered to reopen Hormuz within 7 days if blockade lifted; Trump said 'deal after election'",
+      "9/24 Brent +4.4% intraday to $103.61; Iran gave US 4–5 day deadline to reopen strait",
+      "From 9/28: Iran attacked 3 merchant ships (incl. LNG carrier) on US-south Hormuz lane → Trump exited 7-day ceasefire framework citing 'ceasefire violation'",
+      "9/28–9/30 US struck 170+ Iranian targets within 48h (Hormuz-area facilities); revoked Iran oil-sale license; Vance 'hit hard if they hit ships', Hegseth 'deeper and wider'",
+      "This week (to 10/4) US–Iran continue talks via Qatar; Trump says 'I think it's over' yet 'they want a deal', both still haggling over Hormuz navigation framework",
+      "Latest poll: Trump approval fell to 32% (career low); only 34% of Americans approve of strikes on Iran"
+    ],
+    "facts_en": [
+      "Hormuz: pre-war carried ~20% of global oil & LNG; Iran claims strait 'fully closed', daily 100+ ships → now only single digits",
+      "Oil: Brent hit $103.61 on 9/24 (Iran rhetoric escalation), recent $95–97; Oman crude broke $100; Oct avg rose to $87.84 (Sept $76.36)",
+      "Latest escalation (from 9/28): Iran hit 3 Hormuz merchant ships (incl. LNG) → Trump rejected 7-day ceasefire, US struck 170+ targets in 48h, revoked Iran oil-sale license",
+      "Trump approval fell to 32% (Reuters/Ipsos, career low); only 34% of Americans approve of strikes on Iran; incumbent party under midterm pressure",
+      "Iran crude exports collapsed from ~2.0M b/d in March to ~0.22–0.25M b/d in Aug; CBO estimates ~$38B in US operation costs; Pentagon confirms strategic ammo-stockpile gap",
+      "US casualties as of 9/3: 18 dead / 767 wounded; 50k+ deployed in Middle East (expected to rise after 9/28 escalation, no official update yet)"
+    ],
+    "midterm_impact_en": "War is a core midterm issue: ① Economic — Hormuz blockade pushes up oil/gas prices, worsens inflation, hurts the incumbent party; ② Public opinion — most Americans oppose the war (only 34% approve strikes), weakening Trump's base; ③ if it expands into full war or major US casualties, it would significantly reshape the election. Models and markets' 'Dem retake both chambers' pricing already partially prices in this risk.",
+    "risk_en": "Key red lines: major US casualties, a large tanker sunk, Gulf energy facilities heavily hit — any of these could trigger Trump's 'bigger strike', turning deterrence into reality."
   },
   "fed": {
     "as_of": "2026-09-30",
@@ -582,15 +720,22 @@
           {
             "name": "再加息 25bp",
             "p": 50.4,
-            "src": "CME FedWatch 9/30：加息 50.4% / 维持 49.6%；Williams 9/29「不急于行动」后押注回落"
+            "src": "CME FedWatch 9/30：加息 50.4% / 维持 49.6%；Williams 9/29「不急于行动」后押注回落",
+            "name_en": "Another +25bp hike",
+            "src_en": "CME FedWatch 9/30: hike 50.4% / hold 49.6%; Williams 9/29 'not in a hurry' eased bets"
           },
           {
             "name": "维持 3.75%–4.00% 不变",
             "p": 49.6,
-            "src": "CME FedWatch 9/30"
+            "src": "CME FedWatch 9/30",
+            "name_en": "Hold at 3.75%–4.00%",
+            "src_en": "CME FedWatch 9/30"
           }
         ],
-        "note": "会议恰在 11/3 中期选举前一周，政治敏感度极高；若加息将直接推高房贷/消费贷成本"
+        "note": "会议恰在 11/3 中期选举前一周，政治敏感度极高；若加息将直接推高房贷/消费贷成本",
+        "label_en": "October meeting",
+        "base_case_en": "Hike vs hold near 50/50 (CME 9/30: 50.4% vs 49.6%); bets eased after dovish officials spoke",
+        "note_en": "Meeting falls exactly one week before the 11/3 midterm — extremely politically sensitive; a hike would directly raise mortgage/consumer-loan costs"
       },
       {
         "label": "12月会议",
@@ -600,20 +745,29 @@
           {
             "name": "年底落 4.00%–4.25%（再+25bp）",
             "p": 49.8,
-            "src": "CME FedWatch 9/30"
+            "src": "CME FedWatch 9/30",
+            "name_en": "Year-end at 4.00%–4.25% (+25bp)",
+            "src_en": "CME FedWatch 9/30"
           },
           {
             "name": "年底落 4.25%–4.50%（再+50bp）",
             "p": 41.8,
-            "src": "CME FedWatch 9/30（一个月前仅 2.6%）"
+            "src": "CME FedWatch 9/30（一个月前仅 2.6%）",
+            "name_en": "Year-end at 4.25%–4.50% (+50bp)",
+            "src_en": "CME FedWatch 9/30 (only 2.6% a month ago)"
           },
           {
             "name": "年底维持 3.75%–4.00% 不变",
             "p": 8.5,
-            "src": "CME FedWatch 9/30 鸽派尾部"
+            "src": "CME FedWatch 9/30 鸽派尾部",
+            "name_en": "Year-end hold 3.75%–4.00%",
+            "src_en": "CME FedWatch 9/30 dovish tail"
           }
         ],
-        "note": "SEP 中位暗示年内再加息一次；CME 9/30 显示年底前至少再加息一次概率 91.6%；Williams 9/29「若经济符合预期，年底或再上调一次」"
+        "note": "SEP 中位暗示年内再加息一次；CME 9/30 显示年底前至少再加息一次概率 91.6%；Williams 9/29「若经济符合预期，年底或再上调一次」",
+        "label_en": "December meeting",
+        "base_case_en": "Year-end rate likely above current: CME 9/30 shows ≥+25bp probability 91.6%",
+        "note_en": "SEP median implies one more hike this year; CME 9/30 shows ≥one more hike by year-end 91.6%; Williams 9/29 'if economy as expected, may raise once more by year-end'"
       }
     ],
     "midterm_impact": "利率是中期选举的经济主轴：① 维持/上调高利率 → 房贷、消费信贷成本居高，压制家庭部门，对执政党不利；② 若因战争油价推升通胀而加息，等于把地缘风险转嫁为国内利率压力，双重不利于现任政府；③ 特朗普与 Fed 的公开对立，把货币政策变成选举争议点。",
@@ -622,32 +776,137 @@
       {
         "k": "CME 10月加息概率",
         "v": "50.4%",
-        "s": "vs 维持 49.6%"
+        "s": "vs 维持 49.6%",
+        "k_en": "CME Oct hike prob",
+        "s_en": "vs hold 49.6%"
       },
       {
         "k": "10Y 美债收益率",
         "v": ">5.1%",
-        "s": "约 19 年高位"
+        "s": "约 19 年高位",
+        "k_en": "10Y Treasury yield",
+        "s_en": "~19-yr high"
       },
       {
         "k": "5Y 美债",
         "v": "破 5%",
-        "s": "2007 年来首次"
+        "s": "2007 年来首次",
+        "k_en": "5Y Treasury",
+        "s_en": "broke 5%, first since 2007"
       },
       {
         "k": "美元指数",
         "v": "101.06",
-        "s": "7/29 来最高"
+        "s": "7/29 来最高",
+        "k_en": "Dollar index",
+        "s_en": "highest since 7/29"
       },
       {
         "k": "9月 服务业 PMI",
         "v": "58.7",
-        "s": "59 个月高"
+        "s": "59 个月高",
+        "k_en": "Sept services PMI",
+        "s_en": "59-month high"
       },
       {
         "k": "核心 PCE",
         "v": "3.2–3.3%",
-        "s": "8 月同比"
+        "s": "8 月同比",
+        "k_en": "Core PCE",
+        "s_en": "Aug YoY"
+      }
+    ],
+    "as_of_en": "2026-09-30",
+    "source_en": "Compiled from CME FedWatch 9/30 / NY Fed Williams 9/29 / S&P Global PMI / Sina Finance / National Business Daily.",
+    "current_range_en": "3.75%–4.00% (after 9/16 +25bp hike, up from 3.50%–3.75%)",
+    "narrative_en": "Narrative reversal: the year-start '2–3 cuts this year' was rewritten by the surprise +25bp hike on 9/16 (range 3.50%–3.75% → 3.75%–4.00%). On 9/29 NY Fed Williams said 'not in a hurry', traders cut October hike bets, pricing only one more hike by year-end; but 9/30 CME still shows October hike 50.4% vs hold 49.6% — a true coin flip. Driving the hikes is re-accelerating inflation: Sept S&P composite PMI 58.4 (62-month high), services 58.7 (59-month high), plus the Iran-war oil shock (Brent briefly $103+).",
+    "midterm_impact_en": "Rates are the economic spine of the midterms: ① holding/raising high rates → mortgage and consumer-credit costs stay high, squeeze households, hurt the incumbent party; ② if hikes come from war-oil inflation, it transfers geopolitical risk into domestic rate pressure — doubly bad for the current administration; ③ Trump's public feud with the Fed turns monetary policy into an election flashpoint.",
+    "watch_en": "Core PCE (Aug YoY 3.2–3.3%, released 9/26), Sept CPI & NFP, oil (Brent holding $100?), Trump vs Fed public feud, last jobs report before 10/27 meeting"
+  },
+  "senate_map": {
+    "as_of": "2026-09",
+    "note": "评级综合 Cook Political Report / Sabato's Crystal Ball / Inside Elections 2026 年 9 月下旬估算；席位结构与市场/模型一致——民主党需净增 4 席（含副总统打破 50-50）。",
+    "note_en": "Ratings compiled from Cook Political Report / Sabato's Crystal Ball / Inside Elections late-Sept 2026 estimates; seat structure consistent with markets/models — Dems need net +4 (incl. VP breaking 50-50).",
+    "seats": [
+      {
+        "state": "缅因 Maine",
+        "state_en": "Maine",
+        "trend": "Collins 民调落后 ~5pt（Kalshi 给 D 68%）",
+        "trend_en": "Collins trails ~5pt (Kalshi gives D 68%)",
+        "holder": "R",
+        "rating": "Tossup",
+        "key": "最清晰翻 D 信号",
+        "key_en": "Clearest flip-to-D signal"
+      },
+      {
+        "state": "北卡罗来纳 NC",
+        "state_en": "North Carolina",
+        "trend": "Tillis 退休，Cooper 出马领先",
+        "trend_en": "Tillis retiring, Cooper running ahead",
+        "holder": "R",
+        "rating": "Lean D / Tossup",
+        "key": "开放席，D 头号目标",
+        "key_en": "Open seat, D's #1 target"
+      },
+      {
+        "state": "俄亥俄 OH",
+        "state_en": "Ohio",
+        "trend": "Brown 61%（Kalshi）",
+        "trend_en": "Brown 61% (Kalshi)",
+        "holder": "D",
+        "rating": "Lean D",
+        "key": "D 最贵防守",
+        "key_en": "D's most expensive defense"
+      },
+      {
+        "state": "密歇根 MI",
+        "state_en": "Michigan",
+        "trend": "开放席，R 强募",
+        "trend_en": "Open seat, R strong fundraising",
+        "holder": "D",
+        "rating": "Tossup",
+        "key": "D 须守住",
+        "key_en": "D must hold"
+      },
+      {
+        "state": "佐治亚 GA",
+        "state_en": "Georgia",
+        "trend": "Ossoff 小幅领先",
+        "trend_en": "Ossoff slight lead",
+        "holder": "D",
+        "rating": "Tossup",
+        "key": "D 须守住",
+        "key_en": "D must hold"
+      },
+      {
+        "state": "新罕布什尔 NH",
+        "state_en": "New Hampshire",
+        "trend": "Hassan 稳",
+        "trend_en": "Hassan safe",
+        "holder": "D",
+        "rating": "Lean D",
+        "key": "D 须守住",
+        "key_en": "D must hold"
+      },
+      {
+        "state": "明尼苏达 MN",
+        "state_en": "Minnesota",
+        "trend": "开放席，D 略优",
+        "trend_en": "Open seat, D slight edge",
+        "holder": "D",
+        "rating": "Lean D",
+        "key": "D 须守住",
+        "key_en": "D must hold"
+      },
+      {
+        "state": "阿拉斯加 AK",
+        "state_en": "Alaska",
+        "trend": "Sullivan 稳，D 偶有缝隙",
+        "trend_en": "Sullivan safe, D occasional cracks",
+        "holder": "R",
+        "rating": "Lean R",
+        "key": "翻 D 需意外",
+        "key_en": "Flip to D needs surprise"
       }
     ]
   }
