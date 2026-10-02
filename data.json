@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-30T17:50:00+08:00",
+  "updated_at": "2026-10-02T08:02:13+08:00",
   "election_day": "2026-11-03",
   "live": false,
   "note": "数值为各模型最近一次公开读数（民主党夺回/守住该议院的胜率 %）。来源见每个模型的 source 字段。市场数值为 9/29–9/30 公开报道跨平台共识快照（live=false，属快照，非实时流）。接入预测市场 API 并经 Cloudflare 边缘实时代理产出 live=true 后，面板自动切换为「实时」。",
@@ -7,7 +7,8 @@
     {
       "id": "fiftyplusone",
       "name": "FiftyPlusOne",
-      "author": "G. Elliott Morris（前 538）", "author_en": "G. Elliott Morris (ex-538)",
+      "author": "G. Elliott Morris（前 538）",
+      "author_en": "G. Elliott Morris (ex-538)",
       "method": "贝叶斯模型堆叠 · 4次/天",
       "tier": "primary",
       "house_d": 98,
@@ -44,7 +45,8 @@
     {
       "id": "economist",
       "name": "The Economist",
-      "author": "经济学人模型", "author_en": "The Economist model",
+      "author": "经济学人模型",
+      "author_en": "The Economist model",
       "method": "贝叶斯多层 · 25,001 次模拟/天",
       "tier": "primary",
       "house_d": 92,
@@ -145,7 +147,8 @@
       "tier": "primary",
       "house_d": 80,
       "senate_d": 58,
-      "as_of": "2026-08-11（参院快照·众院为估算）", "as_of_en": "2026-08-11 (Senate snapshot \u00b7 House est.)",
+      "as_of": "2026-08-11（参院快照·众院为估算）",
+      "as_of_en": "2026-08-11 (Senate snapshot · House est.)",
       "source": "参院 57.6%/51.2 席为 2026-08-11 论坛转引真实快照（RTtWH 每日 5 万次模拟、近三 cycle 正确预测参院多数）；众院数值 80% 为基于其方法定位的估算（站点众院页未提供可抓取的『控制权 %』）。topline 嵌于 Squarespace iframe，静态 HTML 无数字，无法 headless 自动刷新。",
       "auto": true,
       "history": null,
@@ -277,7 +280,8 @@
       "tier": "contrast",
       "house_d": 77,
       "senate_d": 47,
-      "as_of": "2026-08末", "as_of_en": "late Aug 2026",
+      "as_of": "2026-08末",
+      "as_of_en": "late Aug 2026",
       "source": "GD Politics 8/31 引述：D 77%H / R 53%S（即 D 47%S）",
       "auto": true,
       "history": null,
@@ -287,7 +291,8 @@
     {
       "id": "statsheet",
       "name": "Election Statsheet",
-      "author": "贝叶斯模型", "author_en": "Bayesian model",
+      "author": "贝叶斯模型",
+      "author_en": "Bayesian model",
       "method": "贝叶斯 · 偏谨慎",
       "tier": "contrast",
       "house_d": 55,
@@ -320,7 +325,7 @@
     "house_d": 92,
     "senate_d": 63,
     "sweep": 64,
-    "as_of": "2026-09-30 跨平台共识",
+    "as_of": "10-02",
     "as_of_en": "2026-09-30 cross-platform consensus",
     "note": "Kalshi 9/30：民主党夺回众院 91%、夺回参院 61%；Polymarket「Balance of Power」民主席卷 62–66%（9/22 峰值 66%）。9 月下旬出现「民主党浪潮」跳涨（9/21 席卷单日 +13pp）。跨平台 D 众院 ~92%、D 参院 ~63%。本端点经 Cloudflare 边缘实时代理抓取，抓不到时回退此共识种子。",
     "realtime": true,
@@ -926,31 +931,31 @@
       {
         "cat": "模型 / 民调聚合",
         "cat_en": "Models / poll aggregators",
-          "list_en": "FiftyPlusOne (Substack), The Economist, Nate Silver · FLIPR, Split Ticket / The Argument, Race to the WH, DDHQ, Scrutinel, Pollcast, Smarter.vote, VoteHub, Election Statsheet, VotePredictor",
+        "list_en": "FiftyPlusOne (Substack), The Economist, Nate Silver · FLIPR, Split Ticket / The Argument, Race to the WH, DDHQ, Scrutinel, Pollcast, Smarter.vote, VoteHub, Election Statsheet, VotePredictor",
         "list": "FiftyPlusOne(Substack)、The Economist、Nate Silver·FLIPR、Split Ticket/The Argument、Race to the WH、DDHQ、Scrutinel、Pollcast、Smarter.vote、VoteHub、Election Statsheet、VotePredictor"
       },
       {
         "cat": "预测市场",
         "cat_en": "Prediction markets",
-          "list_en": "Kalshi, Polymarket, PredictIt, Robinhood (Balance of Power contracts); data via Cloudflare edge /api/market proxy",
+        "list_en": "Kalshi, Polymarket, PredictIt, Robinhood (Balance of Power contracts); data via Cloudflare edge /api/market proxy",
         "list": "Kalshi、Polymarket、PredictIt、Robinhood（Balance of Power 合约）；数据经 Cloudflare 边缘 /api/market 代理"
       },
       {
         "cat": "美伊战争",
         "cat_en": "US–Iran war",
-          "list_en": "CCTV / CCTV.com, Xinhua, Global Times, Al Jazeera, Reuters/Ipsos, GlobalSecurity Oprep, TradingEconomics / FinanceFeeds, US CENTCOM releases",
+        "list_en": "CCTV / CCTV.com, Xinhua, Global Times, Al Jazeera, Reuters/Ipsos, GlobalSecurity Oprep, TradingEconomics / FinanceFeeds, US CENTCOM releases",
         "list": "CCTV/央视网、新华社、环球时报、Al Jazeera、Reuters/Ipsos、GlobalSecurity Oprep、TradingEconomics/FinanceFeeds、美军中央司令部公报"
       },
       {
         "cat": "美联储",
         "cat_en": "Federal Reserve",
-          "list_en": "CME FedWatch, NY Fed (Williams), S&P Global PMI, Reuters, Sina Finance, National Business Daily",
+        "list_en": "CME FedWatch, NY Fed (Williams), S&P Global PMI, Reuters, Sina Finance, National Business Daily",
         "list": "CME FedWatch、NY Fed(Williams)、S&P Global PMI、Reuters、新浪财经、每日经济新闻"
       },
       {
         "cat": "两党 / 初选",
         "cat_en": "Parties / primaries",
-          "list_en": "POLITICO, AP / ifeng, Xinhua Global, Ahram, USA Today, Cook Political Report, Sabato's Crystal Ball, Inside Elections",
+        "list_en": "POLITICO, AP / ifeng, Xinhua Global, Ahram, USA Today, Cook Political Report, Sabato's Crystal Ball, Inside Elections",
         "list": "POLITICO、AP/凤凰网、新华社环球、Ahram、USA Today、Cook Political Report、Sabato's Crystal Ball、Inside Elections"
       }
     ],
