@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-07T11:18:26+08:00",
+  "updated_at": "2026-10-08T08:01:41+08:00",
   "election_day": "2026-11-03",
   "live": false,
   "note": "数值为各模型最近一次公开读数（民主党夺回/守住该议院的胜率 %）。来源见每个模型的 source 字段。市场数值为 9/29–9/30 公开报道跨平台共识快照（live=false，属快照，非实时流）。接入预测市场 API 并经 Cloudflare 边缘实时代理产出 live=true 后，面板自动切换为「实时」。",
@@ -325,7 +325,7 @@
     "house_d": 92,
     "senate_d": 63,
     "sweep": 64,
-    "as_of": "10-07",
+    "as_of": "10-08",
     "as_of_en": "2026-09-30 cross-platform consensus",
     "note": "Kalshi 9/30：民主党夺回众院 91%、夺回参院 61%；Polymarket「Balance of Power」民主席卷 62–66%（9/22 峰值 66%）。9 月下旬出现「民主党浪潮」跳涨（9/21 席卷单日 +13pp）。跨平台 D 众院 ~92%、D 参院 ~63%。本端点经 Cloudflare 边缘实时代理抓取，抓不到时回退此共识种子。",
     "realtime": true,
