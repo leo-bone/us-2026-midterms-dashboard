@@ -1394,7 +1394,7 @@ const I18N = {
     sm_th_state:"战场州", sm_th_held:"谁守", sm_th_rating:"评级(Cook/IE)", sm_th_key:"要点",
     sm_held_r:"共和党守", sm_held_d:"民主党守",
     sm_path_dem_title:"民主党夺回（需净增 4）",
-    sm_path_dem_body:"先拿 <b>北卡罗来纳 + 缅因</b>，再需从 <b>俄亥俄 / 阿拉斯加 / 密歇根</b> 中赢 2 席，同时守住 <b>佐治亚、新罕布什尔、明尼苏达</b>。押注全国浪潮（全美普选民主党领先 8-9pt、特朗普支持率约 33%）能击穿州级结构。",
+    sm_path_dem_body:"先拿 <b>北卡罗来纳 + 缅因</b>，再需从 <b>俄亥俄 / 阿拉斯加 / 密歇根</b> 中赢 2 席，同时守住 <b>佐治亚、新罕布什尔、明尼苏达</b>。押注全国浪潮（全美普选民主党领先 8-9pt、特朗普支持率约 32–35%（生涯最低））能击穿州级结构。",
     sm_path_rep_title:"共和党保住（微弱优势）",
     sm_path_rep_body:"只需守住现有版图。逻辑：<b>参议院逐州计票</b>，全国浪潮须被州级结构衰减；只要民主党的 <b>佐治亚/密歇根/新罕布什尔</b> 丢 1-2 席，即使赢下北卡+缅因也不够。Sabato 水晶球至今仍看好共和党保住多数。",
     sm_why_title:"为什么两院差距这么大",
@@ -1409,7 +1409,7 @@ const I18N = {
     fed_rate_label:"当前联邦基金利率区间", fed_narrative:"叙事反转：",
     fed_mtg_base:"基准：", fed_midterm:"对中期选举的影响：", fed_watch:"盯盘清单：",
     legend_single:"○ 单点采样 · — 连线为 ≥2 点轨迹", legend_live:"（实时）",
-    note_arch:"架构与口径说明：预测市场（Kalshi/Polymarket）是仪表盘唯一秒级流式来源，其余统计模型均为定时重算（FiftyPlusOne 4 次/天、Economist 每天、Silver 近每天、Split Ticket 周更、DDHQ/Scrutinel 每天）。前端用动画把“离散快照”呈现为“连续流动”——这是市面上所有“选举实时盘”的真实做法。各模型对“众院民主党概率”给出 <b>55%（Election Statsheet）到 98%（FiftyPlusOne/Pollcast）</b> 的跨度，这是<b>真实方法论分歧</b>而非误差，本盘展示分歧本身，不做强行归一。Race to the WH 的 topline 嵌在 Squarespace 的 <b>iframe</b> 里、静态 HTML 无数字、本机 headless 不稳；已补入其 <b>2026-08-11 论坛转引的真实参院快照（57.6%→58%）</b>，众院 80% 为基于其方法定位的<b>估算</b>（站点众院页不可抓取）。数据仅供方法学研判，<b>不构成任何选举或投资建议</b>。",
+    note_arch:"架构与口径说明：预测市场（Kalshi/Polymarket）是仪表盘唯一秒级流式来源，其余统计模型均为定时重算（FiftyPlusOne 4 次/天、Economist 每天、Silver 近每天、Split Ticket 周更、DDHQ/Scrutinel 每天）。前端用动画把“离散快照”呈现为“连续流动”——这是市面上所有“选举实时盘”的真实做法。各模型对“众院民主党概率”给出 <b>55%（Election Statsheet）到 99%（FiftyPlusOne）</b> 的跨度，这是<b>真实方法论分歧</b>而非误差，本盘展示分歧本身，不做强行归一。Race to the WH 的 topline 嵌在 Squarespace 的 <b>iframe</b> 里、静态 HTML 无数字、本机 headless 不稳；已补入其 <b>2026-08-11 论坛转引的真实参院快照（57.6%→58%）</b>，众院 80% 为基于其方法定位的<b>估算</b>（站点众院页不可抓取）。数据仅供方法学研判，<b>不构成任何选举或投资建议</b>。",
     disc:"数值来自各模型公开页面/访谈与公开报道（截至 {date}）· 预测市场数值为跨平台共识快照，经 Cloudflare 边缘实时代理（/api/market）可真流式刷新",
     footer_method:"方法学说明：<a href=\"ANALYSIS.md\" target=\"_blank\" rel=\"noopener\">ANALYSIS.md</a> · 本盘展示各模型对「民主党夺回参众两院概率」的<b style=\"color:var(--amber)\">真实方法论分歧</b>，不做强行归一。数据仅供方法学研判，<b style=\"color:var(--amber)\">不构成任何选举或投资建议</b>。",
     footer_sub:"各模型公开读数截至 {date} · 部署于 Cloudflare 边缘",
@@ -1423,7 +1423,7 @@ const I18N = {
     src_panel_title:"数据来源与方法 · 信息源清单",
     tk1:"众院：民主党夺回<b>几乎锁定</b>——预测市场 {hm}、模型均值 ~{avgH}%，中位席位约 {seats}（过半线 218）。",
     tk2:"参院：民主党处于<b>掷硬币区间</b>（模型均值 ~{avgS}%、市场 {sm}）；需净增 4 席，关键看缅因 / 北卡。",
-    tk3:"宏观风险：美伊战争 9/26–9/28 呈<b>有限互袭 + 谈判拉锯</b>（非此前误传的「9/28 重大升级」），霍尔木兹受威胁、油价破 $100，叠加美联储 9/16 意外加息，双重压制执政党。",
+    tk3:"宏观风险：美伊战争 10/8–10/11 袭击激增、油价破 $105（「9/28 大规模升级」系误传已更正），叠加美联储 9/16 意外加息，双重压制执政党。",
     tk4:"守成逻辑：参议院逐州计票衰减全国浪潮，Sabato 仍看好 GOP 保多数——与民主党夺回<b>并存</b>，不是异端。"
   },
   en: {
