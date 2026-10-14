@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-13T08:03:39+08:00",
+  "updated_at": "2026-10-14T08:03:09+08:00",
   "election_day": "2026-11-03",
   "live": false,
   "note": "数值为各模型最近一次公开读数（民主党夺回/守住该议院的胜率 %）。来源见每个模型的 source 字段。市场数值为 10/10–10/11 跨平台共识快照（Polymarket/Kalshi）。接入预测市场 API 并经 Cloudflare 边缘实时代理产出 live=true 后，面板自动切换为实时。",
@@ -358,7 +358,7 @@
     "house_d": 91,
     "senate_d": 63,
     "sweep": 62,
-    "as_of": "10-13",
+    "as_of": "10-14",
     "as_of_en": "2026-10-11 cross-platform consensus",
     "note": "Polymarket 10/10：民主党夺回众院 91%、夺回参院 63%、两党同归（sweep）62%；Kalshi 10/10：众院 91%、参院 61%、sweep 61%。跨平台共识：众院 D 234–201、参院 D 52–48。Blue Wave 2026 合约 87%。席次投影由 Polymarket 实时滚动，「民主党浪潮」延续至选前最后三周。",
     "realtime": true,
