@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-10-15T08:01:13+08:00",
+  "updated_at": "2026-10-15T18:50:00+08:00",
   "election_day": "2026-11-03",
   "live": false,
-  "note": "数值为各模型最近一次公开读数（民主党夺回/守住该议院的胜率 %）。来源见每个模型的 source 字段。市场数值为 10/10–10/11 跨平台共识快照（Polymarket/Kalshi）。接入预测市场 API 并经 Cloudflare 边缘实时代理产出 live=true 后，面板自动切换为实时。",
+  "note": "数值为各模型最近一次公开读数（民主党夺回/守住该议院的胜率 %）。来源见每个模型的 source 字段。市场数值为 10/13–10/14 跨平台共识快照（Polymarket/Kalshi）。接入预测市场 API 并经 Cloudflare 边缘实时代理产出 live=true 后，面板自动切换为实时。",
   "models": [
     {
       "id": "fiftyplusone",
@@ -356,11 +356,11 @@
   "markets": {
     "name": "预测市场（Kalshi / Polymarket）",
     "house_d": 91,
-    "senate_d": 63,
+    "senate_d": 64,
     "sweep": 62,
     "as_of": "10-15",
-    "as_of_en": "2026-10-11 cross-platform consensus",
-    "note": "Polymarket 10/10：民主党夺回众院 91%、夺回参院 63%、两党同归（sweep）62%；Kalshi 10/10：众院 91%、参院 61%、sweep 61%。跨平台共识：众院 D 234–201、参院 D 52–48。Blue Wave 2026 合约 87%。席次投影由 Polymarket 实时滚动，「民主党浪潮」延续至选前最后三周。",
+    "as_of_en": "2026-10-13–14 cross-platform consensus",
+    "note": "Polymarket 10/13：民主党夺回众院 91%、夺回参院 64%、两党同归（sweep）63%；Kalshi 10/13–14：众院 88–90%、参院 61–62%、sweep 61。跨平台共识：众院 D 90–91（中位 ~234–240D）、参院 D 62–64（中位 51–52D）。「民主党浪潮」延续至选前三周。9月 CPI（10/14 +3.7% 超预期）推升美联储 10月加息概率，若加息将反向压制执政党选情。",
     "realtime": true,
     "history": {
       "house": [
@@ -386,6 +386,10 @@
         },
         {
           "d": "10-10",
+          "v": 91
+        },
+        {
+          "d": "10-14",
           "v": 91
         }
       ],
@@ -413,6 +417,10 @@
         {
           "d": "10-10",
           "v": 63
+        },
+        {
+          "d": "10-14",
+          "v": 64
         }
       ],
       "sweep": [
@@ -435,15 +443,19 @@
         {
           "d": "10-10",
           "v": 62
+        },
+        {
+          "d": "10-14",
+          "v": 62
         }
       ]
     },
     "name_en": "Prediction Markets (Kalshi / Polymarket)",
-    "note_en": "Polymarket 10/10: Dem retake House 91%, retake Senate 63%, sweep 62%; Kalshi 10/10: House 91%, Senate 61%, sweep 61%. Cross-platform consensus: House D 234–201, Senate D 52–48. 'Blue Wave 2026' contract 87%. Seat projections roll live on Polymarket; the 'Dem wave' persists into the final three weeks."
+    "note_en": "Polymarket 10/13: Dem retake House 91%, retake Senate 64%, sweep 63%; Kalshi 10/13–14: House 88–90%, Senate 61–62%, sweep 61. Cross-platform consensus: House D 90–91 (median ~234–240D), Senate D 62–64 (median 51–52D). 'Dem wave' persists into the final three weeks. Sept CPI (10/14, +3.7% YoY) lifted Fed Oct hike odds — a hike would inversely pressure the incumbent party."
   },
   "expert_ratings": {
-    "as_of": "2026-10-09",
-    "source": "综合 Cook Political Report 10/6–10/9、Sabato's Crystal Ball、Inside Elections、Silver Bulletin、El País 10/6 模型汇总",
+    "as_of": "2026-10-14",
+    "source": "综合 Cook Political Report 10/6–10/9（10/9 将 18 个众院席位移向民主党、众院增益 +9~+19）、Sabato's Crystal Ball 10/6（AK→Lean D）、Inside Elections 10/1、Silver Bulletin、Smith Garson 10/9、El País",
     "model_implied": {
       "house_d_gain": "+18 ~ +23（中位 234–240D）",
       "house_d_prob": "85–99%",
@@ -458,10 +470,10 @@
         "stance": "结构性转蓝",
         "house_d_gain": "+9 ~ +19",
         "senate": "D 净增 2–6 席；7 个 Tossup（6 个 R 持有）",
-        "note": "10/9 将众院翻 D 席次预测上调至 +9~+19；10/6 将 KS 由 Lean R 调 Tossup、NH 由 Tossup 调 Lean D、NC 由 Lean D 调 Likely D；GA 上调 Likely D",
+        "note": "10/9 将 18 个众院席位移向民主党（4 个 R 现任 Tossup→Lean D：IA-01/IA-03/PA-07/PA-10；IA-02/MI-04/NC-01/VA-01 Lean R→Tossup），众院增益预期上调至 +9~+19；参院评级维持 10/6（7 Tossup，6 个 R 持有）；GA 上调 Likely D",
         "stance_en": "Structurally shifting blue",
         "senate_en": "D net +2–6 seats; 7 Tossups (6 R-held)",
-        "note_en": "10/9 raised House D pickup band to +9~+19; 10/6 moved KS Lean R→Tossup, NH Tossup→Lean D, NC Lean D→Likely D; GA→Likely D"
+        "note_en": "10/9 shifted 18 House seats toward D (4 R incumbents Tossup→Lean D; 4 Lean R→Tossup); House pickup band raised to +9~+19; Senate ratings held at 10/6 (7 Tossups, 6 R-held); GA→Likely D"
       },
       {
         "name": "Sabato's Crystal Ball",
@@ -484,13 +496,13 @@
         "note_en": "Rates by state, not national-wave; leads are small, polls historically understate GOP"
       }
     ],
-    "note": "统计模型把全国普选领先（D+8~9pt）直接映射为众院赢面（均值 ~90%+，FiftyPlusOne 99%/Silver 93%/Economist 95%），并给出参议院 56–75% 的掷硬币偏 D 区间；三大评级机构更保守，Cook 列 7 个 Tossup 并隐含众院增益 +9~+19。二者并存：模型快、评级慢且更挑剔；分歧本身才是这张盘要展示的核心。",
-    "source_en": "Compiled from Cook Political Report 10/6–10/9, Sabato's Crystal Ball, Inside Elections, Silver Bulletin, El País 10/6 model roundup.",
-    "note_en": "Statistical models map the national popular-vote lead (D+8~9pt) into House odds (mean ~90%+, FiftyPlusOne 99%/Silver 93%/Economist 95%), and give a Senate 56–75% coin-flip-leaning-D band; the three rating agencies are more conservative — Cook lists 7 Tossups implying House gains +9~+19. Both coexist: models are fast, ratings are slow and pickier; the divergence itself is the core story."
+    "note": "统计模型把全国普选领先（D+8~9pt）直接映射为众院赢面（均值 ~90%+，FiftyPlusOne 99%/Silver 93%/Economist 95%），并给出参议院 56–75% 的掷硬币偏 D 区间；三大评级机构更保守，Cook 列 7 个 Tossup 并隐含众院增益 +9~+19（10/9 上调）。二者并存：模型快、评级慢且更挑剔；分歧本身才是这张盘要展示的核心。",
+    "source_en": "Compiled from Cook Political Report 10/6–10/9 (10/9 shifted 18 House seats toward D, House gain +9~+19), Sabato's Crystal Ball 10/6 (AK→Lean D), Inside Elections 10/1, Silver Bulletin, Smith Garson 10/9, El País.",
+    "note_en": "Statistical models map the national popular-vote lead (D+8~9pt) into House odds (mean ~90%+, FiftyPlusOne 99%/Silver 93%/Economist 95%), and give a Senate 56–75% coin-flip-leaning-D band; the three rating agencies are more conservative — Cook lists 7 Tossups and implies House gains +9~+19 (raised 10/9). Both coexist: models are fast, ratings slow and pickier; the divergence itself is the core story."
   },
   "party_dynamics": {
-    "as_of": "2026-10-11",
-    "source": "综合 POLITICO、AP/凤凰网、新华社环球、Al Jazeera、USA Today、WaPo/参考消息、Pew 10/8、Reuters/Ipsos 10/5 等 2026 年公开报道与初选结果整理",
+    "as_of": "2026-10-15",
+    "source": "综合 POLITICO、AP/凤凰网、新华社环球、Al Jazeera、USA Today、WaPo/参考消息、Pew 10/8、Reuters/Ipsos、Silver Bulletin 10/13、Fox News 10/11-13、RCP 10/13 等 2026 年公开报道与初选结果整理",
     "conflicts": {
       "dem": [
         {
@@ -566,8 +578,8 @@
     "pros_cons": {
       "dem": {
         "opportunities": [
-          "全国普选领先 D+8~9pt（Silver 10/5 D+8.9；历史级），模型众院胜率均值 ~90%+",
-          "特朗普支持率低位（Reuters/Ipsos 10/5 仅 32%、Pew 10/8 为 30%，生涯最低；均值 ~35%）",
+          "全国普选领先 D+8~9pt（RCP 10/13 D+8.3；Silver 10/9 D+8.9；FiftyPlusOne 10/13 D+8；历史级），模型众院胜率均值 ~90%+",
+          "特朗普支持率从 10/5 生涯最低 32% 回升至 10/13 ~37–39%（Silver 37.3% / Fox 38.8% / RCP 39.7%；净 approval ~-22，仍处历史低位）",
           "历史规律：执政党中期选举平均失 28 众院 + 4 参院席",
           "经济体感差（通胀/生活成本），利于“惩罚性投票”翻执政党",
           "共和党众院裸多数：14 个 R 竞争席 vs 仅 4 个 D 竞争席，暴露度高"
@@ -580,8 +592,8 @@
           "候选人筛选与筹款效率问题（DNC 被批管理混乱、一度因钓鱼邮件损失 $29k）"
         ],
         "opportunities_en": [
-          "National popular vote lead D+8~9pt (Silver 10/5 D+8.9; historic); model House win mean ~90%+",
-          "Trump approval at lows (Reuters/Ipsos 10/5 just 32%, Pew 10/8 30%, career low; avg ~35%)",
+          "National popular vote lead D+8~9pt (RCP 10/13 D+8.3; Silver 10/9 D+8.9; FiftyPlusOne 10/13 D+8; historic); model House win mean ~90%+",
+          "Trump approval rebounded from career-low 32% (10/5) to ~37–39% (10/13): Silver 37.3% / Fox 38.8% / RCP 39.7%; net approval ~-22, still historic low",
           "Historical pattern: incumbent party loses avg 28 House + 4 Senate seats at midterms",
           "Poor economic sentiment (inflation/cost of living) favors 'punish-the-incumbent' flips",
           "GOP razor-thin House: 14 R competitive seats vs only 4 D; high exposure"
@@ -623,12 +635,12 @@
         ]
       }
     },
-    "source_en": "Compiled from POLITICO, AP/ifeng, Xinhua Global, Ahram, USA Today and other 2026 public reports and primary results."
+    "source_en": "Compiled from POLITICO, AP/ifeng, Xinhua Global, Ahram, USA Today, WaPo/Cankao, Pew 10/8, Reuters/Ipsos, Silver Bulletin 10/13, Fox News 10/11-13, RCP 10/13 and other 2026 public reports."
   },
   "iran": {
-    "as_of": "2026-10-11（10/8–10/11 霍尔木兹袭击激增、油价破 $105、特朗普选前不打击承诺）",
-    "source": "综合 CCTV/央视网、新华社、环球时报、Al Jazeera、Reuters/Ipsos、GlobalSecurity、WaPo/参考消息、CNA、EnergyReader、TradingEconomics 等 10/1–10/11 报道",
-    "status": "袭击激增 + 谈判破裂（特朗普称停火脆弱；油价 $105；选前不打击）",
+    "as_of": "2026-10-15（10/11–10/14 霍尔木兹袭击再激增、布伦特破 $106、特朗普排除选前重大打击、沙特 Aramco 遇袭、9月CPI推升Fed）",
+    "source": "综合 CCTV/央视网、新华社、环球时报、Al Jazeera、Reuters/Ipsos、GlobalSecurity、WaPo/参考消息、CNA、OilPrice、RO-AR、新浪财经 10/1–10/15 报道",
+    "status": "袭击持续激增 + 特朗普排除选前重大打击（五角大楼备选后计划）",
     "timeline": [
       "2/28 美以对伊朗发动打击，区域冲突爆发（至今约 7 个月）",
       "4月 美伊一度停火；6月 签署谅解备忘录(MoU)，拟结束冲突并谈核",
@@ -646,31 +658,35 @@
       "10/8 美国对伊朗新增制裁（17 艘船只）；法国/沙特研究保护 Yanbu 油港",
       "10/9 特朗普承诺 11/3 选前不打击伊朗，称谈判有进展；油价回落；但 IRGC 警告追击 Strait 外船只、LNG 油轮起火",
       "10/9 飓风 Isaias 关停墨西哥湾 ~62–71% 产量（约 130 万桶/日）",
-      "10/11 布伦特回升至 $105（谈判破裂）；伊朗：不会坐等美国选举出结果，无论选前选后都将回应"
+      "10/11 布伦特回升至 $105（谈判破裂）；伊朗：不会坐等美国选举出结果，无论选前选后都将回应",
+      "10/14 布伦特结算 $106.06–106.51（OilPrice/RO-AR）；WTI $95.09（三周高）；霍尔木兹单日再袭 6 艘、过去一周 13+ 艘（战来最密集），油轮+集装箱船遭不明弹体击中",
+      "10/14 特朗普排除 11/3 选前重大打击，五角大楼奉命准备选后多日攻击计划；伊朗改霍尔木兹战术、刻意维持油价高位以影响美中期选举（Iran Intl）",
+      "10/14 胡塞袭击沙特 Aramco 达兰行政楼（有限火灾，3 层受损）；沙特能源部确认",
+      "10/14 美国 9月 CPI 同比 +3.7%（预期 3.6）超预期，推升 Fed 10月加息概率至 43.7%"
     ],
     "scenarios": [
       {
         "name": "长期低烈度对峙（现状延续）",
-        "prob": 45,
+        "prob": 5,
         "note": "美军周期性「割草式」有限打击 + 伊朗水雷/无人机/袭船维持航道风险；9/26–9/28 后强度未显著抬升，仍属可控互袭。",
         "name_en": "Prolonged low-intensity standoff (status quo)",
-        "prob_en": 45,
+        "prob_en": 5,
         "note_en": "US periodic limited 'mowing-grass' strikes + Iran mines/drones/ship attacks keep lane risk; intensity did not materially rise after 9/26–9/28, still contained."
       },
       {
         "name": "不稳定停火",
-        "prob": 25,
+        "prob": 20,
         "note": "因经济或内外压力暂停军事行动但无全面协议；卡塔尔斡旋下的脆弱窗口。",
         "name_en": "Unstable ceasefire",
-        "prob_en": 25,
+        "prob_en": 20,
         "note_en": "Pause under economic/internal pressure but no comprehensive deal; fragile Qatar-brokered window."
       },
       {
         "name": "冲突扩大（含能源设施/地面部队）",
-        "prob": 20,
+        "prob": 75,
         "note": "误判升级链：打击—报复—扩大。伊朗可打击海湾能源设施；美或被逼引入地面部队，五角大楼已警告弹药缺口。9/26–9/28 的有限打击若失控才逼近此情景。",
         "name_en": "Conflict expands (energy facilities / ground troops)",
-        "prob_en": 20,
+        "prob_en": 75,
         "note_en": "Miscalculation chain: strike–retaliate–expand. Iran can hit Gulf energy facilities; US may be forced to introduce ground troops; Pentagon warned of ammo shortfall. The 9/26–9/28 limited strikes only approach this if they spiral."
       },
       {
@@ -684,32 +700,32 @@
     ],
     "facts": [
       "霍尔木兹：战前承担全球约 20% 石油与 LNG 运输；伊朗称海峡「完全关闭」，日均 100+ 艘 → 现仅个位数船只通行（Kpler）",
-      "油价：布伦特 9/24 触及 $103.67（TradingEconomics）；WTI 约 $92.66；阿曼/迪拜原油已破 $100；10 月均价约 $87.84（9 月 $76.36）",
+      "油价：布伦特 10/14 约 $106（OilPrice $106.06 / RO-AR $106.51）；WTI $95.09；9月均价约 $87.84（10月因袭击破百）",
       "伤亡（更正）：伊朗方面 8/30–9/2 美袭 18 死 / 142 伤（伊朗卫生部）；美军累计伤员约 624（2 月开战以来，9/28 GlobalSecurity 统计），无大规模美军阵亡公开数据",
-      "特朗普支持率：32%（Reuters/Ipsos 9/21，生涯最低）· 但 RCP 等均值 9/28 已回到约 38%；仅 34% 美国人赞成对伊空袭",
+      "特朗普支持率：从 10/5 生涯最低 32% 回升至 10/13 约 37–39%（Silver 37.3% / Fox 38.8% / RCP 39.7%）；净 approval 仍约 -22，历史低位",
       "伊朗原油出口由 3 月 ~200 万桶/日 崩至 8 月 ~22–25 万桶/日；五角大楼确认弹药库存战略缺口（拦截弹消耗过半）",
       "9/26–9/28 实际打击规模有限：美军累计约 20 个目标（26 日~10 + 27 日~10 + 28 日短暂防御性空袭），非此前误传的「48h 170+ 目标」",
-      "霍尔木兹：10月首周袭击 ≥9 艘（战来最高）；日均通行仍个位数；约 20% 全球能源通道",
+      "霍尔木兹：10/14 单日 6 艘遭袭、过去一周 13+ 艘（RO-AR，战来最密集）；日均通行个位数；约 20% 全球能源通道",
       "油价：布伦特 10/11 约 $105（Alahed）；WTI 约 $91.5–99；飓风 Isaias 叠加供应冲击"
     ],
-    "midterm_impact": "战争是中期选举核心议题之一：① 经济端——霍尔木兹封锁推高油气价格、加剧通胀，对执政党不利；② 民意端——多数美国人反对战事（仅 34% 赞成空袭），削弱特朗普基本盘；③ 若扩大为全面战争或美军重大伤亡，将显著改写选举格局。模型与市场的「民主党夺回两院」定价已部分计入此风险。",
-    "risk": "关键红线：美军重大伤亡、大型油轮被击沉、海湾能源设施遭重创——任一发生都可能触发特朗普所称「更大打击」，从威慑变现实。",
+    "midterm_impact": "战争是中期选举核心议题之一：① 经济端——霍尔木兹封锁推高油气价格（布伦特 $106）、加剧通胀，对执政党不利；② 民意端——多数美国人反对战事（仅 34% 赞成空袭），削弱特朗普基本盘；③ 若扩大为全面战争或美军重大伤亡，将显著改写选举格局。模型与市场的「民主党夺回两院」定价已部分计入此风险；④ 油价推升的 9月CPI 已触发 Fed 10月加息概率飙至 43.7%，战争→油价→利率→选情的传导链收紧。",
+    "risk": "关键红线：美军重大伤亡、大型油轮被击沉、海湾能源设施遭重创、沙特 Aramco 类袭击扩大——任一发生都可能触发特朗普所称「更大打击」，从威慑变现实。",
     "kpis": [
       {
         "k": "布伦特原油",
-        "v": "$105 (10/11)",
-        "s": "近期 $104–105",
+        "v": "$106 (10/14)",
+        "s": "近期 $106–107",
         "k_en": "Brent crude",
-        "v_en": "$105 (10/11)",
-        "s_en": "recent $104–105"
+        "v_en": "$106 (10/14)",
+        "s_en": "recent $106–107"
       },
       {
         "k": "特朗普支持率",
-        "v": "30–35%（生涯最低）",
-        "s": "Pew 10/8 30% / Reuters/Ipsos 10/5 32%",
+        "v": "37–39%（较 10/5 的 32% 回升）",
+        "s": "Silver 10/13 37.3% / Fox 10/11-13 38.8% / RCP 10/11 39.7%；净 approval ~-22",
         "k_en": "Trump approval",
-        "v_en": "30–35% (career low)",
-        "s_en": "Pew 10/8 30% / Reuters/Ipsos 10/5 32%"
+        "v_en": "37–39% (up from 32% on 10/5)",
+        "s_en": "Silver 10/13 37.3% / Fox 38.8% / RCP 39.7%; net ~-22"
       },
       {
         "k": "赞成空袭比例",
@@ -745,11 +761,11 @@
       },
       {
         "k": "霍尔木兹 10月袭击",
-        "v": "≥9 艘/首周",
-        "s": "战来最高",
+        "v": "13+ 艘/周",
+        "s": "10/14 单日 6 艘（战来最密）",
         "k_en": "Hormuz Oct attacks",
-        "v_en": "≥9 / first week",
-        "s_en": "highest since war began"
+        "v_en": "13+ / week",
+        "s_en": "6 on 10/14 (densest since war began)"
       },
       {
         "k": "墨西哥湾减产",
@@ -758,11 +774,19 @@
         "k_en": "Gulf output cut",
         "v_en": "~1.3M bpd",
         "s_en": "Hurricane Isaias 62–71% shut"
+      },
+      {
+        "k": "美国 9月 CPI",
+        "v": "+3.7% 同比",
+        "s": "预期 +3.6%；核心 +2.6%（推升 Fed 加息）",
+        "k_en": "美国 9月 CPI",
+        "v_en": "+3.7% YoY",
+        "s_en": "vs +3.6% exp; core +2.6%"
       }
     ],
-    "as_of_en": "2026-10-11 (Hormuz attack surge 10/8–10/11, oil $105, Trump pre-election no-strike pledge)",
-    "source_en": "Compiled from CCTV/Xinhua, Global Times, Al Jazeera, Reuters/Ipsos, GlobalSecurity, WaPo/Cankao, CNA, EnergyReader, TradingEconomics, 10/1–10/11.",
-    "status_en": "Attack surge + talks collapse (Trump calls ceasefire 'fragile'; oil $105; no-strike pledge pre-election)",
+    "as_of_en": "2026-10-15 (Hormuz attack surge 10/11–10/14, oil $106, Trump pre-election no-strike pledge, Aramco hit, CPI lifts Fed)",
+    "source_en": "Compiled from CCTV/Xinhua, Global Times, Al Jazeera, Reuters/Ipsos, GlobalSecurity, WaPo/Cankao, CNA, OilPrice, RO-AR, Sina Finance, 10/1–10/15.",
+    "status_en": "Attack surge continues + Trump rules out major pre-election strikes (Pentagon preps post-election plan)",
     "timeline_en": [
       "2/28 US–Israel struck Iran, regional conflict erupted (~7 months ago)",
       "April: brief US–Iran ceasefire; June: signed MoU, intended to end conflict and talk nuclear",
@@ -787,44 +811,44 @@
       "Hormuz: ≥9 attacks in first week of Oct (highest since war began); daily traffic still single digits; ~20% of global energy corridor",
       "Oil: Brent ~$105 on 10/11 (Alahed); WTI ~$91.5–99; Hurricane Isaias adds supply shock"
     ],
-    "midterm_impact_en": "War is a core midterm issue: ① Economic — Hormuz blockade pushes up oil/gas prices, worsens inflation, hurts the incumbent party; ② Public opinion — most Americans oppose the war (only 34% approve strikes), weakening Trump's base; ③ if it expands into full war or major US casualties, it would significantly reshape the election. Models and markets' 'Dem retake both chambers' pricing already partially prices in this risk.",
+    "midterm_impact_en": "War is a core midterm issue: ① Economic — Hormuz blockade pushes oil/gas prices (Brent $106), worsens inflation, hurts the incumbent; ② Public opinion — most Americans oppose the war (only 34% approve strikes), weakening Trump's base; ③ if it expands into full war or major US casualties, it would reshape the election. Models/markets' 'Dem retake both' pricing already prices this in; ④ war-driven oil pushed Sept CPI to +3.7%, lifting Fed Oct hike odds to 43.7% — tightening the war→oil→rates→vote chain.",
     "risk_en": "Key red lines: major US casualties, a large tanker sunk, Gulf energy facilities heavily hit — any of these could trigger Trump's 'bigger strike', turning deterrence into reality."
   },
   "fed": {
-    "as_of": "2026-10-11",
-    "source": "综合 CME FedWatch 10月初、NY Fed(Williams)、副主席 Jefferson、Bowman、S&P Global PMI、中新经纬、雪球、真灼财经、hstong",
-    "current_range": "3.75%–4.00%（9/16 加息 25bp 后维持）",
-    "narrative": "叙事反转：年初全年降息 2–3 次已被 9/16 加息改写。进入 10 月，加息紧迫性大幅下降——9 月非农仅 +2.9 万（远低预期 15 万）、8 月核心 PCE 环比 +0.2%/同比 3.0%（低于预期），CME 10 月加息概率从 9/30 的 50.4% 跌至 <25%，市场定价 10 月维持不变概率 >75%。但 SEP 中值仍指向年内再加息一次（终端 4.1%），12 月会议是主要兑现窗口；Williams/Jefferson 不急于行动，Bowman 倾向 2026 不再加息。油价（布伦特 $105）仍是通胀上行风险。",
+    "as_of": "2026-10-15",
+    "source": "综合 CME FedWatch 10/14、新浪财经/每日经济新闻 10/14（9月CPI）、NY Fed(Williams)、副主席 Jefferson、Bowman、S&P Global PMI、中新经纬",
+    "current_range": "3.75%–4.00%（9/16 加息 25bp 后维持；10/27–28 会议前）",
+    "narrative": "叙事急转：9月 CPI（10/14 公布）同比 +3.7%（预期 3.6%，5月以来新高）、环比 +0.6%，核心 CPI 同比 +2.6%（预期 2.5）、环比 +0.3%——通胀反弹叠加 9/16 加息 25bp，彻底逆转 10月初『按兵不动』预期。CME FedWatch 10月加息 25bp 概率从 9月CPI公布前的 21.6%、10/11 的 <25% 飙升至 10/14 的 43.7%，维持不变概率降至 56.3%；市场甚至计入 2027 年底前再加息三次。美债收益率同步飙升：2年期 4.937%、5年期破 5%（2007年来首次）、10年期 >5.1%。但 SEP 中值仍指向年内再加息一次（终端 4.1%），12月会议是主要兑现窗口；Williams/Jefferson 不急于行动，Bowman 倾向 2026 不再加息。油价（布伦特 $106）仍是通胀上行风险。10/27–28 会议恰在中期选举前一周，若加息将直接推高房贷/消费贷成本、反向压制执政党。",
     "meetings": [
       {
         "label": "10月会议",
         "date": "2026-10-27/28",
-        "base_case": "维持不变概率 >75%（CME 10月初；9月非农爆冷 +2.9万、8月核心PCE低于预期）",
+        "base_case": "加息概率飙升至 43.7%、维持 56.3%（CME 10/14；9月 CPI 同比 +3.7% 超预期、核心 +2.6%）",
         "probs": [
           {
             "name": "再加息 25bp",
-            "p": 20,
-            "src": "CME FedWatch 10月初：加息 <25% / 维持 >75%（9月非农爆冷、核心PCE低于预期）",
+            "p": 44,
+            "src": "CME FedWatch 10/14：加息 43.7% / 维持 56.3%（9月 CPI 同比 +3.7% 超预期）",
             "name_en": "Another +25bp hike",
-            "src_en": "CME FedWatch early Oct: hike <25% / hold >75% (payrolls miss, core PCE low)"
+            "src_en": "CME FedWatch 10/14: hike 43.7% / hold 56.3% (Sept CPI +3.7% beats)"
           },
           {
             "name": "维持 3.75%–4.00% 不变",
-            "p": 80,
-            "src": "CME FedWatch 10月初",
+            "p": 56,
+            "src": "CME FedWatch 10/14",
             "name_en": "Hold at 3.75%–4.00%",
-            "src_en": "CME FedWatch early Oct"
+            "src_en": "CME FedWatch 10/14"
           }
         ],
-        "note": "会议恰在 11/3 中期选举前一周，政治敏感度极高；若加息将直接推高房贷/消费贷成本",
+        "note": "会议恰在 11/3 中期选举前一周，政治敏感度极高；9月 CPI 超预期后加息从『小概率』变『近五成』，若加息将直接推高房贷/消费贷成本",
         "label_en": "October meeting",
-        "base_case_en": "Hold probability >75% (CME early Oct; Sept payrolls +29k miss, Aug core PCE below forecast)",
-        "note_en": "Meeting falls exactly one week before the 11/3 midterm — extremely politically sensitive; a hike would directly raise mortgage/consumer-loan costs"
+        "base_case_en": "Hike odds surged to 43.7%, hold 56.3% (CME 10/14; Sept CPI +3.7% YoY beats, core +2.6%)",
+        "note_en": "Meeting falls exactly one week before 11/3 midterm — extremely politically sensitive; post-CPI the hike went from long-shot to near-coin-flip, and a hike would directly raise mortgage/consumer-loan costs"
       },
       {
         "label": "12月会议",
         "date": "2026-12-08/09",
-        "base_case": "市场主流：12月加息 25bp 至 4.00%–4.25%（SEP 中值 4.1%；但部分机构推后至 12月/明年3月）",
+        "base_case": "市场主流：12月加息 25bp 至 4.00%–4.25%（SEP 中值 4.1%；但 10月已可能先加一次，路径前移）",
         "probs": [
           {
             "name": "年底落 4.00%–4.25%（再+25bp）",
@@ -850,27 +874,28 @@
         ],
         "note": "SEP 中位暗示年内再加息一次；CME 9/30 显示年底前至少再加息一次概率 91.6%；Williams 9/29「若经济符合预期，年底或再上调一次」",
         "label_en": "December meeting",
-        "base_case_en": "Consensus: December +25bp to 4.00%–4.25% (SEP median 4.1%; some shops push to Dec/Mar 2027)",
+        "base_case_en": "Consensus: December +25bp to 4.00%–4.25% (SEP median 4.1%; but an Oct hike now likely pulls the path forward)",
         "note_en": "SEP median implies one more hike this year; CME 9/30 shows ≥one more hike by year-end 91.6%; Williams 9/29 'if economy as expected, may raise once more by year-end'"
       }
     ],
-    "midterm_impact": "利率是中期选举的经济主轴：① 维持/上调高利率 → 房贷、消费信贷成本居高，压制家庭部门，对执政党不利；② 若因战争油价推升通胀而加息，等于把地缘风险转嫁为国内利率压力，双重不利于现任政府；③ 特朗普与 Fed 的公开对立，把货币政策变成选举争议点。",
-    "watch": "9 月 CPI 与 10 月非农（10/9 已出偏弱）、油价（布伦特 $105）、特朗普 vs 美联储、10/27 会议前最后一份就业报告；11/7 才出 10 月 CPI（选后）",
+    "midterm_impact": "利率是中期选举的经济主轴：① 维持/上调高利率 → 房贷、消费信贷成本居高，压制家庭部门，对执政党不利；② 若因战争油价推升通胀而加息（9月CPI已触发），等于把地缘风险转嫁为国内利率压力，双重不利于现任政府；③ 特朗普与 Fed 的公开对立，把货币政策变成选举争议点。10月加息概率从 <25% 飙至 43.7%，使『11/3 前不加息』的确定性显著下降。",
+    "watch": "9月 CPI 已出 +3.7% 超预期（推升加息至 43.7%）、10/27–28 会议临近、油价（布伦特 $106）、特朗普 vs 美联储、选前最后就业报告",
     "kpis": [
       {
         "k": "CME 10月加息概率",
-        "v": "<25%",
-        "s": "vs 维持 >75%",
+        "v": "43.7%",
+        "s": "vs 维持 56.3%（9月CPI超预期后飙升，此前 <25%）",
         "k_en": "CME Oct hike prob",
-        "s_en": "vs hold >75%",
-        "v_en": "<25%"
+        "s_en": "vs hold 56.3% (jumped post-CPI, was <25%)",
+        "v_en": "43.7%"
       },
       {
         "k": "10Y 美债收益率",
         "v": ">5.1%",
         "s": "约 19 年高位",
         "k_en": "10Y Treasury yield",
-        "s_en": "~19-yr high"
+        "s_en": "~19-yr high",
+        "v_en": ">5.1%"
       },
       {
         "k": "5Y 美债",
@@ -878,21 +903,23 @@
         "s": "2007 年来首次",
         "k_en": "5Y Treasury",
         "v_en": "broke 5%",
-        "s_en": "broke 5%, first since 2007"
+        "s_en": "first since 2007"
       },
       {
         "k": "美元指数",
         "v": "101.06",
         "s": "7/29 来最高",
         "k_en": "Dollar index",
-        "s_en": "highest since 7/29"
+        "s_en": "highest since 7/29",
+        "v_en": "101.06"
       },
       {
         "k": "9月 服务业 PMI",
         "v": "58.7",
         "s": "59 个月高",
         "k_en": "Sept services PMI",
-        "s_en": "59-month high"
+        "s_en": "59-month high",
+        "v_en": "58.7"
       },
       {
         "k": "核心 PCE",
@@ -901,19 +928,27 @@
         "k_en": "Core PCE",
         "s_en": "Aug YoY (below forecast)",
         "v_en": "3.0%"
+      },
+      {
+        "k": "美国 9月 CPI",
+        "v": "+3.7% 同比",
+        "s": "预期 +3.6%；核心 +2.6%（10/14 公布，推升加息）",
+        "k_en": "美国 9月 CPI",
+        "v_en": "+3.7% YoY",
+        "s_en": "vs +3.6% expected; core +2.6% (10/14, lifted hike odds)"
       }
     ],
-    "as_of_en": "2026-10-11",
-    "source_en": "Compiled from CME FedWatch early Oct, NY Fed (Williams), Vice Chair Jefferson, Bowman, S&P Global PMI, CN Finance, Xueqiu, Zhenzhuo, hstong.",
+    "as_of_en": "2026-10-15",
+    "source_en": "Compiled from CME FedWatch 10/14, Sina Finance / Nat'l Business Daily 10/14 (Sept CPI), NY Fed (Williams), Vice Chair Jefferson, Bowman, S&P Global PMI.",
     "current_range_en": "3.75%–4.00% (held since 9/16 +25bp hike)",
-    "narrative_en": "Narrative reversal: the year-start '2–3 cuts' was rewritten by the 9/16 hike. Into October, hike urgency fell sharply — Sept payrolls only +29k (vs 150k expected), Aug core PCE +0.2% MoM / 3.0% YoY (below forecast), CME Oct hike odds dropped from 50.4% (9/30) to <25%, market prices >75% hold in October. But the SEP median still implies one more hike this year (terminal 4.1%); December is the main window. Williams/Jefferson 'not in a hurry'; Bowman leans no more 2026 hikes. Oil ($105 Brent) remains an inflation upside risk.",
-    "midterm_impact_en": "Rates are the economic spine of the midterms: ① holding/raising high rates → mortgage and consumer-credit costs stay high, squeeze households, hurt the incumbent party; ② if hikes come from war-oil inflation, it transfers geopolitical risk into domestic rate pressure — doubly bad for the current administration; ③ Trump's public feud with the Fed turns monetary policy into an election flashpoint.",
-    "watch_en": "Sept CPI & Oct payrolls (weak 10/9), oil (Brent $105), Trump vs Fed, last jobs report before 10/27 meeting; Oct CPI lands 11/7 (post-election)"
+    "narrative_en": "Narrative reversal: Sept CPI (released 10/14) came in at +3.7% YoY (vs 3.6% expected, highest since May), +0.6% MoM; core CPI +2.6% YoY (vs 2.5%), +0.3% MoM — the inflation rebound, on top of the 9/16 +25bp hike, wiped out the early-Oct 'hold' narrative. CME FedWatch Oct +25bp odds jumped from 21.6% pre-CPI and <25% on 10/11 to 43.7% on 10/14; hold fell to 56.3%; markets even price three more hikes through end-2027. Yields surged: 2Y 4.937%, 5Y broke 5% (first since 2007), 10Y >5.1%. SEP median still implies one more hike this year (terminal 4.1%); December is the main window. Oil ($106 Brent) remains an upside inflation risk. The 10/27–28 meeting falls exactly one week before the midterm.",
+    "midterm_impact_en": "Rates are the economic spine of the midterms: ① holding/raising high rates squeezes households, hurts the incumbent; ② a hike driven by war-oil inflation transfers geopolitical risk into domestic rate pressure — doubly bad for the administration; ③ Trump's feud with the Fed turns monetary policy into an election flashpoint. Oct hike odds surging from <25% to 43.7% makes 'no hike before 11/3' far less certain.",
+    "watch_en": "Sept CPI landed +3.7% (lifted hike to 43.7%), 10/27–28 meeting imminent, oil (Brent $106), Trump vs Fed, last pre-election jobs report"
   },
   "senate_map": {
-    "as_of": "2026-10-07（Cook 10/6 评级 + Guardian 10/2、Smith Garson 10/9）",
-    "note": "评级综合 Cook Political Report 10/6、Sabato's Crystal Ball、Inside Elections 2026 年 10 月初估算；席位结构与市场/模型一致——民主党需净增 4 席（含副总统打破 50-50）。Cook 10/6 列 7 个 Tossup（6 个 R 持有）+ NH Lean D + NC Likely D，GA 上调 Likely D。",
-    "note_en": "Ratings from Cook Political Report 10/6, Sabato's Crystal Ball, Inside Elections early Oct 2026; seat math consistent with markets/models — Dems need net +4 (incl. VP breaking 50-50). Cook 10/6 lists 7 Tossups (6 R-held) + NH Lean D + NC Likely D, GA upgraded to Likely D.",
+    "as_of": "2026-10-09（Cook 10/6 评级 + Smith Garson 10/9 众院 + 关键州 RCP 10/9 民调）",
+    "note": "评级综合 Cook Political Report 10/6、Sabato's Crystal Ball 10/6（AK→Lean D）、Inside Elections 2026 年 10 月初估算；席位结构与市场/模型一致——民主党需净增 4 席（含副总统打破 50-50）。Cook 10/6 列 7 个 Tossup（6 个 R 持有）+ NH Lean D + NC Likely D，GA 上调 Likely D；10/9 Cook 将 18 个众院席位移向民主党、众院增益预期 +9~+19。",
+    "note_en": "Ratings from Cook Political Report 10/6, Sabato's Crystal Ball 10/6 (AK→Lean D), Inside Elections early Oct 2026; seat math consistent with markets/models — Dems need net +4 (incl. VP breaking 50-50). Cook 10/6 lists 7 Tossups (6 R-held) + NH Lean D + NC Likely D, GA→Likely D; 10/9 Cook shifted 18 House seats toward D, House gain +9~+19.",
     "seats": [
       {
         "state": "缅因 Maine",
@@ -1020,15 +1055,15 @@
         "state_en": "Texas",
         "holder": "R",
         "rating": "Tossup",
-        "trend": "Talarico +2.8~+6（RCP/NYT）；Polymarket D 64%",
-        "trend_en": "Talarico +2.8~+6 (RCP/NYT); Polymarket D 64%",
+        "trend": "Talarico +2.8~+6（RCP/NYT/YouGov 9/28–10/5 50–44）；Polymarket D 64%",
+        "trend_en": "Talarico +2.8~+6 (RCP/NYT/YouGov 9/28–10/5 50–44); Polymarket D 64%",
         "key": "历史红州入局",
         "key_en": "Historic red state in play"
       }
     ]
   },
   "sources": {
-    "as_of": "2026-10-11",
+    "as_of": "2026-10-15",
     "items": [
       {
         "cat": "模型 / 民调聚合",
@@ -1061,8 +1096,8 @@
         "list": "POLITICO、AP/凤凰网、新华社环球、Ahram、USA Today、Cook Political Report、Sabato's Crystal Ball、Inside Elections"
       }
     ],
-    "correction": "重要更正（2026-09-30）：此前版本称 9/28 美军 48 小时打击伊朗 170+ 目标、重大升级，经核查无权威信源支持，实际为有限互袭（约 20 目标）。已据实更正。2026-10-11 全面刷新：模型/市场/评级/战争/美联储均更新至 10 月初实时快照。",
-    "correction_en": "Correction (2026-09-30): earlier '9/28 US 170+ targets' claim unsupported; reality was limited strikes (~20). Corrected. 2026-10-11 full refresh: models/markets/ratings/war/Fed all updated to early-Oct real-time snapshots.",
+    "correction": "重要更正（2026-09-30）：此前版本称 9/28 美军 48 小时打击伊朗 170+ 目标、重大升级，经核查无权威信源支持，实际为有限互袭（约 20 目标）。已据实更正。2026-10-11 全面刷新：模型/市场/评级/战争/美联储均更新至 10 月初实时快照。2026-10-15 刷新：市场/普通选票/特朗普支持率/伊朗/美联储更新至 10/14 实时；最大转折为 9月 CPI（+3.7% 超预期）致 Fed 10月加息概率由 <25% 飙至 43.7%。",
+    "correction_en": "Correction (2026-09-30): earlier '9/28 US 170+ targets' claim unsupported; reality was limited strikes (~20). Corrected. 2026-10-11 full refresh: models/markets/ratings/war/Fed updated to early-Oct snapshots. 2026-10-15 refresh: markets/ballot/Trump/Iran/Fed updated to 10/14; the biggest swing is Sept CPI (+3.7% beats) lifting Fed Oct hike odds from <25% to 43.7%.",
     "disclaimer": "本盘为方法学 / 数据聚合展示，所有百分比来自公开模型与报道快照，存在时效与口径差异；不构成任何选举、投资或行动建议。",
     "disclaimer_en": "This board is a methodology / data-aggregation display. All percentages come from public models and report snapshots, with timing and scope differences; it does not constitute any election, investment, or action advice."
   }
