@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-10-23T08:03:01+08:00",
+  "updated_at": "2026-11-01T19:00:00+08:00",
   "election_day": "2026-11-03",
-  "live": false,
-  "note": "数值为各模型最近一次公开读数（民主党夺回/守住该议院的胜率 %）。来源见每个模型的 source 字段。市场数值为 10/13–10/14 跨平台共识快照（Polymarket/Kalshi）。接入预测市场 API 并经 Cloudflare 边缘实时代理产出 live=true 后，面板自动切换为实时。",
+  "live": true,
+  "note": "数值为各模型最近一次公开读数（民主党赢得该院的胜率 %），每个模型自带 as_of，请以字段为准。市场数值为 11/01 跨平台共识（Polymarket / Kalshi），并每日经 GitHub Actions 自动同步实盘。选举日 2026-11-03，更新至 11-04 停止。",
   "models": [
     {
       "id": "fiftyplusone",
@@ -72,10 +72,10 @@
       "author": "Silver Bulletin",
       "method": "加权民调+基本面 · 4万次联合模拟",
       "tier": "primary",
-      "house_d": 93,
-      "senate_d": 75,
-      "as_of": "2026-10-09",
-      "source": "Silver Bulletin FLIPR 10/9：Deluxe 众院 D 94%、参院 D 75%（默认 93%/75%）；双院同归 D 74.5%、R 守两院 6.7%。中位 238.7 席众院 / 52.2 席参院。普通选票 D+8.9（10/5）",
+      "house_d": 95,
+      "senate_d": 79,
+      "as_of": "2026-10-30",
+      "source": "Silver Bulletin（Nate Silver）10/30：众院 D 95%、参院 D 79%（自 75% 上调）；一般选票民主党领先约 9.5 个百分点",
       "auto": false,
       "history": {
         "house": [
@@ -186,10 +186,10 @@
       "author": "Decision Desk HQ",
       "method": "每日 · 免费嵌入",
       "tier": "contrast",
-      "house_d": 76,
-      "senate_d": 57,
-      "as_of": "2026-10-08",
-      "source": "Decision Desk HQ 10/8：众院 D 76%、参院 D 57%（较上周 75%/54% 上调）",
+      "house_d": 80,
+      "senate_d": 60,
+      "as_of": "2026-10-29",
+      "source": "DDHQ（Decision Desk HQ）× The Hill 10/29 模型：众院 D 80%（约 238 席）、参院 D 60%（约 52 席）；本周参院自 57% 上调至 60%",
       "auto": true,
       "history": {
         "house": [
@@ -355,12 +355,12 @@
   ],
   "markets": {
     "name": "预测市场（Kalshi / Polymarket）",
-    "house_d": 91,
-    "senate_d": 64,
-    "sweep": 62,
-    "as_of": "10-23",
-    "as_of_en": "2026-10-13–14 cross-platform consensus",
-    "note": "Polymarket 10/13：民主党夺回众院 91%、夺回参院 64%、两党同归（sweep）63%；Kalshi 10/13–14：众院 88–90%、参院 61–62%、sweep 61。跨平台共识：众院 D 90–91（中位 ~234–240D）、参院 D 62–64（中位 51–52D）。「民主党浪潮」延续至选前三周。9月 CPI（10/14 +3.7% 超预期）推升美联储 10月加息概率，若加息将反向压制执政党选情。",
+    "house_d": 94,
+    "senate_d": 70,
+    "sweep": 66,
+    "as_of": "11-01",
+    "as_of_en": "2026-11-01 19:00 Asia/Shanghai (Polymarket / Kalshi)",
+    "note": "Polymarket 11/01：民主党夺回众院 94%、夺回参院 70.5%、两院全胜 67%；Kalshi 同步：众院 92–93%、参院 68–71%、全胜 63–64%。跨平台共识：众院 D 92–95（中位约 238–240 席）、参院 D 68–72（中位 52 席）",
     "realtime": true,
     "history": {
       "house": [
@@ -391,6 +391,10 @@
         {
           "d": "10-14",
           "v": 91
+        },
+        {
+          "d": "11-01",
+          "v": 94
         }
       ],
       "senate": [
@@ -421,6 +425,10 @@
         {
           "d": "10-14",
           "v": 64
+        },
+        {
+          "d": "11-01",
+          "v": 70
         }
       ],
       "sweep": [
@@ -447,22 +455,26 @@
         {
           "d": "10-14",
           "v": 62
+        },
+        {
+          "d": "11-01",
+          "v": 66
         }
       ]
     },
     "name_en": "Prediction Markets (Kalshi / Polymarket)",
-    "note_en": "Polymarket 10/13: Dem retake House 91%, retake Senate 64%, sweep 63%; Kalshi 10/13–14: House 88–90%, Senate 61–62%, sweep 61. Cross-platform consensus: House D 90–91 (median ~234–240D), Senate D 62–64 (median 51–52D). 'Dem wave' persists into the final three weeks. Sept CPI (10/14, +3.7% YoY) lifted Fed Oct hike odds — a hike would inversely pressure the incumbent party."
+    "note_en": "Polymarket 11/01: Democrats 94% House, 70.5% Senate, 67% sweep; Kalshi: 92-95% House, 68-71% Senate, 63-64% sweep. Consensus: House D 92-95% (median ~238-240 seats), Senate D 68-72% (median 52 seats)"
   },
   "expert_ratings": {
-    "as_of": "2026-10-14",
+    "as_of": "2026-10-30",
     "source": "综合 Cook Political Report 10/6–10/9（10/9 将 18 个众院席位移向民主党、众院增益 +9~+19）、Sabato's Crystal Ball 10/6（AK→Lean D）、Inside Elections 10/1、Silver Bulletin、Smith Garson 10/9、El País",
     "model_implied": {
-      "house_d_gain": "+18 ~ +23（中位 234–240D）",
-      "house_d_prob": "85–99%",
-      "senate_d_prob": "56–75%",
-      "house_d_gain_en": "+18 to +23 (median 234–240D)",
-      "house_d_prob_en": "85–99%",
-      "senate_d_prob_en": "56–75%"
+      "house_d_gain": "+12 ~ +25（中位 234–240D）",
+      "house_d_prob": "80–95%",
+      "senate_d_prob": "56–79%",
+      "house_d_gain_en": "+12 to +25 (median 234-240D)",
+      "house_d_prob_en": "80-95%",
+      "senate_d_prob_en": "56-79%"
     },
     "raters": [
       {
@@ -1063,7 +1075,7 @@
     ]
   },
   "sources": {
-    "as_of": "2026-10-15",
+    "as_of": "2026-11-01",
     "items": [
       {
         "cat": "模型 / 民调聚合",
