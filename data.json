@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-01T20:25:56+08:00",
+  "updated_at": "2026-11-01T20:39:11+08:00",
   "election_day": "2026-11-03",
   "live": true,
   "note": "数值为各模型最近一次公开读数（民主党赢得该院的胜率 %），每个模型自带 as_of，请以字段为准。市场数值为 11/01 跨平台共识（Polymarket / Kalshi），并每日经 GitHub Actions 自动同步实盘。选举日 2026-11-03，更新至 11-04 停止。",
@@ -359,7 +359,7 @@
     "senate_d": 72.5,
     "sweep": 66,
     "as_of": "11-01",
-    "as_of_en": "2026-11-01 20:25 Asia/Shanghai · live fetch",
+    "as_of_en": "2026-11-01 20:39 Asia/Shanghai · live fetch",
     "note": "Polymarket 实时抓取：民主党夺回众院 94.5%、夺回参院 72.5%、两院全胜 66%。数值为交易价格隐含概率，非民调。",
     "realtime": true,
     "history": {
