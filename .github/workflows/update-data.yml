@@ -1,0 +1,62 @@
+name: Update market data
+
+# 2026 中期选举看板：每日把 Polymarket 实时概率同步进 data.json
+# 选举日为 2026-11-03，按需求更新到 11-04 为止，之后脚本自动跳过（见 update_market.py 的 CUTOFF）
+
+on:
+  schedule:
+    - cron: '0 9 * * *'        # 每日 09:00 UTC = 北京时间 17:00
+    - cron: '0 1 * * 3,4'      # 选举日前后（11/3、11/4）加一次 09:00 北京时间的白天窗口
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-market
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 截止日期检查
+        id: gate
+        run: |
+          TODAY=$(TZ=Asia/Shanghai date +%Y%m%d)
+          echo "北京时间今天：$TODAY"
+          if [ "$TODAY" -gt "20261104" ]; then
+            echo "已过 2026-11-04，跳过（站点转入静态归档）"
+            echo "skip=1" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=0" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.gate.outputs.skip == '0'
+
+      - uses: actions/setup-python@v5
+        if: steps.gate.outputs.skip == '0'
+        with:
+          python-version: '3.11'
+
+      - name: 语法自检
+        if: steps.gate.outputs.skip == '0'
+        run: python3 scripts/update_market.py --self-test
+
+      - name: 拉取 Polymarket 并写回 data.json
+        if: steps.gate.outputs.skip == '0'
+        run: python3 scripts/update_market.py
+
+      - name: 提交并推送（触发 Pages 重新部署）
+        if: steps.gate.outputs.skip == '0'
+        run: |
+          if git diff --quiet -- data.json; then
+            echo "数据无变化，不提交"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data.json
+          git commit -m "data: 每日市场快照 $(TZ=Asia/Shanghai date +%F)"
+          git push
