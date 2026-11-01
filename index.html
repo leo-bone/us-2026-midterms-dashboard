@@ -1808,7 +1808,7 @@ function render(){
   document.getElementById('sec_sources').textContent = T('src_panel_title');
   document.getElementById('note_arch').innerHTML = Tf('note_arch',{});
   document.getElementById('disc').innerHTML = Tf('disc',{date:DATA.updated_at.slice(0,10)});
-  document.getElementById('footer').innerHTML = Tf('footer_method',{}) + '<br><span style="color:#6e5f48">'+Tf('footer_sub',{date:DATA.updated_at.slice(0,10)})+'</span>';
+  document.getElementById('footer').innerHTML = Tf('footer_method',{}) + '<br><span style="color:#6e5f48">'+Tf('footer_sub',{date:DATA.updated_at.slice(0,16).replace('T',' ')})+'</span>';
 
   // hero spread
   const hdVals=DATA.models.filter(m=>m.house_d!=null).map(m=>m.house_d);

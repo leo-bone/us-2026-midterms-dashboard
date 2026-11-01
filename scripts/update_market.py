@@ -99,7 +99,7 @@ def pick_event(events, kind):
 def collect_events():
     """拉取候选事件：先用搜索接口，失败则退回高成交额列表。"""
     events = []
-    for q in ("house control", "senate control", "balance of power", "2026 midterms"):
+    for q in ("house control", "senate control", "balance of power", "democratic sweep", "2026 midterms"):
         try:
             d = get_json(f"{GAMMA}/public-search?q={urllib.parse.quote(q)}&limit_per_type=20")
             events.extend(d.get("events") or [])
@@ -142,21 +142,31 @@ def fetch_markets():
             out[kind] = round(best[1], 1)
             print(f"  ✓ {label}：Dem {out[kind]}%  ← {ev.get('slug')}")
 
-    # sweep：Balance of Power 里的 Democratic Sweep
+    # sweep：Balance of Power / 「两院同时拿下」类市场
     for ev in events:
-        title = str(ev.get("title") or "").lower()
-        if "balance of power" not in title and "sweep" not in title:
-            continue
         for m in ev.get("markets") or []:
             q = str(m.get("question") or "").lower()
-            if "democrat" in q and "sweep" in q:
-                p = dem_price(m)
-                if p and 0 < p <= 100:
-                    out["sweep"] = round(p, 1)
-                    print(f"  ✓ 全胜 sweep：Dem {out['sweep']}%  ← {ev.get('slug')}")
-                    break
+            if "democrat" not in q:
+                continue
+            hit = ("sweep" in q) or ("both chambers" in q) or ("house" in q and "senate" in q)
+            if not hit:
+                continue
+            p = dem_price(m)
+            if p and 0 < p <= 100:
+                # 合理性检查：全胜概率不应高于任一单院概率
+                if out.get("house") and out.get("senate") and p > min(out["house"], out["senate"]) + 1:
+                    continue
+                out["sweep"] = round(p, 1)
+                print(f"  ✓ 全胜 sweep：Dem {out['sweep']}%  ← {ev.get('slug')}")
+                break
         if "sweep" in out:
             break
+
+    # 兜底：找不到 sweep 市场时，用两院概率乘积估算（标注为 derived）
+    if "sweep" not in out and "house" in out and "senate" in out:
+        out["sweep"] = round(out["house"] * out["senate"] / 100, 1)
+        out["sweep_derived"] = True
+        print(f"  ~ 全胜 sweep 未找到对应市场，按乘积估算：{out['sweep']}%")
     return out
 
 
@@ -188,16 +198,17 @@ def apply(data, live):
         mk["sweep"] = sweep
 
     src = "Polymarket（GitHub Actions 每日同步）" if live else "Polymarket 快照（本次抓取失败，沿用上次）"
+    derived = bool(live.get("sweep_derived"))
     mk["as_of"] = day
     mk["as_of_en"] = f"{now.strftime('%Y-%m-%d %H:%M')} Asia/Shanghai · {'live fetch' if live else 'last snapshot'}"
     mk["note"] = (
         f"Polymarket 实时抓取：民主党夺回众院 {house}%、夺回参院 {senate}%"
-        + (f"、两院全胜 {sweep}%" if sweep is not None else "")
+        + (f"、两院全胜 {sweep}%{'（按两院概率乘积估算）' if derived else ''}" if sweep is not None else "")
         + "。数值为交易价格隐含概率，非民调。"
     )
     mk["note_en"] = (
         f"Live from Polymarket: Democrats {house}% for the House, {senate}% for the Senate"
-        + (f", {sweep}% for a sweep" if sweep is not None else "")
+        + (f", {sweep}% for a sweep{' (derived from both-chamber prices)' if derived else ''}" if sweep is not None else "")
         + ". Prices imply probabilities; not polls."
     )
     mk["realtime"] = True
