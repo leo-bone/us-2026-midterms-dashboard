@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-01T19:00:00+08:00",
+  "updated_at": "2026-11-01T20:18:42+08:00",
   "election_day": "2026-11-03",
   "live": true,
   "note": "数值为各模型最近一次公开读数（民主党赢得该院的胜率 %），每个模型自带 as_of，请以字段为准。市场数值为 11/01 跨平台共识（Polymarket / Kalshi），并每日经 GitHub Actions 自动同步实盘。选举日 2026-11-03，更新至 11-04 停止。",
@@ -355,12 +355,12 @@
   ],
   "markets": {
     "name": "预测市场（Kalshi / Polymarket）",
-    "house_d": 94,
-    "senate_d": 70,
+    "house_d": 94.5,
+    "senate_d": 72.5,
     "sweep": 66,
     "as_of": "11-01",
-    "as_of_en": "2026-11-01 19:00 Asia/Shanghai (Polymarket / Kalshi)",
-    "note": "Polymarket 11/01：民主党夺回众院 94%、夺回参院 70.5%、两院全胜 67%；Kalshi 同步：众院 92–93%、参院 68–71%、全胜 63–64%。跨平台共识：众院 D 92–95（中位约 238–240 席）、参院 D 68–72（中位 52 席）",
+    "as_of_en": "2026-11-01 20:18 Asia/Shanghai · live fetch",
+    "note": "Polymarket 实时抓取：民主党夺回众院 94.5%、夺回参院 72.5%、两院全胜 66%。数值为交易价格隐含概率，非民调。",
     "realtime": true,
     "history": {
       "house": [
@@ -394,7 +394,7 @@
         },
         {
           "d": "11-01",
-          "v": 94
+          "v": 94.5
         }
       ],
       "senate": [
@@ -428,7 +428,7 @@
         },
         {
           "d": "11-01",
-          "v": 70
+          "v": 72.5
         }
       ],
       "sweep": [
@@ -463,7 +463,7 @@
       ]
     },
     "name_en": "Prediction Markets (Kalshi / Polymarket)",
-    "note_en": "Polymarket 11/01: Democrats 94% House, 70.5% Senate, 67% sweep; Kalshi: 92-95% House, 68-71% Senate, 63-64% sweep. Consensus: House D 92-95% (median ~238-240 seats), Senate D 68-72% (median 52 seats)"
+    "note_en": "Live from Polymarket: Democrats 94.5% for the House, 72.5% for the Senate, 66% for a sweep. Prices imply probabilities; not polls."
   },
   "expert_ratings": {
     "as_of": "2026-10-30",
