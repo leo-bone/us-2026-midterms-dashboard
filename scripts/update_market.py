@@ -121,6 +121,29 @@ def collect_events():
     return uniq
 
 
+def pick_sweep(events, house=None, senate=None):
+    """从事件里找「民主党两院全胜」概率；只认 2026 周期，找不到返回 None。"""
+    PAST = ("2020", "2022", "2024")
+    for ev in events:
+        ident = f"{ev.get('slug') or ''} {ev.get('title') or ''}".lower()
+        if any(y in ident for y in PAST):
+            continue
+        for m in ev.get("markets") or []:
+            q = str(m.get("question") or "").lower()
+            if "democrat" not in q:
+                continue
+            if not (("sweep" in q) or ("both chambers" in q) or ("house" in q and "senate" in q)):
+                continue
+            p = dem_price(m)
+            if p is None or p < 1 or p > 100:   # <1% 基本是已结算旧市场的噪声
+                continue
+            if house and senate and p > min(house, senate) + 1:
+                continue                        # 全胜不可能比任一单院更可能
+            print(f"  ✓ 全胜 sweep：Dem {round(p,1)}%  ← {ev.get('slug')}")
+            return round(p, 1)
+    return None
+
+
 def fetch_markets():
     events = collect_events()
     if not events:
@@ -142,28 +165,10 @@ def fetch_markets():
             out[kind] = round(best[1], 1)
             print(f"  ✓ {label}：Dem {out[kind]}%  ← {ev.get('slug')}")
 
-    # sweep：Balance of Power / 「两院同时拿下」类市场
-    for ev in events:
-        for m in ev.get("markets") or []:
-            q = str(m.get("question") or "").lower()
-            if "democrat" not in q:
-                continue
-            hit = ("sweep" in q) or ("both chambers" in q) or ("house" in q and "senate" in q)
-            if not hit:
-                continue
-            p = dem_price(m)
-            if p and 0 < p <= 100:
-                # 合理性检查：全胜概率不应高于任一单院概率
-                if out.get("house") and out.get("senate") and p > min(out["house"], out["senate"]) + 1:
-                    continue
-                out["sweep"] = round(p, 1)
-                print(f"  ✓ 全胜 sweep：Dem {out['sweep']}%  ← {ev.get('slug')}")
-                break
-        if "sweep" in out:
-            break
-
-    # 兜底：找不到 sweep 市场时，用两院概率乘积估算（标注为 derived）
-    if "sweep" not in out and "house" in out and "senate" in out:
+    sweep = pick_sweep(events, out.get("house"), out.get("senate"))
+    if sweep is not None:
+        out["sweep"] = sweep
+    elif "house" in out and "senate" in out:
         out["sweep"] = round(out["house"] * out["senate"] / 100, 1)
         out["sweep_derived"] = True
         print(f"  ~ 全胜 sweep 未找到对应市场，按乘积估算：{out['sweep']}%")
@@ -190,7 +195,13 @@ def apply(data, live):
 
     house = live.get("house", mk.get("house_d"))
     senate = live.get("senate", mk.get("senate_d"))
-    sweep = live.get("sweep", mk.get("sweep"))
+    sweep = live.get("sweep")
+    if sweep is None or not (1 <= sweep <= 100):
+        prev = mk.get("sweep")
+        sweep = prev if isinstance(prev, (int, float)) and prev >= 1 else None
+        if sweep is None and house and senate:
+            sweep = round(house * senate / 100, 1)
+            live["sweep_derived"] = True
 
     mk["house_d"] = house
     mk["senate_d"] = senate
