@@ -1576,14 +1576,19 @@ fetch('data.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(j=>{
   if(j){ DATA=j; LIVE=!!j.live; }
   return fetch('/api/market',{cache:'no-store'});
 }).then(r=>r.ok?r.json():null).then(m=>{
-  if(m && m.house_d!=null && m.live){
-    DATA.markets.house_d=m.house_d;
-    DATA.markets.senate_d=m.senate_d;
-    if(m.sweep!=null) DATA.markets.sweep=m.sweep;
-    DATA.markets.as_of='实时 · '+m.as_of;
-    DATA.markets.as_of_en='Live · '+m.as_of;
-    DATA.markets.note=m.source;
-    LIVE=true;
+  // 逐字段校验：只接受 0~100 的有限数值，异常值（如 0 / null / 字符串）保留 data.json 快照，避免整块被污染
+  function liveOK(v){ return typeof v==='number' && isFinite(v) && v>0 && v<=100; }
+  if(m && m.live){
+    var applied=false, dropped=[];
+    if(liveOK(m.house_d)){ DATA.markets.house_d=m.house_d; applied=true; } else { dropped.push('house'); }
+    if(liveOK(m.senate_d)){ DATA.markets.senate_d=m.senate_d; applied=true; } else { dropped.push('senate'); }
+    if(liveOK(m.sweep)){ DATA.markets.sweep=m.sweep; applied=true; } else { dropped.push('sweep'); }
+    if(applied){
+      DATA.markets.as_of='实时 · '+m.as_of;
+      DATA.markets.as_of_en='Live · '+m.as_of;
+      DATA.markets.note=m.source+(dropped.length? '（'+dropped.join('/')+' 取最近快照）':'');
+      LIVE=true;
+    }
   }
   render();
 }).catch(()=>{ render(); });
